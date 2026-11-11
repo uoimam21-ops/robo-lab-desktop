@@ -1,5 +1,5 @@
 // Upload to a real Arduino: arduino-cli (bundled in resources/arduino) compiles the sketch and uploads it over USB.
-const { app, ipcMain } = require('electron');
+const { app, ipcMain, shell } = require('electron');
 const { spawn } = require('child_process');
 const fs = require('fs');
 const os = require('os');
@@ -99,7 +99,28 @@ async function upload(e, { code, board, port }) {
   }
 }
 
+// CH340/CH341 USB driver (most cheap Uno/Nano clones). Installed = its .sys file is in the Windows driver folder.
+function driverInfo() {
+  // tests on Linux: ROBO_TEST_DRIVER=<file> pretends to be Windows without the driver (installed once <file>.done exists)
+  const t = process.env.ROBO_TEST_DRIVER;
+  if (t) return { needed: true, installed: fs.existsSync(t + '.done'), available: fs.existsSync(t), exe: t };
+  if (process.platform !== 'win32') return { needed: false, installed: true, available: false };
+  const sys = path.join(process.env.SystemRoot || 'C:\\Windows', 'System32', 'drivers');
+  const installed = ['CH341S64.SYS', 'CH341SER.SYS'].some((f) => fs.existsSync(path.join(sys, f)));
+  const exe = path.join(base(), 'drivers', 'CH341SER.EXE');
+  return { needed: true, installed, available: fs.existsSync(exe), exe };
+}
+// opens WCH's installer (Windows asks for permission, then the kid/teacher presses INSTALL)
+async function installDriver() {
+  const d = driverInfo();
+  if (!d.available) return { ok: false, why: 'missing' };
+  const err = await shell.openPath(d.exe);
+  return err ? { ok: false, why: 'open', err } : { ok: true };
+}
+
 function setup() {
+  ipcMain.handle('robo:drv-info', () => { const d = driverInfo(); return { needed: d.needed, installed: d.installed, available: d.available }; });
+  ipcMain.handle('robo:drv-install', () => installDriver());
   ipcMain.handle('robo:ard-ready', () => !!cliPath());
   ipcMain.handle('robo:ard-ports', () => ports());
   ipcMain.handle('robo:ard-upload', upload);

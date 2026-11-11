@@ -17,3 +17,31 @@ document.getElementById('labs').innerHTML = LABS.map(([href, img, name, desc, c]
 const net = () => { document.getElementById('net').hidden = navigator.onLine; };
 addEventListener('online', net); addEventListener('offline', net); net();
 if (window.roboDesktop) window.roboDesktop.info().then((i) => { document.getElementById('ver').textContent = 'v' + i.version + (i.electron.startsWith('22.') ? ' · Windows 7' : ''); });
+
+// first launch on Windows: offer the CH340 USB driver (needed to upload to most Uno/Nano boards) until it's installed
+(function driverPrompt() {
+  const A = window.roboDesktop && window.roboDesktop.arduino;
+  if (!A || !A.driver) return;
+  const K = 'robo-drv-ask';
+  let pref = ''; try { pref = localStorage.getItem(K) || ''; } catch (_) {}
+  if (pref === 'never' || (pref && +pref > Date.now())) return;
+  A.driver().then((d) => {
+    if (!d || !d.needed || d.installed || !d.available) return;
+    const $ = (id) => document.getElementById(id), note = (t, c) => { $('drvNote').textContent = t; $('drvNote').className = 'note ' + (c || ''); };
+    const close = () => { $('drv').hidden = true; };
+    $('drv').hidden = false; $('drvGo').focus();
+    $('drvLater').onclick = () => { try { localStorage.setItem(K, String(Date.now() + 3 * 864e5)); } catch (_) {} close(); };   // ask again in 3 days
+    $('drvNever').onclick = () => { try { localStorage.setItem(K, 'never'); } catch (_) {} close(); };
+    $('drvGo').onclick = async () => {
+      const r = await A.installDriver();
+      if (!r.ok) { note('مقدرتش أفتح برنامج التثبيت. جرّب تاني، أو اطلب من المدرّب.', 'bad'); return; }
+      note('اتفتح برنامج التثبيت… كمّل فيه، وبعد ما يخلص دوس «خلصت».');
+      $('drvGo').textContent = '✓ خلصت';
+      $('drvGo').onclick = async () => {
+        const d2 = await A.driver();
+        if (d2.installed) { note('🎉 الدرايفر اتثبّت! تقدر ترفع على الأردوينو من Robo Maker.', 'good'); setTimeout(close, 1800); }
+        else note('لسه مش شايف الدرايفر. لو ظهرت رسالة نجاح في برنامج التثبيت، وصّل البوردة وجرّب، أو دوس «ثبّت» تاني.', 'bad');
+      };
+    };
+  }).catch(() => {});
+})();

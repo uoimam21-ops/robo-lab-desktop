@@ -56,4 +56,10 @@ const sk = join(OUT, 'test', 'test'); mkdirSync(sk, { recursive: true });
 writeFileSync(join(sk, 'test.ino'), '#include <Servo.h>\n#include <LiquidCrystal_I2C.h>\n#include <LedControl.h>\n#include <DHT.h>\nvoid setup(){pinMode(13,OUTPUT);}\nvoid loop(){digitalWrite(13,HIGH);delay(500);digitalWrite(13,LOW);delay(500);}\n');
 for (const b of ['arduino:avr:uno', 'arduino:avr:nano:cpu=atmega328old', 'arduino:avr:mega:cpu=atmega2560']) run('compile', '--fqbn', b, sk);
 for (const x of ['staging', 'test', 'build.yaml']) rmSync(join(OUT, x), { recursive: true, force: true });
+// USB driver for the cheap boards (CH340/CH341 chip): WCH's official installer, works on Windows 7 → 11.
+// The app offers it on first launch and in the upload window (electron/arduino.js).
+mkdirSync(join(OUT, 'drivers'), { recursive: true });
+const DRV = join(OUT, 'drivers', 'CH341SER.EXE');
+await get('https://www.wch-ic.com/download/file?id=65', DRV);
+{ const { readFileSync } = await import('node:fs'); const h = readFileSync(DRV).subarray(0, 2).toString(); if (h !== 'MZ') throw new Error('CH341SER.EXE download is not a Windows program'); }
 console.log('arduino bundle ready in ' + OUT + (existsSync(exe) ? '' : ' (missing cli!)'));

@@ -5,6 +5,9 @@ contextBridge.exposeInMainWorld('roboDesktop', {
   // Robo Maker: upload the sketch to a real Arduino over USB
   arduino: {
     ready: () => ipcRenderer.invoke('robo:ard-ready'),
+    // USB driver for CH340 boards: { needed, installed, available }; install() opens the driver installer
+    driver: () => ipcRenderer.invoke('robo:drv-info'),
+    installDriver: () => ipcRenderer.invoke('robo:drv-install'),
     ports: () => ipcRenderer.invoke('robo:ard-ports'),
     // board: 'uno' | 'nano' | 'nanoOld' | 'mega'; onLog gets each line arduino-cli prints
     upload: (opts, onLog) => {
