@@ -6,6 +6,8 @@ on:
   release: { types: [published] }
   workflow_dispatch:
 permissions: { contents: write }
+# a release made from GitHub's page can fire both «release» and the tag push: build only once
+concurrency: { group: 'build-${{ github.ref }}', cancel-in-progress: true }
 jobs:
   windows:
     runs-on: windows-latest
