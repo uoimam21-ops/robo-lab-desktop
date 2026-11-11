@@ -10,6 +10,25 @@ const LAUNCHER = path.join(__dirname, '..', 'launcher');
 const SCHEME = 'robo', HOST = 'lab', ORIGIN = SCHEME + '://' + HOST;
 const SITE = 'https://roboegypt.com';
 
+/* Graphics (GPU): old PCs / old drivers can crash Chromium's GPU process, and then the app closes itself.
+   - Electron 22 (the Windows 7 build): GPU off by default; «تسريع الرسوميات» in the menu turns it on for PCs that can.
+   - Newer builds: GPU on; if it crashes twice, the app restarts once without it and remembers that.
+   Saved in <userData>/settings.json. */
+const SETTINGS = path.join(app.getPath('userData'), 'settings.json');
+const legacy = process.versions.electron.startsWith('22.');
+let settings = {};
+try { settings = JSON.parse(fs.readFileSync(SETTINGS, 'utf8')); } catch (_) {}
+const saveSettings = () => { try { fs.mkdirSync(path.dirname(SETTINGS), { recursive: true }); fs.writeFileSync(SETTINGS, JSON.stringify(settings)); } catch (_) {} };
+const gpuOn = settings.gpu != null ? !!settings.gpu : !legacy;
+if (!gpuOn) app.disableHardwareAcceleration();
+let gpuCrashes = 0;
+app.on('child-process-gone', (_e, d) => {
+  if (d.type !== 'GPU' || !gpuOn || d.reason === 'clean-exit') return;
+  if (++gpuCrashes < 2) return;
+  settings.gpu = false; saveSettings();
+  app.relaunch(); app.exit(0);
+});
+
 protocol.registerSchemesAsPrivileged([{
   scheme: SCHEME,
   privileges: { standard: true, secure: true, supportFetchAPI: true, corsEnabled: true, stream: true },
@@ -111,6 +130,7 @@ function menu() {
     { label: 'مختبر روبو', submenu: [
       { label: 'الصفحة الرئيسية', accelerator: 'Alt+Home', click: () => win && win.loadURL(ORIGIN + '/') },
       { role: 'reload', label: 'إعادة تحميل' }, { role: 'togglefullscreen', label: 'ملء الشاشة' },
+      { label: 'تسريع الرسوميات (كارت الشاشة)', type: 'checkbox', checked: gpuOn, click: (it) => { settings.gpu = it.checked; saveSettings(); app.relaunch(); app.exit(0); } },
       { role: 'zoomIn', label: 'تكبير' }, { role: 'zoomOut', label: 'تصغير' }, { role: 'resetZoom', label: 'الحجم العادي' },
       { type: 'separator' }, { role: 'toggleDevTools', label: 'أدوات المطوّر' }, { role: 'quit', label: 'خروج' },
     ] },
