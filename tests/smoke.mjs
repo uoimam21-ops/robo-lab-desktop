@@ -9,13 +9,14 @@ const [exe, label = 'app'] = process.argv.slice(2);
 const shots = 'test-results/' + label; mkdirSync(shots, { recursive: true });
 const fails = [], ok = (c, m) => { console.log((c ? '  ✓ ' : '  ✗ ') + m); if (!c) fails.push(m); };
 
-const app = await _electron.launch({ executablePath: exe, timeout: 90000 });
+// no internet: every http(s) request goes to a proxy that isn't there (works on Electron 22 and 44; route() crashes Electron 22)
+const app = await _electron.launch({ executablePath: exe, args: ['--proxy-server=http://127.0.0.1:9', '--proxy-bypass-list=<-loopback>'], timeout: 90000 });
 const w = await app.firstWindow();
 const errs = []; w.on('pageerror', (e) => errs.push(e.message));
-await w.context().route(/^https?:/, (r) => r.abort());      // no internet
 await w.waitForLoadState('load'); await w.waitForTimeout(1500);
 
 console.log('[' + label + '] ' + JSON.stringify(await w.evaluate(() => window.roboDesktop.info())));
+ok(await w.evaluate(() => fetch('https://roboegypt.com/', { mode: 'no-cors' }).then(() => false, () => true)), 'internet is blocked for this test');
 ok((await w.$$('.card')).length === 9, 'home screen shows 9 labs');
 await w.screenshot({ path: shots + '/home.png' });
 
