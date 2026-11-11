@@ -13,7 +13,8 @@
     "start": "electron .",
     "dist:win": "electron-builder --win --config build/modern.yml",
     "dist:win7": "electron-builder --win --config build/win7.yml",
-    "dist": "npm run dist:win && npm run dist:win7"
+    "dist": "npm run dist:win && npm run dist:win7",
+    "test": "node tests/smoke.mjs"
   },
   "devDependencies": {
     "@fontsource/amiri": "5.1.1",
@@ -37,6 +38,7 @@
     "blockly": "10.4.3",
     "electron": "44.9.3",
     "electron-builder": "26.0.12",
-    "pyodide": "0.26.4"
+    "pyodide": "0.26.4",
+    "playwright": "1.63.0"
   }
 }
