@@ -1,11 +1,9 @@
-# Builds the Windows installers and the Mac apps, installs each one and tests the installed app (offline, labs, Python, Arduino compile).
-# Windows and Mac machines use GitHub's minutes many times faster than Linux, so they run only:
-#   - when a release is published (Releases → Draft a new release → tag v1.0.1 → Publish): build, test, attach the files
-#   - by hand: Actions → build → Run workflow (pick the branch) — do this before merging a change to the desktop app
-#   - on a pull request that has the label «full-test»
+# Builds the Windows installers, the Mac apps and the Android app, installs each one and tests it (offline, labs, Python,
+# Arduino compile) on every pull request and push to main. Publishing a Release (tag v1.0.1) also attaches the files.
+# The repository is public, so GitHub's machines cost nothing here.
 name: build
 on:
-  push: { tags: ['v*'] }
+  push: { branches: [main], tags: ['v*'] }
   pull_request:
     types: [opened, synchronize, reopened, labeled]
   release: { types: [published] }
@@ -15,7 +13,6 @@ permissions: { contents: write }
 concurrency: { group: 'build-${{ github.ref }}', cancel-in-progress: true }
 jobs:
   windows:
-    if: github.event_name != 'pull_request' || contains(github.event.pull_request.labels.*.name, 'full-test')
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
@@ -130,7 +127,6 @@ jobs:
           files: public-files/*.exe
   # macOS: one app per kind of Mac, each built (and tested) on that kind of Mac, because the Arduino tools differ
   mac:
-    if: github.event_name != 'pull_request' || contains(github.event.pull_request.labels.*.name, 'full-test')
     strategy:
       fail-fast: false
       matrix:
