@@ -33,7 +33,7 @@ jobs:
           $exe = $null
           for ($i = 0; $i -lt 90 -and -not $exe; $i++) {
             Start-Sleep -Seconds 2
-            $exe = Get-ChildItem $roots -Recurse -Filter "Robo Lab.exe" -ErrorAction SilentlyContinue | Where-Object { $_.LastWriteTime -gt $t0 } | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+            $exe = Get-ChildItem $roots -Recurse -Filter "Robo Lab.exe" -ErrorAction SilentlyContinue | Sort-Object LastWriteTime -Descending | Select-Object -First 1
           }
           if (-not $exe) { Get-ChildItem "$env:LOCALAPPDATA\Programs" -ErrorAction SilentlyContinue | Format-Table Name; Get-Process | Where-Object { $_.Name -like '*Robo*' -or $_.Name -like '*Setup*' } | Format-Table Name, Id }
           if (-not $exe) { Write-Error "Robo Lab.exe not found after installing $($s.Name)"; exit 1 }
@@ -50,7 +50,7 @@ jobs:
           $exe = $null
           for ($i = 0; $i -lt 90 -and -not $exe; $i++) {
             Start-Sleep -Seconds 2
-            $exe = Get-ChildItem $roots -Recurse -Filter "Robo Lab.exe" -ErrorAction SilentlyContinue | Where-Object { $_.LastWriteTime -gt $t0 } | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+            $exe = Get-ChildItem $roots -Recurse -Filter "Robo Lab.exe" -ErrorAction SilentlyContinue | Sort-Object LastWriteTime -Descending | Select-Object -First 1
           }
           if (-not $exe) { Get-ChildItem "$env:LOCALAPPDATA\Programs" -ErrorAction SilentlyContinue | Format-Table Name; Get-Process | Where-Object { $_.Name -like '*Robo*' -or $_.Name -like '*Setup*' } | Format-Table Name, Id }
           if (-not $exe) { Write-Error "Robo Lab.exe not found after installing $($s.Name)"; exit 1 }
