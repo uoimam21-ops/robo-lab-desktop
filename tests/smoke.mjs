@@ -6,26 +6,35 @@ import { _electron } from 'playwright';
 import { mkdirSync } from 'node:fs';
 
 const [exe, label = 'app'] = process.argv.slice(2);
+const PORT = process.platform === 'win32' ? 'COM99' : '/dev/cu.robo-missing';   // a port that isn't there
 const shots = 'test-results/' + label; mkdirSync(shots, { recursive: true });
 const fails = [], ok = (c, m) => { console.log((c ? '  ✓ ' : '  ✗ ') + m); if (!c) fails.push(m); };
 
-const app = await _electron.launch({ executablePath: exe, timeout: 90000 });
+// no internet: every http(s) request goes to a proxy that isn't there (works on Electron 22 and 44; route() crashes Electron 22)
+const extra = (process.env.SMOKE_ARGS || '').split(' ').filter(Boolean);
+const app = await _electron.launch({ executablePath: exe, args: ['--proxy-server=http://127.0.0.1:9', '--proxy-bypass-list=<-loopback>', ...extra], timeout: 90000 });
+// the app's own messages, so a crash says why
+app.process().stderr.on('data', (d) => { const s = String(d); if (/error|crash|fatal|gpu/i.test(s)) process.stdout.write('  [app] ' + s.slice(0, 400)); });
+app.on('close', () => console.log('  [app closed]'));
 const w = await app.firstWindow();
 const errs = []; w.on('pageerror', (e) => errs.push(e.message));
-await w.context().route(/^https?:/, (r) => r.abort());      // no internet
 await w.waitForLoadState('load'); await w.waitForTimeout(1500);
 
 console.log('[' + label + '] ' + JSON.stringify(await w.evaluate(() => window.roboDesktop.info())));
+ok(await w.evaluate(() => fetch('https://roboegypt.com/', { mode: 'no-cors' }).then(() => false, () => true)), 'internet is blocked for this test');
 ok((await w.$$('.card')).length === 9, 'home screen shows 9 labs');
 await w.screenshot({ path: shots + '/home.png' });
 
 const drv = await w.evaluate(() => window.roboDesktop.arduino.driver());
-ok(drv.needed === true && drv.available === true, 'CH340 driver bundled (installed on this machine: ' + drv.installed + ')');
+if (process.platform === 'win32') ok(drv.needed === true && drv.available === true, 'CH340 driver bundled (installed on this machine: ' + drv.installed + ')');
+else ok(drv.needed === false, 'no driver needed on ' + process.platform);
 
 for (const [path, name] of [['/lab/junior.html', 'Robo Junior'], ['/lab/ai.html', 'AI'], ['/lab/circuits.html', 'Robo Circuits'], ['/lab/arduino.html', 'Robo Maker'],
   ['/lab/3d.html', 'Robo CAD'], ['/lab/web.html', 'Robo Web'], ['/lab/code.html', 'Robo Code']]) {
-  const r = await w.goto('robo://lab' + path); await w.waitForTimeout(1200);
-  ok(r && r.status() === 200 && await w.evaluate(() => crossOriginIsolated), name + ' opens (isolated)');
+  // custom-protocol pages give Playwright no response object: check the page itself
+  await w.goto('robo://lab' + path).catch(() => {}); await w.waitForTimeout(1500);
+  const pg = await w.evaluate(() => ({ iso: crossOriginIsolated, title: document.title, main: !!document.querySelector('main, .jr, .ide, .ard, .circ, .d3') }));
+  ok(pg.iso && pg.main && /Robo Egypt/.test(pg.title), name + ' opens (isolated) — ' + pg.title);
 }
 await w.goto('robo://lab/lab/roboblock?go=free'); await w.waitForTimeout(4000);
 ok(await w.evaluate(() => typeof Blockly !== 'undefined' && !!document.querySelector('.blocklySvg')), 'Robo Block loads Blockly offline');
@@ -40,11 +49,11 @@ await w.screenshot({ path: shots + '/python.png' });
 await w.goto('robo://lab/lab/arduino.html'); await w.waitForTimeout(2000);
 ok(await w.isVisible('#upBtn'), 'Robo Maker shows «upload to Arduino»');
 for (const board of ['uno', 'nanoOld', 'mega']) {
-  const r = await w.evaluate((b) => window.roboDesktop.arduino.upload({ board, port: 'COM99',
-    code: '#include <Servo.h>\nServo s;\nvoid setup(){pinMode(13,OUTPUT);s.attach(9);}\nvoid loop(){digitalWrite(13,HIGH);delay(300);digitalWrite(13,LOW);delay(300);}\n' }, () => {}), board);
+  const r = await w.evaluate(([board, PORT]) => window.roboDesktop.arduino.upload({ board, port: PORT,
+    code: '#include <Servo.h>\nServo s;\nvoid setup(){pinMode(13,OUTPUT);s.attach(9);}\nvoid loop(){digitalWrite(13,HIGH);delay(300);digitalWrite(13,LOW);delay(300);}\n' }, () => {}), [board, PORT]);
   ok(r.stage === 'upload' && r.why === 'noport', board + ': compiles, upload to a missing port says «board not found» (' + r.stage + '/' + r.why + ')');
 }
-const bad = await w.evaluate(() => window.roboDesktop.arduino.upload({ board: 'uno', port: 'COM99', code: 'void setup(){\n  pinMode(13,OUTPUT)\n}\nvoid loop(){}\n' }, () => {}));
+const bad = await w.evaluate((PORT) => window.roboDesktop.arduino.upload({ board: 'uno', port: PORT, code: 'void setup(){\n  pinMode(13,OUTPUT)\n}\nvoid loop(){}\n' }, () => {}), PORT);
 ok(bad.why === 'compile' && bad.line === 3, 'a code mistake is reported with its line (' + bad.line + ')');
 const ports = await w.evaluate(() => window.roboDesktop.arduino.ports());
 ok(ports.ok, 'port scan works (' + ports.ports.length + ' ports)');

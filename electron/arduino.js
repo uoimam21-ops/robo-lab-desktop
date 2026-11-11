@@ -67,6 +67,8 @@ function explain(out, stage) {
     const m = out.match(/sketch\.ino:(\d+):\d+: error: ([^\n]+)/);
     return { why: 'compile', line: m ? +m[1] : null, msg: m ? m[2] : (out.match(/error: ([^\n]+)/) || [, ''])[1] };
   }
+  // Apple Silicon Mac without Rosetta: Arduino's compiler for Mac is an Intel program
+  if (/bad cpu type|incompatible architecture/i.test(out)) return { why: 'rosetta' };
   if (/not in sync|stk500_recv|programmer is not responding|resp=0x/i.test(out)) return { why: 'sync' };
   // the board was unplugged / wrong port (Linux: No such file; Windows: cannot find the file)
   if (/no such file or directory|cannot find the file|port not found|no such device/i.test(out)) return { why: 'noport' };
@@ -87,7 +89,7 @@ async function upload(e, { code, board, port }) {
     fs.mkdirSync(sk); fs.writeFileSync(path.join(sk, 'sketch.ino'), code);
     send('⚙️ compile');
     const c = await cli(['compile', '--fqbn', BOARDS[board], sk], send);
-    if (c.code !== 0) return Object.assign({ ok: false, stage: 'compile', out: c.out.slice(-4000) }, explain(c.out, 'compile'));
+    if (c.code !== 0) return Object.assign({ ok: false, stage: 'compile', out: c.out.slice(-4000) }, /bad cpu type|incompatible architecture/i.test(c.out) ? { why: 'rosetta' } : explain(c.out, 'compile'));
     const size = (c.out.match(/Sketch uses (\d+) bytes \((\d+)%\)/) || []).slice(1).map(Number);
     send('⬆️ upload');
     const u = await cli(['upload', '--fqbn', BOARDS[board], '-p', port, sk], send);
