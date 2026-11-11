@@ -11,7 +11,11 @@ const shots = 'test-results/' + label; mkdirSync(shots, { recursive: true });
 const fails = [], ok = (c, m) => { console.log((c ? '  ✓ ' : '  ✗ ') + m); if (!c) fails.push(m); };
 
 // no internet: every http(s) request goes to a proxy that isn't there (works on Electron 22 and 44; route() crashes Electron 22)
-const app = await _electron.launch({ executablePath: exe, args: ['--proxy-server=http://127.0.0.1:9', '--proxy-bypass-list=<-loopback>'], timeout: 90000 });
+const extra = (process.env.SMOKE_ARGS || '').split(' ').filter(Boolean);
+const app = await _electron.launch({ executablePath: exe, args: ['--proxy-server=http://127.0.0.1:9', '--proxy-bypass-list=<-loopback>', ...extra], timeout: 90000 });
+// the app's own messages, so a crash says why
+app.process().stderr.on('data', (d) => { const s = String(d); if (/error|crash|fatal|gpu/i.test(s)) process.stdout.write('  [app] ' + s.slice(0, 400)); });
+app.on('close', () => console.log('  [app closed]'));
 const w = await app.firstWindow();
 const errs = []; w.on('pageerror', (e) => errs.push(e.message));
 await w.waitForLoadState('load'); await w.waitForTimeout(1500);

@@ -60,6 +60,7 @@ jobs:
           # the installer starts the app when it finishes; close it, the app allows a single copy at a time
           Get-Process | Where-Object { $_.Path -eq $exe.FullName } | Stop-Process -Force -ErrorAction SilentlyContinue; Start-Sleep -Seconds 3
           node tests/smoke.mjs "$($exe.FullName)" win7-x64
+          if ($LASTEXITCODE -ne 0) { Write-Host "--- again without GPU acceleration ---"; $env:SMOKE_ARGS = "--disable-gpu"; node tests/smoke.mjs "$($exe.FullName)" win7-x64-nogpu }
       - if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -128,7 +129,7 @@ jobs:
       - run: npx electron-builder --mac --${{ matrix.arch }} --config build/mac.yml --publish never
       - name: test the Mac app
         run: |
-          APP=$(ls -d dist/mac*/Robo\ Lab.app | head -1)
+          APP=$(find dist/mac -maxdepth 3 -name "Robo Lab.app" -type d | head -1)
           echo "app: $APP"
           node tests/smoke.mjs "$APP/Contents/MacOS/Robo Lab" mac-${{ matrix.label }}
       - if: always()
