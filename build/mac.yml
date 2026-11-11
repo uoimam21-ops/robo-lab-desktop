@@ -1,0 +1,19 @@
+# macOS 12 Monterey or newer (Electron 44). Build on a Mac of the same kind: --arm64 on Apple Silicon, --x64 on Intel.
+# Not signed with an Apple Developer ID (ad-hoc only): the first time, right-click the app → Open
+# (macOS 15: System Settings → Privacy & Security → Open Anyway).
+appId: com.roboegypt.lab
+productName: Robo Lab
+copyright: Robo Egypt
+directories: { output: dist/mac, buildResources: build }
+files: [electron/**, launcher/**, www/**, package.json, "!**/*.map"]
+asar: false
+extraResources: [{ from: arduino, to: arduino }]
+mac:
+  icon: build/icon.png
+  category: public.app-category.education
+  identity: "-"
+  hardenedRuntime: false
+  target: [dmg]
+  artifactName: Robo-Lab-${version}-mac-${arch}.${ext}
+dmg:
+  title: Robo Lab

@@ -6,6 +6,7 @@
 |---|---|---|---|
 | الحديثة | Windows 10 / 11 (64-bit) | 44.9.3 | `Robo-Lab-Setup-<ver>-win10-11.exe` |
 | الكلاسيك | Windows 7 / 8 / 8.1 (64 و 32-bit) | 22.3.27 (آخر نسخة بتشتغل على ويندوز 7) | `Robo-Lab-Setup-<ver>-win7-x64.exe` / `-ia32.exe` |
+| ماك | macOS 12 Monterey أو أحدث، Apple Silicon و Intel (نسختين) | 44.9.3 | `Robo-Lab-<ver>-mac-arm64.dmg` / `-mac-x64.dmg` |
 
 ## إزاي شغّال
 - **المختبرات نفسها** هي نفس صفحات الموقع (`robo-egypt-site`)، متنسوخة في `www/` بسكربت `npm run sync`. مفيش كود مختبرات مكتوب هنا.
@@ -30,6 +31,12 @@ npm run dist                             # المثبّتين (على ويندو
 
 ## تحديث المختبرات
 لما الموقع يتغيّر: `npm run build` في مستودع الموقع ← `npm run sync -- ../robo-egypt-site` هنا ← commit لـ `www/` ← push.
+
+## ماك
+- كل نسخة بتتبني على ماك من نفس النوع في GitHub Actions (`macos-15` لـ Apple Silicon و `macos-15-intel` لـ Intel)، عشان أدوات الأردوينو بتختلف.
+- **مش موقّعة بـ Apple Developer ID** (توقيع ad-hoc بس): أول مرة كليك يمين ← Open، أو في macOS 15: System Settings ← Privacy & Security ← Open Anyway. التوقيع والـ notarization محتاجين حساب Apple Developer (٩٩$ في السنة).
+- **Apple Silicon:** مترجم الأردوينو الرسمي (avr-gcc) نسخة Intel بس، فبيشتغل عن طريق Rosetta (زي Arduino IDE). لو Rosetta مش متثبّت، الرفع بيقول كده.
+- **درايفر CH340:** موجود في macOS من Big Sur، مفيش حاجة تتثبّت.
 
 ## ملاحظات
 - **درايفر بوردات الأردوينو الصيني (CH340):** المثبّت الرسمي من WCH (`CH341SER.EXE`) جوه التطبيق (`resources/arduino/drivers`، `npm run arduino` بينزّله). أول ما التطبيق يفتح على ويندوز من غير الدرايفر، بتظهر نافذة «ثبّت درايفر الأردوينو» (ثبّت / بعدين = بعد ٣ أيام / متسألنيش تاني). وكمان في نافذة الرفع لو مفيش بوردة ظاهرة. التعرّف على الدرايفر: `CH341S64.SYS` أو `CH341SER.SYS` في `System32\drivers`.

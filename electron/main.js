@@ -114,6 +114,8 @@ function menu() {
       { role: 'zoomIn', label: 'تكبير' }, { role: 'zoomOut', label: 'تصغير' }, { role: 'resetZoom', label: 'الحجم العادي' },
       { type: 'separator' }, { role: 'toggleDevTools', label: 'أدوات المطوّر' }, { role: 'quit', label: 'خروج' },
     ] },
+    // macOS: copy / paste / undo in text fields only work when the app has an Edit menu
+    ...(process.platform === 'darwin' ? [{ role: 'editMenu', label: 'تعديل' }] : []),
   ]));
 }
 

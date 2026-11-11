@@ -1,4 +1,4 @@
-# Builds the Windows installers on every push to main (as a downloadable artifact), installs each one on this
+# Builds the Windows installers and the Mac apps on every push to main (as a downloadable artifact), installs each one on this
 # Windows machine and tests the installed app (offline, labs, Python, Arduino compile).
 # Publishing a Release on GitHub (Releases → Draft a new release → tag v1.0.0 → Publish) builds, tests and attaches them.
 name: build
@@ -103,6 +103,53 @@ jobs:
             | ويندوز ١٠ و ١١ | `Robo-Lab-Setup-win10-11.exe` |
             | ويندوز ٧ و ٨ (٦٤ بت) | `Robo-Lab-Setup-win7-64bit.exe` |
             | ويندوز ٧ و ٨ (٣٢ بت) | `Robo-Lab-Setup-win7-32bit.exe` |
+            | ماك Apple Silicon (M1 وأحدث) | `Robo-Lab-mac-apple-silicon.dmg` |
+            | ماك Intel | `Robo-Lab-mac-intel.dmg` |
 
             لو ويندوز قال «Windows protected your PC»: دوس **More info** وبعدين **Run anyway**.
+            على الماك أول مرة: كليك يمين على Robo Lab ← **Open**. (macOS 15: System Settings ← Privacy & Security ← **Open Anyway**.)
           files: public-files/*.exe
+  # macOS: one app per kind of Mac, each built (and tested) on that kind of Mac, because the Arduino tools differ
+  mac:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { runner: macos-15, arch: arm64, label: apple-silicon }
+          - { runner: macos-15-intel, arch: x64, label: intel }
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20, cache: npm }
+      - run: npm ci
+      - run: npm run vendor
+      - run: node scripts/arduino.mjs
+      - run: npx electron-builder --mac --${{ matrix.arch }} --config build/mac.yml --publish never
+      - name: test the Mac app
+        run: |
+          APP=$(ls -d dist/mac*/Robo\ Lab.app | head -1)
+          echo "app: $APP"
+          node tests/smoke.mjs "$APP/Contents/MacOS/Robo Lab" mac-${{ matrix.label }}
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-screenshots-mac-${{ matrix.label }}
+          path: test-results/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Robo-Lab-mac-${{ matrix.label }}
+          path: dist/mac/*.dmg
+      - if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/mac/*.dmg
+      - if: startsWith(github.ref, 'refs/tags/v')
+        run: mkdir -p public-files && cp dist/mac/*.dmg "public-files/Robo-Lab-mac-${{ matrix.label }}.dmg"
+      - if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          repository: uoimam21-ops/robo-lab-download
+          token: ${{ secrets.RELEASES_TOKEN }}
+          tag_name: ${{ github.ref_name }}
+          files: public-files/*.dmg

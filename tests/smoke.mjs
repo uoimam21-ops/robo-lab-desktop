@@ -6,6 +6,7 @@ import { _electron } from 'playwright';
 import { mkdirSync } from 'node:fs';
 
 const [exe, label = 'app'] = process.argv.slice(2);
+const PORT = process.platform === 'win32' ? 'COM99' : '/dev/cu.robo-missing';   // a port that isn't there
 const shots = 'test-results/' + label; mkdirSync(shots, { recursive: true });
 const fails = [], ok = (c, m) => { console.log((c ? '  ✓ ' : '  ✗ ') + m); if (!c) fails.push(m); };
 
@@ -21,7 +22,8 @@ ok((await w.$$('.card')).length === 9, 'home screen shows 9 labs');
 await w.screenshot({ path: shots + '/home.png' });
 
 const drv = await w.evaluate(() => window.roboDesktop.arduino.driver());
-ok(drv.needed === true && drv.available === true, 'CH340 driver bundled (installed on this machine: ' + drv.installed + ')');
+if (process.platform === 'win32') ok(drv.needed === true && drv.available === true, 'CH340 driver bundled (installed on this machine: ' + drv.installed + ')');
+else ok(drv.needed === false, 'no driver needed on ' + process.platform);
 
 for (const [path, name] of [['/lab/junior.html', 'Robo Junior'], ['/lab/ai.html', 'AI'], ['/lab/circuits.html', 'Robo Circuits'], ['/lab/arduino.html', 'Robo Maker'],
   ['/lab/3d.html', 'Robo CAD'], ['/lab/web.html', 'Robo Web'], ['/lab/code.html', 'Robo Code']]) {
@@ -43,11 +45,11 @@ await w.screenshot({ path: shots + '/python.png' });
 await w.goto('robo://lab/lab/arduino.html'); await w.waitForTimeout(2000);
 ok(await w.isVisible('#upBtn'), 'Robo Maker shows «upload to Arduino»');
 for (const board of ['uno', 'nanoOld', 'mega']) {
-  const r = await w.evaluate((board) => window.roboDesktop.arduino.upload({ board, port: 'COM99',
-    code: '#include <Servo.h>\nServo s;\nvoid setup(){pinMode(13,OUTPUT);s.attach(9);}\nvoid loop(){digitalWrite(13,HIGH);delay(300);digitalWrite(13,LOW);delay(300);}\n' }, () => {}), board);
+  const r = await w.evaluate(([board, PORT]) => window.roboDesktop.arduino.upload({ board, port: PORT,
+    code: '#include <Servo.h>\nServo s;\nvoid setup(){pinMode(13,OUTPUT);s.attach(9);}\nvoid loop(){digitalWrite(13,HIGH);delay(300);digitalWrite(13,LOW);delay(300);}\n' }, () => {}), [board, PORT]);
   ok(r.stage === 'upload' && r.why === 'noport', board + ': compiles, upload to a missing port says «board not found» (' + r.stage + '/' + r.why + ')');
 }
-const bad = await w.evaluate(() => window.roboDesktop.arduino.upload({ board: 'uno', port: 'COM99', code: 'void setup(){\n  pinMode(13,OUTPUT)\n}\nvoid loop(){}\n' }, () => {}));
+const bad = await w.evaluate((PORT) => window.roboDesktop.arduino.upload({ board: 'uno', port: PORT, code: 'void setup(){\n  pinMode(13,OUTPUT)\n}\nvoid loop(){}\n' }, () => {}), PORT);
 ok(bad.why === 'compile' && bad.line === 3, 'a code mistake is reported with its line (' + bad.line + ')');
 const ports = await w.evaluate(() => window.roboDesktop.arduino.ports());
 ok(ports.ok, 'port scan works (' + ports.ports.length + ' ports)');
