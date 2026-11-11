@@ -22,7 +22,7 @@ await w.waitForLoadState('load'); await w.waitForTimeout(1500);
 
 console.log('[' + label + '] ' + JSON.stringify(await w.evaluate(() => window.roboDesktop.info())));
 ok(await w.evaluate(() => fetch('https://roboegypt.com/', { mode: 'no-cors' }).then(() => false, () => true)), 'internet is blocked for this test');
-ok((await w.$$('.card')).length === 9, 'home screen shows 9 labs');
+ok((await w.$$('.card')).length === 10, 'home screen shows 9 labs + the Journey');
 await w.screenshot({ path: shots + '/home.png' });
 
 const drv = await w.evaluate(() => window.roboDesktop.arduino.driver());
@@ -39,6 +39,12 @@ for (const [path, name] of [['/lab/junior.html', 'Robo Junior'], ['/lab/ai.html'
 await w.goto('robo://lab/lab/roboblock?go=free'); await w.waitForTimeout(4000);
 ok(await w.evaluate(() => typeof Blockly !== 'undefined' && !!document.querySelector('.blocklySvg')), 'Robo Block loads Blockly offline');
 await w.screenshot({ path: shots + '/roboblock.png' });
+
+// the Journey opens on its start screen; without internet its accounts can't load, the page must still work
+await w.goto('robo://lab/journey.html').catch(() => {}); await w.waitForTimeout(3000);
+ok(await w.evaluate(() => !!document.getElementById('landing') && !location.pathname.startsWith('/lab/roboblock')), 'the Journey opens');
+await w.goto('robo://lab/journey.html?go=login').catch(() => {}); await w.waitForTimeout(1500);
+ok(await w.evaluate(() => !!document.getElementById('aForm') && !document.getElementById('gBtn')), 'Journey sign-in: e-mail form, no Google button in the app');
 
 await w.goto('robo://lab/lab/python.html'); await w.waitForTimeout(1500);
 await w.click('#runBtn');

@@ -1,0 +1,9 @@
+{
+  "appId": "com.roboegypt.lab",
+  "appName": "Robo Lab",
+  "webDir": "mobile/www",
+  "android": {
+    "allowMixedContent": false,
+    "backgroundColor": "#F5F7FB"
+  }
+}

@@ -13,10 +13,11 @@ if (!existsSync(join(DIST, 'lab', 'junior.html'))) {
 }
 
 const LABS = ['3d', 'ai', 'arduino', 'circuits', 'code', 'junior', 'python', 'web'];
-for (const d of ['lab', 'assets']) rmSync(join(WWW, d), { recursive: true, force: true });
+for (const d of ['lab', 'assets', 'journey.html']) rmSync(join(WWW, d), { recursive: true, force: true });
 mkdirSync(join(WWW, 'lab'), { recursive: true });
 for (const l of LABS) cpSync(join(DIST, 'lab', l + '.html'), join(WWW, 'lab', l + '.html'));
 cpSync(join(DIST, 'journey.html'), join(WWW, 'lab', 'roboblock.html'));   // Robo Block lives inside the journey page
+cpSync(join(DIST, 'journey.html'), join(WWW, 'journey.html'));   // the Journey (needs internet for accounts); the Android app has no pretty paths
 for (const d of ['blockly-media', 'parts']) cpSync(join(DIST, 'lab', d), join(WWW, 'lab', d), { recursive: true });
 // shared images + the labs' JS/CSS chunks; leave out the photo folders only the website uses
 cpSync(join(DIST, 'assets'), join(WWW, 'assets'), {
