@@ -1,9 +1,13 @@
-# Builds the Windows installers. Runs on every push to main; a tag like v1.0.0 also publishes them as a GitHub Release.
+# Builds the Windows installers on every push to main (as a downloadable artifact).
+# Publishing a Release on GitHub (Releases → Draft a new release → tag v1.0.0 → Publish) builds them and attaches them to it.
 name: build
 on:
   push: { branches: [main], tags: ['v*'] }
+  release: { types: [published] }
   workflow_dispatch:
 permissions: { contents: write }
+# a release made from GitHub's page can fire both «release» and the tag push: build only once
+concurrency: { group: 'build-${{ github.ref }}', cancel-in-progress: true }
 jobs:
   windows:
     runs-on: windows-latest
