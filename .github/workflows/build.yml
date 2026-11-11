@@ -26,8 +26,16 @@ jobs:
         shell: pwsh
         run: |
           $s = Get-ChildItem dist/win10-11/*.exe | Select-Object -First 1
-          Start-Process -FilePath $s.FullName -ArgumentList '/S' -Wait
-          $exe = Get-ChildItem "$env:LOCALAPPDATA\Programs" -Recurse -Filter "Robo Lab.exe" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+          $t0 = (Get-Date).AddMinutes(-1)
+          Start-Process -FilePath $s.FullName -ArgumentList '/S', '/currentuser' -Wait
+          # the installer may hand off to a child process: wait up to 3 minutes for the app to appear
+          $roots = @("$env:LOCALAPPDATA\Programs", "$env:ProgramFiles", "${env:ProgramFiles(x86)}")
+          $exe = $null
+          for ($i = 0; $i -lt 90 -and -not $exe; $i++) {
+            Start-Sleep -Seconds 2
+            $exe = Get-ChildItem $roots -Recurse -Filter "Robo Lab.exe" -ErrorAction SilentlyContinue | Where-Object { $_.LastWriteTime -gt $t0 } | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+          }
+          if (-not $exe) { Get-ChildItem "$env:LOCALAPPDATA\Programs" -ErrorAction SilentlyContinue | Format-Table Name; Get-Process | Where-Object { $_.Name -like '*Robo*' -or $_.Name -like '*Setup*' } | Format-Table Name, Id }
           if (-not $exe) { Write-Error "Robo Lab.exe not found after installing $($s.Name)"; exit 1 }
           Write-Host "installed: $($exe.FullName)"
           node tests/smoke.mjs "$($exe.FullName)" win10-11
@@ -35,8 +43,16 @@ jobs:
         shell: pwsh
         run: |
           $s = Get-ChildItem dist/win7/*-win7-x64.exe | Select-Object -First 1
-          Start-Process -FilePath $s.FullName -ArgumentList '/S' -Wait
-          $exe = Get-ChildItem "$env:LOCALAPPDATA\Programs" -Recurse -Filter "Robo Lab.exe" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+          $t0 = (Get-Date).AddMinutes(-1)
+          Start-Process -FilePath $s.FullName -ArgumentList '/S', '/currentuser' -Wait
+          # the installer may hand off to a child process: wait up to 3 minutes for the app to appear
+          $roots = @("$env:LOCALAPPDATA\Programs", "$env:ProgramFiles", "${env:ProgramFiles(x86)}")
+          $exe = $null
+          for ($i = 0; $i -lt 90 -and -not $exe; $i++) {
+            Start-Sleep -Seconds 2
+            $exe = Get-ChildItem $roots -Recurse -Filter "Robo Lab.exe" -ErrorAction SilentlyContinue | Where-Object { $_.LastWriteTime -gt $t0 } | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+          }
+          if (-not $exe) { Get-ChildItem "$env:LOCALAPPDATA\Programs" -ErrorAction SilentlyContinue | Format-Table Name; Get-Process | Where-Object { $_.Name -like '*Robo*' -or $_.Name -like '*Setup*' } | Format-Table Name, Id }
           if (-not $exe) { Write-Error "Robo Lab.exe not found after installing $($s.Name)"; exit 1 }
           Write-Host "installed: $($exe.FullName)"
           node tests/smoke.mjs "$($exe.FullName)" win7-x64
