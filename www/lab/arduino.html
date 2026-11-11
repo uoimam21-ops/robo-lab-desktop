@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Robo Maker: الأردوينو والروبوتات | Robo Egypt</title>
+<meta name="description" content="وصّل بنفسك أردوينو أونو بالحساسات والمواتير والشاشات، وبرمجه بالبلوكات أو بالكود وشوفه بيشتغل في المتصفح. من Robo Egypt.">
+<meta name="theme-color" content="#1B2350">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link rel="preload" as="image" href="/lab/parts/uno.webp">
+  <script type="module" crossorigin src="/assets/arduino-rbxawaFh.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/lab-634O2vs0.js">
+  <link rel="modulepreload" crossorigin href="/assets/index-DeX6cwoY.js">
+  <link rel="modulepreload" crossorigin href="/assets/gest-C4nmUrC5.js">
+  <link rel="modulepreload" crossorigin href="/assets/acorn-DkYm1ITT.js">
+  <link rel="stylesheet" crossorigin href="/assets/lab-CfNlTA7a.css">
+  <link rel="stylesheet" crossorigin href="/assets/arduino-Yjx8ZBTu.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap bar">
+    <a class="logo" href="/" aria-label="Robo Egypt — الرئيسية"><img src="/assets/logo-header.png" alt="Robo Egypt" width="742" height="160"></a>
+    <nav class="crumbs" aria-label="مسار الصفحة"><a href="/lab/">مختبر روبو</a><span aria-hidden="true">‹</span><b>Robo Maker</b></nav>
+    <label class="sr-only" for="pname">اسم المشروع</label>
+    <input id="pname" class="pname" dir="auto" maxlength="40" value="مشروعي">
+    <button class="btn ghost small" id="myBtn">📁 مشاريعي</button>
+    <label class="exLab"><span class="sr-only">أمثلة</span><select id="examples"><option value="">✨ أمثلة</option></select></label>
+  </div>
+</header>
+
+<div class="ardbar" role="toolbar" aria-label="أدوات">
+  <div class="tg" id="wireColors" aria-label="لون السلك"></div>
+  <div class="tg"><button class="tb" id="undoBtn" title="ارجع خطوة (Ctrl+Z)" aria-label="ارجع خطوة">↶</button><button class="tb" id="redoBtn" title="قدّم خطوة (Ctrl+Y)" aria-label="قدّم خطوة">↷</button></div>
+  <div class="tg"><button class="tb" id="rotBtn" title="لف القطعة (R)">⟳</button><button class="tb danger" id="delBtn" title="امسح (Delete)">🗑</button></div>
+  <div class="tg"><button class="tb" id="zOut" title="بعّد">－</button><button class="tb" id="zIn" title="قرّب">＋</button><button class="tb" id="zFit" title="شوف كل حاجة">⤢</button></div>
+  <button class="tb danger" id="clearBench" title="شيل كل القطع">🧹</button>
+  <span class="status" id="status" role="status" aria-live="polite"></span>
+  <span class="grow"></span>
+  <button class="btn ghost small partsTog" id="partsToggle">➕ القطع</button><button class="btn ghost small codeTog" id="codeToggle" aria-pressed="false">🧩 الكود</button>
+  <button class="btn run small" id="runBtn">▶ ابدأ المحاكاة</button>
+  <button class="btn small upBtn" id="upBtn" hidden title="ارفع الكود على بوردة أردوينو حقيقية متوصلة بالـ USB">⬆ ارفع على الأردوينو</button>
+  <button id="stopBtn" hidden></button>
+</div>
+<main class="ard" id="ardMain" data-panel="parts">
+  <section class="benchArea">
+    <div class="benchWrap" id="benchWrap">
+      <svg id="bench" aria-label="ترابيزة التوصيل" role="application"></svg>
+      <div class="props" id="props" hidden></div>
+      <div class="pinTip" id="pinTip" hidden></div>
+      <span class="benchHint">دوس على pin وبعدين على رجل القطعة عشان توصّل سلك · وانت بتوصّل، دوس في أي مكان فاضي عشان تتني السلك · دبل كليك على السلك يضيف تنية</span>
+    </div>
+  </section>
+  <div class="split" id="split" role="separator" aria-orientation="vertical" aria-label="كبّر أو صغّر الكود" tabindex="0"><span></span></div>
+  <aside class="side" id="rightPane">
+    <div class="sheetBar"><span class="grab"></span><button class="clr" id="sheetX" aria-label="اقفل">✕</button></div>
+    <div class="partsPanel" id="partsPanel">
+      <div class="pphead"><label class="sr-only" for="palCat">نوع القطع</label><select id="palCat"></select>
+        <label class="sr-only" for="palSearch">دوّر</label><input id="palSearch" type="search" placeholder="🔍 دوّر على قطعة…" dir="auto"></div>
+      <div class="pgrid" id="palList" aria-label="القطع: اسحبها على الترابيزة"></div>
+      <div id="palTabs" hidden></div>
+    </div>
+    <div class="codePanel" id="codePanel" hidden>
+      <div class="noBoard" id="noBoard" hidden><div class="nbIc">🔌</div><b>لم تختار عنصر يتم برمجته</b><span>ضيف <b>Arduino Uno</b> من القطع عشان تكتب له كود. الدايرة العادية (بطارية ولمبة ومفتاح) بتشتغل من غير كود.</span><button class="btn primary small" id="addUno">➕ ضيف Arduino Uno</button></div>
+      <div class="tbar">
+        <div class="seg" role="tablist" aria-label="طريقة البرمجة">
+          <button role="tab" id="tBlocks" aria-selected="true">🧩 بلوكات</button>
+          <button role="tab" id="tCode" aria-selected="false">⌨ كود C++</button>
+        </div>
+        <button class="clr trTog" id="trTog" title="اعرض الترجمة العربي جنب الإنجليزي أو اخفيها">🌐 ترجمة</button><button class="clr" id="closeCode" aria-label="اقفل الكود">✕</button>
+      </div>
+      <div class="ed" id="blocksPane"><div id="blockly"></div></div>
+      <div class="ed" id="codePane" hidden>
+        <div class="codeHead"><span>الكود ده بيشتغل هنا، وتقدر تنسخه للـ Arduino IDE</span><button class="btn ghost small" id="fromBlocks">⤵ هات كود البلوكات</button></div>
+        <div id="editor" dir="ltr"></div>
+      </div>
+      <div class="genBox" id="genBox"><div class="gh"><b>Arduino C++ code <small>· الكود اللي البلوكات بتعمله</small></b><button class="clr" id="genToggle">▾ اخفي</button></div><pre id="gen" dir="ltr"></pre></div>
+      <div class="split h" id="split2" role="separator" aria-orientation="horizontal" aria-label="كبّر أو صغّر الـ Serial Monitor" tabindex="0"><span></span></div>
+      <div class="serial">
+        <div class="sh"><b>Serial Monitor</b><button class="clr" id="clrSerial">🧹 Clear · امسح</button></div>
+        <pre id="serial" dir="ltr"></pre>
+        <div class="sin"><input id="serIn" dir="ltr" placeholder="Send a message… (ابعت رسالة)" maxlength="60"><button class="btn ghost small" id="serSend">Send · إرسال</button></div>
+      </div>
+    </div>
+  </aside>
+</main>
+
+<div class="modal" id="projModal" hidden>
+  <div class="mcard" role="dialog" aria-modal="true" aria-labelledby="pmT">
+    <div class="mHead"><h2 id="pmT">مشاريعي</h2><button class="x" id="pmClose" aria-label="إغلاق">✕</button></div>
+    <p class="sub">المشاريع محفوظة على الجهاز ده.</p>
+    <button class="btn ghost small" id="newBtn" style="align-self:flex-start">📄 مشروع جديد</button>
+    <ul id="projList" class="plist"></ul>
+  </div>
+</div>
+<!-- desktop app only (window.roboDesktop.arduino): compile with arduino-cli and upload over USB -->
+<div class="modal" id="upModal" hidden>
+  <div class="mcard upCard" role="dialog" aria-modal="true" aria-labelledby="upT">
+    <div class="mHead"><h2 id="upT">⬆ ارفع على الأردوينو</h2><button class="x" id="upClose" aria-label="إغلاق">✕</button></div>
+    <p class="sub">وصّل البوردة بالكمبيوتر بكابل USB، اختار نوعها والمنفذ، ودوس «ارفع».</p>
+    <label class="upRow"><span>البوردة</span><select id="upBoard">
+      <option value="uno">Arduino Uno</option>
+      <option value="nanoOld">Arduino Nano (أغلب النسخ الصيني)</option>
+      <option value="nano">Arduino Nano (أصلي، جديد)</option>
+      <option value="mega">Arduino Mega 2560</option>
+    </select></label>
+    <label class="upRow"><span>المنفذ</span><select id="upPort"></select><button class="btn ghost small" id="upScan" type="button" title="دوّر تاني">🔄</button></label>
+    <div class="upSteps" id="upSteps" hidden><span data-s="compile">⚙️ تجهيز الكود</span><span data-s="upload">⬆️ رفع على البوردة</span><span data-s="done">✅ خلاص</span></div>
+    <div class="upMsg" id="upMsg" role="status" aria-live="polite"></div>
+    <details class="upLog" id="upLogBox" hidden><summary>تفاصيل للمدرّب</summary><pre id="upLog" dir="ltr"></pre></details>
+    <div class="upBtns"><button class="btn run" id="upGo">⬆ ارفع</button></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+</body>
+</html>

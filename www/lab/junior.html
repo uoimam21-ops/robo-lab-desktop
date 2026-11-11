@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>روبو جونيور | Robo Egypt</title>
+<meta name="description" content="روبو جونيور: برمجة بالصور للأطفال الصغار من ٥ سنين. ركّب بلوكات بالأيقونات وحرّك الشخصيات واعمل قصص وألعاب في المتصفح. من Robo Egypt.">
+<meta name="theme-color" content="#1B2350">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+  <script type="module" crossorigin src="/assets/junior-B1beAlTq.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/lab-634O2vs0.js">
+  <link rel="modulepreload" crossorigin href="/assets/gest-C4nmUrC5.js">
+  <link rel="stylesheet" crossorigin href="/assets/lab-CfNlTA7a.css">
+  <link rel="stylesheet" crossorigin href="/assets/junior-CG7FYucD.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap bar">
+    <a class="logo" href="/" aria-label="Robo Egypt — الرئيسية"><img src="/assets/logo-header.png" alt="Robo Egypt" width="742" height="160"></a>
+    <nav class="crumbs" aria-label="مسار الصفحة"><a href="/lab/">مختبر روبو</a><span aria-hidden="true">‹</span><b>روبو جونيور 🧸</b></nav>
+    <span class="hbtns"><button class="btn ghost small proj" id="saveBtn" title="احفظ المشروع">💾 احفظ</button><button class="btn ghost small proj" id="openBtn" title="مشاريعي">📂 مشاريعي</button><button class="btn ghost small" id="jrNew">✨ جديد</button></span>
+  </div>
+</header>
+
+<main class="jr" id="jr">
+  <section class="stagecol">
+    <div class="stagebar" role="toolbar" aria-label="أدوات المسرح">
+      <button class="jbtn go" id="goBtn" aria-label="ابدأ" title="ابدأ">🚩</button>
+      <button class="jbtn" id="stopBtn" aria-label="وقّف" title="وقّف">⏹</button>
+      <span class="sep"></span>
+      <button class="jbtn txt" id="txtBtn" aria-label="اكتب عنوان" title="اكتب كلام على المسرح">ABC</button>
+      <button class="jbtn" id="gridBtn" aria-label="المربعات والأرقام" title="المربعات والأرقام" aria-pressed="false">#</button>
+      <button class="jbtn" id="resetBtn" aria-label="رجّع الشخصيات مكانها" title="رجّع الشخصيات مكانها">↺</button>
+      <button class="jbtn" id="bdBtn" aria-label="الخلفية" title="الخلفية">🏞</button>
+      <button class="jbtn" id="paintBtn" aria-label="ارسم" title="ارسم شخصية أو خلفية">🎨</button>
+      <button class="jbtn" id="fullBtn" aria-label="كبّر المسرح" title="كبّر المسرح">⛶</button>
+      <span class="sep"></span>
+      <button class="jbtn" id="undoBtn" aria-label="ارجع خطوة" title="ارجع خطوة (Ctrl+Z)">↶</button>
+      <button class="jbtn" id="redoBtn" aria-label="قدّم خطوة" title="قدّم خطوة (Ctrl+Y)">↷</button>
+    </div>
+    <div class="stagerow" dir="ltr">
+      <div class="cast" id="cast" aria-label="الشخصيات"></div>
+      <div class="stagewrap" id="stageWrap">
+        <div class="axY" id="axY" aria-hidden="true"></div>
+        <div class="stage" id="stage"><div class="bd" id="bd"></div><div class="grid" id="grid" hidden></div><div class="items" id="items"></div><div class="chars" id="chars"></div><div class="texts" id="texts"></div></div>
+        <i class="axC" aria-hidden="true"></i><div class="axX" id="axX" aria-hidden="true"></div>
+      </div>
+    </div>
+  </section>
+  <section class="codecol">
+    <div class="cats" id="cats" role="tablist" aria-label="أنواع البلوكات"></div>
+    <div class="palette" id="palette" dir="ltr"></div>
+    <div class="code" id="code" dir="ltr" aria-label="مكان البرنامج"><div class="codeIn" id="codeIn"></div><div class="codehint" id="codeHint">اسحب البلوكات هنا ولزّقها في بعض ← ✋</div></div>
+    <div class="zoomer"><button class="jbtn sm" id="czIn" aria-label="كبّر">＋</button><button class="jbtn sm" id="czOut" aria-label="صغّر">－</button><button class="jbtn sm" id="czFit" aria-label="الحجم العادي">=</button></div>
+  </section>
+</main>
+
+<div class="jmodal" id="pick" hidden><div class="jcard"><div class="jhead"><b id="pickTitle">اختار</b><button class="jbtn sm" id="pickX" aria-label="اقفل">✕</button></div><div class="pgrid" id="pickGrid" dir="ltr"></div></div></div>
+<div class="keypad" id="keypad" hidden></div>
+<div class="jmodal" id="ask" hidden><div class="jcard ask"><div class="jhead"><b id="askTitle"></b><button class="jbtn sm" id="askX" aria-label="اقفل">✕</button></div>
+  <input id="askIn" dir="auto" maxlength="40">
+  <div class="askOpt" id="askOpt"></div>
+  <div class="askBtns"><button class="btn ghost small" id="askDel" hidden>🗑 امسح</button><button class="btn primary small" id="askOk">تمام ✓</button></div>
+</div></div>
+<div class="jmodal" id="projs" hidden><div class="jcard"><div class="jhead"><b>📂 مشاريعي</b><button class="jbtn sm" id="projsX" aria-label="اقفل">✕</button></div><div class="plist" id="plist"></div></div></div>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+</body>
+</html>

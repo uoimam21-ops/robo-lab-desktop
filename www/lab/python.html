@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>محرر Python | Robo Egypt</title>
+<meta name="description" content="محرر بايثون حقيقي في المتصفح للأطفال والتينز: اكتب الكود وشغّله وشوف الأخطاء بالعربي، وارسم بالسلحفاة turtle. من Robo Egypt.">
+<meta name="theme-color" content="#1B2350">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+  <script type="module" crossorigin src="/assets/python-BFX2Kqer.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/lab-634O2vs0.js">
+  <link rel="modulepreload" crossorigin href="/assets/index-DeX6cwoY.js">
+  <link rel="modulepreload" crossorigin href="/assets/index-B2mlN6Oz.js">
+  <link rel="stylesheet" crossorigin href="/assets/lab-CfNlTA7a.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap bar">
+    <a class="logo" href="/" aria-label="Robo Egypt — الرئيسية"><img src="/assets/logo-header.png" alt="Robo Egypt" width="742" height="160"></a>
+    <nav class="crumbs" aria-label="مسار الصفحة"><a href="/lab/">مختبر روبو</a><span aria-hidden="true">‹</span><b dir="ltr">Python</b></nav>
+    <a class="btn ghost small" href="/journey.html?go=course&amp;m=py">كورس بايثون</a>
+  </div>
+</header>
+
+<main class="wrap ide" id="ide">
+  <section class="toolbar" aria-label="أدوات المحرر">
+    <div class="grp">
+      <button class="btn run" id="runBtn" disabled><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4l13 8-13 8z"/></svg><span>شغّل</span></button>
+      <button class="btn stop" id="stopBtn" disabled><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="2"/></svg><span>إيقاف</span></button>
+      <span class="ur"><button class="btn ghost small" id="undoBtn" title="ارجع خطوة (Ctrl+Z)" aria-label="ارجع خطوة">↶</button><button class="btn ghost small" id="redoBtn" title="قدّم خطوة (Ctrl+Y)" aria-label="قدّم خطوة">↷</button></span>
+      <span class="status" id="status" role="status" aria-live="polite">بيجهّز بايثون…</span>
+    </div>
+    <div class="grp">
+      <label class="sr-only" for="pname">اسم المشروع</label>
+      <input id="pname" class="pname" dir="auto" maxlength="40" value="مشروعي">
+      <button class="btn ghost small" id="saveBtn">💾 حفظ</button>
+      <button class="btn ghost small" id="myBtn">📁 مشاريعي</button>
+      <div class="menu">
+        <button class="btn ghost small" id="moreBtn" aria-haspopup="true" aria-expanded="false">⋯ المزيد</button>
+        <div class="menuList" id="moreList" hidden>
+          <button id="newBtn">📄 مشروع جديد</button>
+          <button id="openBtn">📂 فتح ملف .py</button>
+          <button id="dlBtn">⬇ تحميل الكود (.py)</button>
+          <button id="fontUp">🔠 تكبير الخط</button>
+          <button id="fontDn">🔡 تصغير الخط</button>
+        </div>
+      </div>
+      <label class="exLab"><span class="sr-only">أمثلة جاهزة</span>
+        <select id="examples"><option value="">✨ أمثلة جاهزة</option></select>
+      </label>
+      <input type="file" id="fileIn" accept=".py,.txt,text/x-python,text/plain" hidden>
+    </div>
+  </section>
+
+  <div class="panes" id="panes">
+    <section class="pane edPane" aria-label="الكود">
+      <div class="pHead"><b>الكود</b><small dir="ltr">main.py</small><span class="hint">Ctrl + Enter = شغّل</span></div>
+      <div id="editor" class="editor" dir="ltr"></div>
+    </section>
+    <section class="pane outPane" aria-label="النتيجة">
+      <div class="tabs" role="tablist">
+        <button role="tab" id="tabCon" aria-selected="true" aria-controls="conBox">🖥 النتيجة</button>
+        <button role="tab" id="tabTur" aria-selected="false" aria-controls="turBox">🐢 الرسم</button>
+        <button class="clr" id="clrBtn" title="امسح النتيجة">🧹 امسح</button>
+      </div>
+      <div id="conBox" class="con" role="tabpanel" aria-labelledby="tabCon">
+        <pre id="out" class="out" dir="ltr" aria-live="polite"></pre>
+        <form id="inForm" class="inRow" hidden autocomplete="off">
+          <span id="inPrompt" dir="ltr"></span>
+          <input id="inField" dir="auto" aria-label="اكتب إجابتك">
+          <button class="btn run small" type="submit">إدخال ↵</button>
+        </form>
+        <div id="errBox" class="errBox" hidden role="alert"></div>
+      </div>
+      <div id="turBox" class="tur" role="tabpanel" aria-labelledby="tabTur" hidden>
+        <canvas id="cv" width="520" height="400" aria-label="رسم السلحفاة"></canvas>
+      </div>
+    </section>
+  </div>
+</main>
+
+<div class="modal" id="projModal" hidden>
+  <div class="mcard" role="dialog" aria-modal="true" aria-labelledby="pmT">
+    <div class="mHead"><h2 id="pmT">مشاريعي</h2><button class="x" id="pmClose" aria-label="إغلاق">✕</button></div>
+    <p class="sub">المشاريع محفوظة على الجهاز ده. (الحفظ في حسابك على أي جهاز جاي قريب.)</p>
+    <ul id="projList" class="plist"></ul>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+</body>
+</html>

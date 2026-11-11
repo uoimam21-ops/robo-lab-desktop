@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>مختبر الذكاء الاصطناعي | Robo Egypt</title>
+<meta name="description" content="مختبر الذكاء الاصطناعي للأطفال (AI Lab): علّم الكمبيوتر يفرّق بين الرسومات والصور والجمل، ودرّبه واختبره في المتصفح من غير كود. من Robo Egypt.">
+<meta name="theme-color" content="#1B2350">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+  <script type="module" crossorigin src="/assets/ai-BevV1-GA.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/lab-634O2vs0.js">
+  <link rel="stylesheet" crossorigin href="/assets/lab-CfNlTA7a.css">
+  <link rel="stylesheet" crossorigin href="/assets/ai-BlOcx0Ws.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap bar">
+    <a class="logo" href="/" aria-label="Robo Egypt — الرئيسية"><img src="/assets/logo-header.png" alt="Robo Egypt" width="742" height="160"></a>
+    <nav class="crumbs" aria-label="مسار الصفحة"><a href="/lab/">مختبر روبو</a><span aria-hidden="true">‹</span><b>مختبر الذكاء الاصطناعي 🧠</b></nav>
+    <label class="exLab"><span class="sr-only">أمثلة</span><select id="examples"><option value="">✨ أمثلة</option></select></label>
+    <button class="btn ghost small" id="resetBtn">🧹 من الأول</button>
+  </div>
+</header>
+
+<main class="ai" id="aiMain">
+  <div class="modes" role="tablist" aria-label="نوع التعليم">
+    <button role="tab" data-mode="draw" aria-selected="true">🎨 رسومات</button>
+    <button role="tab" data-mode="cam" aria-selected="false">📷 كاميرا</button>
+    <button role="tab" data-mode="text" aria-selected="false">💬 كلام</button>
+    <span class="steps" id="steps"></span>
+  </div>
+
+  <!-- pictures: drawings or camera -->
+  <section class="pics" id="picsView">
+    <div class="col classes">
+      <div class="colhead"><b>١. الفئات والأمثلة</b><button class="btn ghost small" id="addClass">➕ فئة</button></div>
+      <div id="classList" class="clist"></div>
+    </div>
+    <div class="col input">
+      <div class="colhead"><b id="inHead">٢. ارسم هنا</b><span class="sub" id="inSub"></span></div>
+      <div class="padwrap" id="padWrap">
+        <canvas id="pad" width="280" height="280" aria-label="مكان الرسم"></canvas>
+        <video id="video" playsinline muted hidden></video>
+        <div class="camoff" id="camOff" hidden><button class="btn run" id="camOn">📷 شغّل الكاميرا</button><small>لو مفيش كاميرا، استخدم الرسومات.</small></div>
+      </div>
+      <div class="padtools" id="padTools"><button class="btn ghost small" id="padUndo" title="ارجع خطوة (Ctrl+Z)" aria-label="ارجع خطوة">↶</button><button class="btn ghost small" id="padRedo" title="قدّم خطوة (Ctrl+Y)" aria-label="قدّم خطوة">↷</button><button class="btn ghost small" id="clearPad">🧽 امسح</button><small class="sub">ارسم، وبعدين اختار الفئة اللي تحت</small></div>
+      <div class="addto" id="addTo"></div>
+    </div>
+    <div class="col result">
+      <div class="colhead"><b>٣. درّب واختبر</b></div>
+      <button class="btn run trainBtn" id="trainBtn">🧠 درّب الروبوت</button>
+      <div class="trainbar" id="trainBar" hidden><i></i></div>
+      <div class="acc" id="acc"></div>
+      <div class="robo" id="robo"><span class="bot" aria-hidden="true">🤖</span><div class="say" id="say">علّمني الأول! ضيف أمثلة لكل فئة ودوس «درّب».</div></div>
+      <div class="bars" id="bars"></div>
+      <div class="fbBox" id="fbBox" hidden></div>
+      <div class="whyBox" id="whyBox" hidden></div>
+      <div class="evalBox" id="evalBox" hidden></div>
+      <details class="how"><summary>ℹ️ الروبوت بيتعلم إزاي؟</summary>
+        <p>الروبوت بيحوّل كل رسمة أو صورة لأرقام: فين الحبر، والخطوط رايحة في أنهي اتجاه، والألوان. ولما تديله حاجة جديدة، بيدوّر على <b>أقرب أمثلة</b> اتعلمها، والفئة اللي ليها أقرب أمثلة بتكسب. الطريقة دي اسمها <b dir="ltr">k-Nearest Neighbours</b>.</p>
+        <p>عشان كده: <b>أمثلة أكتر ومختلفة = روبوت أذكى</b>. ولو حطيت مثال في الفئة الغلط، الروبوت هيتلخبط.</p>
+        <p>وفي الشات بوت، الروبوت بيعدّ الكلمات وأجزاء الكلمات اللي بتيجي مع كل نية، ويختار النية اللي كلماتها شبه جملتك أكتر. الطريقة دي اسمها <b dir="ltr">Naive Bayes</b>.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- words: a tiny chatbot -->
+  <section class="words" id="wordsView" hidden>
+    <div class="col">
+      <div class="colhead"><b>١. النوايا: الناس بتقول إيه؟</b><button class="btn ghost small" id="addIntent">➕ نية</button></div>
+      <div id="intentList" class="ilist"></div>
+    </div>
+    <div class="col chat">
+      <div class="colhead"><b>٢. درّب واتكلم</b><button class="btn run small" id="trainText">🧠 درّب</button></div>
+      <div class="trainbar" id="trainBar2" hidden><i></i></div>
+      <div class="msgs" id="msgs"><div class="m bot">أهلاً! أنا روبو 🤖 علّمني الأول، وبعدين كلّمني.</div></div>
+      <form class="send" id="sendForm" autocomplete="off"><input id="chatIn" dir="auto" maxlength="80" placeholder="اكتب رسالة…" aria-label="رسالة"><button class="btn run small">إرسال</button></form>
+    </div>
+  </section>
+</main>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+</body>
+</html>

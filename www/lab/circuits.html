@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Robo Circuits: الدوائر الإلكترونية | Robo Egypt</title>
+<meta name="description" content="محاكي دوائر كهربية للأطفال: بطارية ومقاومات ولمبات LED ومفاتيح وملتميتر حقيقي يقيس الجهد والتيار والمقاومة. من Robo Egypt.">
+<meta name="theme-color" content="#1B2350">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+  <script type="module" crossorigin src="/assets/circuits-CXBp99d0.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/lab-634O2vs0.js">
+  <link rel="modulepreload" crossorigin href="/assets/gest-C4nmUrC5.js">
+  <link rel="stylesheet" crossorigin href="/assets/lab-CfNlTA7a.css">
+  <link rel="stylesheet" crossorigin href="/assets/circuits-C23G_LZ2.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap bar">
+    <a class="logo" href="/" aria-label="Robo Egypt — الرئيسية"><img src="/assets/logo-header.png" alt="Robo Egypt" width="742" height="160"></a>
+    <nav class="crumbs" aria-label="مسار الصفحة"><a href="/lab/">مختبر روبو</a><span aria-hidden="true">‹</span><b>Robo Circuits</b></nav>
+    <label class="sr-only" for="pname">اسم المشروع</label>
+    <input id="pname" class="pname" dir="auto" maxlength="40" value="دايرتي">
+    <button class="btn ghost small" id="myBtn">📁 مشاريعي</button>
+    <label class="exLab"><span class="sr-only">أمثلة</span><select id="examples"><option value="">✨ أمثلة</option></select></label>
+  </div>
+</header>
+
+<main class="circ">
+  <aside class="parts" aria-label="القطع">
+    <h2>القطع</h2>
+    <p class="sub">اسحب القطعة وحطها في أي مكان على الترابيزة. البريد بورد اختيارية.</p>
+    <div class="seg" id="partTabs" role="group" aria-label="القطع"><button data-tab="b">الأساسي</button><button data-tab="a">الكل</button></div>
+    <div class="pgrid" id="partList"></div>
+    <div class="howto">
+      <b>إزاي أوصّل سلك؟</b>
+      <p>دوس على رجل قطعة (النقطة الصغيرة) أو خرم، وبعدين دوس على رجل تانية.</p>
+      <b>شغّل الدايرة</b>
+      <p>لما تخلّص التوصيل دوس «▶ شغّل»، و«⏹ وقّف» عشان توقف.</p>
+      <b>الملتميتر</b>
+      <p>اختار V أو A أو Ω، واسحب السن الأحمر والأسود على المكان اللي عايز تقيسه.</p>
+    </div>
+  </aside>
+  <section class="work">
+    <div class="tbar" role="toolbar" aria-label="أدوات">
+      <button class="tb runb" id="runBtn" title="شغّل المحاكاة">▶ <span>شغّل</span></button>
+      <div class="tg"><button class="tb" id="rotBtn" title="لف القطعة (R)">⟳ <span>لف</span></button><button class="tb" id="flipBtn" title="اقلب القطعة: الرجلين يبدّلوا مكانهم (F)">⇋ <span>اقلب</span></button><button class="tb danger" id="delBtn" title="امسح (Delete)">🗑 <span>امسح</span></button></div>
+      <div class="tg"><button class="tb" id="flowBtn">⚪ <span>التيار</span></button></div>
+      <div class="tg" id="wireColors" aria-label="لون السلك"></div>
+      <div class="tg"><button class="tb" id="undoBtn" title="ارجع خطوة (Ctrl+Z)" aria-label="ارجع خطوة">↶</button><button class="tb" id="redoBtn" title="قدّم خطوة (Ctrl+Y)" aria-label="قدّم خطوة">↷</button></div>
+      <div class="tg"><button class="tb" id="zOut" title="بعّد" aria-label="بعّد">－</button><button class="tb" id="zIn" title="قرّب" aria-label="قرّب">＋</button><button class="tb" id="zFit" title="شوف كل حاجة" aria-label="شوف كل حاجة">⤢</button></div>
+      <div class="tg"><button class="tb" id="fixBtn" title="غيّر القطع المحروقة">🔧 <span>غيّر المحروق</span></button><button class="tb" id="clearBtn" title="امسح كل حاجة">🧹 <span>من الأول</span></button></div>
+      <span class="status" id="status" role="status" aria-live="polite"></span>
+    </div>
+    <div class="board" id="boardWrap">
+      <svg id="sv" viewBox="0 0 1240 660" aria-label="لوحة الدايرة" role="application"></svg>
+      <div class="props" id="props" hidden></div>
+    </div>
+  </section>
+</main>
+
+<div class="modal" id="projModal" hidden>
+  <div class="mcard" role="dialog" aria-modal="true" aria-labelledby="pmT">
+    <div class="mHead"><h2 id="pmT">مشاريعي</h2><button class="x" id="pmClose" aria-label="إغلاق">✕</button></div>
+    <p class="sub">الدواير محفوظة على الجهاز ده.</p>
+    <button class="btn ghost small" id="newBtn" style="align-self:flex-start">📄 دايرة جديدة</button>
+    <ul id="projList" class="plist"></ul>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+</body>
+</html>

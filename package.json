@@ -1,0 +1,42 @@
+{
+  "name": "robo-lab-desktop",
+  "productName": "Robo Lab",
+  "version": "1.0.0",
+  "description": "مختبر روبو: تطبيق ويندوز يشتغل من غير نت (Robo Egypt)",
+  "author": "Robo Egypt",
+  "private": true,
+  "main": "electron/main.js",
+  "scripts": {
+    "sync": "node scripts/sync-site.mjs",
+    "vendor": "node scripts/vendor.mjs",
+    "arduino": "node scripts/arduino.mjs",
+    "start": "electron .",
+    "dist:win": "electron-builder --win --config build/modern.yml",
+    "dist:win7": "electron-builder --win --config build/win7.yml",
+    "dist": "npm run dist:win && npm run dist:win7"
+  },
+  "devDependencies": {
+    "@fontsource/amiri": "5.1.1",
+    "@fontsource/aref-ruqaa": "5.1.1",
+    "@fontsource/baloo-bhaijaan-2": "5.1.1",
+    "@fontsource/bebas-neue": "5.1.1",
+    "@fontsource/bungee": "5.1.1",
+    "@fontsource/cairo": "5.1.1",
+    "@fontsource/changa": "5.1.1",
+    "@fontsource/el-messiri": "5.1.1",
+    "@fontsource/fredoka": "5.1.1",
+    "@fontsource/lalezar": "5.1.1",
+    "@fontsource/lobster": "5.1.1",
+    "@fontsource/marhey": "5.1.1",
+    "@fontsource/pacifico": "5.1.1",
+    "@fontsource/permanent-marker": "5.1.1",
+    "@fontsource/press-start-2p": "5.1.1",
+    "@fontsource/rakkas": "5.1.1",
+    "@fontsource/reem-kufi": "5.1.1",
+    "@supabase/supabase-js": "2.45.4",
+    "blockly": "10.4.3",
+    "electron": "44.9.3",
+    "electron-builder": "26.0.12",
+    "pyodide": "0.26.4"
+  }
+}

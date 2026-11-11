@@ -1,0 +1,21 @@
+# Windows 10 / 11 (Electron from package.json)
+appId: com.roboegypt.lab
+productName: Robo Lab
+copyright: Robo Egypt
+directories: { output: dist/win10-11, buildResources: build }
+files: [electron/**, launcher/**, www/**, package.json, "!**/*.map"]
+asar: false
+# compiler + boards + libraries for «upload to Arduino» (made by scripts/arduino.mjs)
+extraResources: [{ from: arduino, to: arduino }]
+win:
+  icon: build/icon.ico
+  target: [{ target: nsis, arch: [x64] }]
+  artifactName: Robo-Lab-Setup-${version}-win10-11.${ext}
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: always
+  shortcutName: Robo Lab
+  installerLanguages: [ar_SA, en_US]
+  language: "1025"

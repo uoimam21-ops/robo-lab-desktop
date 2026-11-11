@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>تصميم ثلاثي الأبعاد | Robo Egypt</title>
+<meta name="description" content="صمّم مجسمات ثلاثية الأبعاد في المتصفح: أشكال وفتحات وألوان ومقاسات بالملّي، وصدّر ملف STL للطباعة. من Robo Egypt.">
+<meta name="theme-color" content="#1B2350">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+  <script type="module" crossorigin src="/assets/d3-BkkXPB5T.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/lab-634O2vs0.js">
+  <link rel="stylesheet" crossorigin href="/assets/lab-CfNlTA7a.css">
+  <link rel="stylesheet" crossorigin href="/assets/d3-BvT1ESg0.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap bar">
+    <a class="logo" href="/" aria-label="Robo Egypt — الرئيسية"><img src="/assets/logo-header.png" alt="Robo Egypt" width="742" height="160"></a>
+    <nav class="crumbs" aria-label="مسار الصفحة"><a href="/lab/">مختبر روبو</a><span aria-hidden="true">‹</span><b>تصميم 3D</b></nav>
+    <label class="sr-only" for="pname">اسم المشروع</label>
+    <input id="pname" class="pname" dir="auto" maxlength="40" value="تصميمي">
+    <button class="btn ghost small" id="myBtn">📁 مشاريعي</button>
+    <button class="btn run small" id="stlBtn" title="ملف للطباعة ثلاثية الأبعاد">⬇ STL</button>
+  </div>
+</header>
+
+<main class="d3" id="d3">
+  <aside class="shapes" aria-label="الأشكال">
+    <h2>الأشكال</h2>
+    <p class="sub">دوس على شكل يتحط على السطح، أو اسحبه وحطه في المكان اللي انت عايزه</p>
+    <div class="sgrid" id="shapeList"></div>
+    <h2>نماذج جاهزة</h2>
+    <p class="sub">روبو وعربية وبيت… كل جزء بلونه، وتقدر تغيّره</p>
+    <div class="sgrid" id="presetList"></div>
+    <h2>فتحة</h2>
+    <p class="sub">الفتحة بتخرّم الشكل اللي تحتها لما تجمّعهم</p>
+    <div class="sgrid" id="holeList"></div>
+    <h2>نص</h2>
+    <p class="sub">اكتب بالعربي أو بالإنجليزي</p>
+    <div class="txtrow"><select id="txtFont" aria-label="نوع الخط"></select><input id="txtIn" dir="auto" maxlength="24" placeholder="روبو Robo" aria-label="النص"><button class="btn run small" id="txtAdd" aria-label="ضيف النص">➕ نص</button></div>
+  </aside>
+
+  <section class="stagewrap" aria-label="مساحة التصميم">
+    <div class="tbar" role="toolbar" aria-label="أدوات" id="tbar">
+      <div class="tg">
+        <button class="tb" id="undoBtn" title="تراجع (Ctrl+Z)"><i>↶</i><span>رجوع</span></button>
+        <button class="tb" id="redoBtn" title="إعادة (Ctrl+Y)"><i>↷</i><span>قدّام</span></button>
+      </div>
+      <div class="tg" role="radiogroup" aria-label="نوع التحريك">
+        <button class="tb mode on" data-mode="translate" title="حرّك (W)"><i>✥</i><span>حرّك</span></button>
+        <button class="tb mode" data-mode="rotate" title="لف (E)"><i>⟳</i><span>لف</span></button>
+        <button class="tb mode" data-mode="scale" title="كبّر وصغّر (R)"><i>⤢</i><span>المقاس</span></button>
+      </div>
+      <div class="tg">
+        <button class="tb" id="multiBtn" title="تحديد أكتر من شكل: دوس على الأشكال واحد واحد، أو اسحب مستطيل. على الموبايل: اضغط مطوّل على الشكل" aria-pressed="false"><i>☑</i><span>تحديد متعدد</span></button>
+        <button class="tb" id="lockBtn" title="اقفل الشكل عشان ميتحركش"><i>🔓</i><span>قفل</span></button>
+        <button class="tb" id="alignBtn" title="رصّ الأشكال (Align) — اختار شكلين أو أكتر"><i>⫼</i><span>رصّ</span></button>
+        <button class="tb" id="dupBtn" title="نسخة (Ctrl+D)"><i>⧉</i><span>نسخة</span></button>
+        <button class="tb" id="dropBtn" title="نزّله على السطح (D)"><i>⤓</i><span>على السطح</span></button>
+        <button class="tb" id="groupBtn" title="جمّع (Ctrl+G)"><i>⊕</i><span>جمّع</span></button>
+        <button class="tb" id="ungroupBtn" title="فك التجميع"><i>⊖</i><span>فك</span></button>
+        <button class="tb danger" id="delBtn" title="امسح (Delete)"><i>🗑</i><span>امسح</span></button>
+        <button class="tb danger" id="clearAll" title="امسح كل الأشكال"><i>🧹</i><span>امسح الكل</span></button>
+      </div>
+      <div class="tg">
+        <button class="tb on" id="magBtn" aria-pressed="true" title="المغناطيس: الأشكال بتلزق في حروف بعض لما تقرّب، والشكل اللي بتسحبه من الجنب بيقعد فوق الشكل"><i>🧲</i><span>مغناطيس</span></button>
+        <label class="snap">خطوة <select id="snapSel"><option value="1" selected>١ ملّي</option><option value="5">٥ ملّي</option><option value="10">١٠ ملّي</option><option value="0">بحرية</option></select></label>
+        
+      </div>
+    </div>
+    <div class="tbGrip" id="tbGrip" role="separator" aria-orientation="horizontal" aria-label="كبّر أو صغّر شريط الأدوات" title="اسحب لفوق أو لتحت عشان تصغّر أو تكبّر شريط الأدوات (دبل كليك يرجّعه)"><i></i></div>
+    <div class="stage3" id="stage3"><canvas id="c3" aria-label="مساحة التصميم الثلاثي الأبعاد"></canvas>
+      <canvas id="vcube" width="220" height="220" title="دوس على وش المكعب عشان تبص من الناحية دي" aria-label="مكعب الاتجاهات"></canvas>
+      <div class="camtools" aria-label="الكاميرا"><button id="homeBtn" title="الرؤية الرئيسية" aria-label="الرؤية الرئيسية"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></button><button id="fitBtn" title="ركّز على التصميم" aria-label="ركّز على التصميم"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5" fill="none" stroke="currentColor" stroke-width="2"/><rect x="9" y="9" width="6" height="6" transform="rotate(45 12 12)" fill="none" stroke="currentColor" stroke-width="2"/></svg></button><button id="zoomIn" title="قرّب" aria-label="قرّب">＋</button><button id="zoomOut" title="بعّد" aria-label="بعّد">－</button></div>
+      <div class="hint3" id="hint3">النقط البيضا والسودا تغيّر المقاس، واللي فوق تغيّر الارتفاع · دبل كليك على النص تعدّله · كليك يمين واسحب عشان تلف الكاميرا · كليك شمال يختار، واسحب مستطيل تختار أكتر من شكل · العجلة للتقريب · Shift + يمين يحرّك المنظر · Shift مع التكبير = نفس النسبة</div>
+      <div class="props" id="props" hidden>
+        <div class="phead"><b id="pTitle">شكل</b><button class="x" id="pClose" aria-label="إغلاق">✕</button></div>
+        <div class="seg" role="radiogroup" aria-label="نوع الشكل"><button id="pSolid" class="on">🎨 مُصمت</button><button id="pHole">⬚ فتحة</button></div>
+        <label class="txtrow" id="pTxtRow" hidden>النص <input id="pTxt" dir="auto" maxlength="24"><select id="pFont" aria-label="نوع الخط"></select></label>
+        <div class="swatches" id="swatches" aria-label="الألوان"></div>
+        <div class="shapeopt" id="pShape" hidden>
+          <label class="srow" id="pSidesRow">عدد الأوجه <input type="range" id="pSides" min="3" max="33" step="1"><b id="pSidesV"></b></label>
+          <label class="srow" id="pRoundRow">تدوير الحواف <input type="range" id="pRound" min="0" max="9" step="0.5"><b id="pRoundV"></b></label>
+        </div>
+        <div class="dims">
+          <label>العرض<input type="number" id="dW" min="1" max="400" step="1"><small>ملّي</small></label>
+          <label>العمق<input type="number" id="dD" min="1" max="400" step="1"><small>ملّي</small></label>
+          <label>الارتفاع<input type="number" id="dH" min="1" max="400" step="1"><small>ملّي</small></label>
+        </div>
+        <button class="tb ratio" id="ratioBtn" title="كبّر وصغّر بنفس النسبة (أو اضغط Shift وانت بتكبّر)">⛓️‍💥 حر</button>
+        <b class="lbl">المكان (ملّي)</b>
+        <div class="dims">
+          <label>X<input type="number" id="pX" step="1"></label>
+          <label>Y ارتفاع<input type="number" id="pY" step="1"></label>
+          <label>Z<input type="number" id="pZ" step="1"></label>
+        </div>
+        <b class="lbl">زاوية اللف (درجة)</b>
+        <div class="dims">
+          <label>حوالين X<input type="number" id="rX" step="15"></label>
+          <label>حوالين Y<input type="number" id="rY" step="15"></label>
+          <label>حوالين Z<input type="number" id="rZ" step="15"></label>
+        </div>
+        <div class="row3"><button class="tb" data-mirror="0" title="مراية يمين وشمال">⇋ X</button><button class="tb" data-mirror="1" title="مراية فوق وتحت">⇅ Y</button><button class="tb" data-mirror="2" title="مراية قدام وورا">⤢ Z</button></div>
+        <small class="sub">الأسهم في الكيبورد بتحرّك الشكل، و Ctrl + ↑↓ بترفعه وتنزّله، و Shift بيخلّي الخطوة ١٠ أضعاف.</small>
+      </div>
+      <div class="multi" id="multi" hidden></div>
+      <div class="alignPop" id="alignPop" hidden></div>
+    </div>
+  </section>
+</main>
+
+<div class="modal" id="projModal" hidden>
+  <div class="mcard" role="dialog" aria-modal="true" aria-labelledby="pmT">
+    <div class="mHead"><h2 id="pmT">مشاريعي</h2><button class="x" id="pmClose" aria-label="إغلاق">✕</button></div>
+    <p class="sub">التصاميم محفوظة على الجهاز ده.</p>
+    <button class="btn ghost small" id="newBtn" style="align-self:flex-start">📄 تصميم جديد</button>
+    <ul id="projList" class="plist"></ul>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+</body>
+</html>

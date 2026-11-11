@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>محرر الويب | Robo Egypt</title>
+<meta name="description" content="اعمل صفحات ويب حقيقية بـ HTML و CSS و JavaScript وشوف النتيجة على طول، والأخطاء بالعربي. من Robo Egypt.">
+<meta name="theme-color" content="#1B2350">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+  <script type="module" crossorigin src="/assets/web-WRmKU71c.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/lab-634O2vs0.js">
+  <link rel="modulepreload" crossorigin href="/assets/index-DeX6cwoY.js">
+  <link rel="modulepreload" crossorigin href="/assets/index-Cu7pJg9W.js">
+  <link rel="modulepreload" crossorigin href="/assets/acorn-DkYm1ITT.js">
+  <link rel="stylesheet" crossorigin href="/assets/lab-CfNlTA7a.css">
+  <link rel="stylesheet" crossorigin href="/assets/web-6wRsDQWt.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap bar">
+    <a class="logo" href="/" aria-label="Robo Egypt — الرئيسية"><img src="/assets/logo-header.png" alt="Robo Egypt" width="742" height="160"></a>
+    <nav class="crumbs" aria-label="مسار الصفحة"><a href="/lab/">مختبر روبو</a><span aria-hidden="true">‹</span><b dir="ltr">HTML · CSS · JS</b></nav>
+  </div>
+</header>
+
+<main class="wrap ide">
+  <section class="toolbar" aria-label="أدوات المحرر">
+    <div class="grp">
+      <button class="btn run" id="runBtn"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4l13 8-13 8z"/></svg><span>شغّل</span></button>
+      <span class="ur"><button class="btn ghost small" id="undoBtn" title="ارجع خطوة (Ctrl+Z)" aria-label="ارجع خطوة">↶</button><button class="btn ghost small" id="redoBtn" title="قدّم خطوة (Ctrl+Y)" aria-label="قدّم خطوة">↷</button></span>
+      <label class="auto"><input type="checkbox" id="autoRun" checked> تحديث تلقائي</label>
+      <div class="seg" role="radiogroup" aria-label="نوع المشروع">
+        <button id="mPage" class="on" aria-pressed="true">🌐 صفحة ويب</button>
+        <button id="mJs" aria-pressed="false">⌨ JavaScript بس</button>
+      </div>
+    </div>
+    <div class="grp">
+      <label class="sr-only" for="pname">اسم المشروع</label>
+      <input id="pname" class="pname" dir="auto" maxlength="40" value="صفحتي">
+      <button class="btn ghost small" id="saveBtn">💾 حفظ</button>
+      <button class="btn ghost small" id="myBtn">📁 مشاريعي</button>
+      <button class="btn ghost small" id="dlBtn">⬇ تحميل</button>
+      <label class="exLab"><span class="sr-only">أمثلة جاهزة</span><select id="examples"><option value="">✨ أمثلة جاهزة</option></select></label>
+    </div>
+  </section>
+
+  <div class="panes">
+    <section class="pane edPane" aria-label="الكود">
+      <div class="tabs" role="tablist" id="codeTabs">
+        <button role="tab" data-t="html" aria-selected="true">HTML</button>
+        <button role="tab" data-t="css" aria-selected="false">CSS</button>
+        <button role="tab" data-t="js" aria-selected="false">JS</button>
+      </div>
+      <div id="editor" class="editor" dir="ltr"></div>
+    </section>
+    <section class="pane outPane" aria-label="النتيجة">
+      <div class="tabs light"><span class="ptitle" id="prevTitle">🌐 الصفحة</span><button class="clr" id="newWin" title="افتح الصفحة في تاب جديد">↗ تاب جديد</button></div>
+      <div class="prevWrap" id="prevWrap"><iframe id="preview" title="معاينة الصفحة" sandbox="allow-scripts allow-modals"></iframe></div>
+      <div class="consoleBox" id="consoleBox">
+        <div class="chead"><b>Console</b><span id="cCount"></span><button class="clr" id="clrBtn">🧹 امسح</button></div>
+        <pre id="out" class="out" dir="ltr"></pre>
+        <div id="errBox" class="errBox" hidden role="alert"></div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<div class="modal" id="projModal" hidden>
+  <div class="mcard" role="dialog" aria-modal="true" aria-labelledby="pmT">
+    <div class="mHead"><h2 id="pmT">مشاريعي</h2><button class="x" id="pmClose" aria-label="إغلاق">✕</button></div>
+    <p class="sub">المشاريع محفوظة على الجهاز ده.</p>
+    <button class="btn ghost small" id="newBtn" style="align-self:flex-start">📄 مشروع جديد</button>
+    <ul id="projList" class="plist"></ul>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+</body>
+</html>
