@@ -24,8 +24,10 @@ ok(drv.needed === true && drv.available === true, 'CH340 driver bundled (install
 
 for (const [path, name] of [['/lab/junior.html', 'Robo Junior'], ['/lab/ai.html', 'AI'], ['/lab/circuits.html', 'Robo Circuits'], ['/lab/arduino.html', 'Robo Maker'],
   ['/lab/3d.html', 'Robo CAD'], ['/lab/web.html', 'Robo Web'], ['/lab/code.html', 'Robo Code']]) {
-  const r = await w.goto('robo://lab' + path); await w.waitForTimeout(1200);
-  ok(r && r.status() === 200 && await w.evaluate(() => crossOriginIsolated), name + ' opens (isolated)');
+  // custom-protocol pages give Playwright no response object: check the page itself
+  await w.goto('robo://lab' + path).catch(() => {}); await w.waitForTimeout(1500);
+  const pg = await w.evaluate(() => ({ iso: crossOriginIsolated, title: document.title, main: !!document.querySelector('main, .jr, .ide, .ard, .circ, .d3') }));
+  ok(pg.iso && pg.main && /Robo Egypt/.test(pg.title), name + ' opens (isolated) — ' + pg.title);
 }
 await w.goto('robo://lab/lab/roboblock?go=free'); await w.waitForTimeout(4000);
 ok(await w.evaluate(() => typeof Blockly !== 'undefined' && !!document.querySelector('.blocklySvg')), 'Robo Block loads Blockly offline');
@@ -40,7 +42,7 @@ await w.screenshot({ path: shots + '/python.png' });
 await w.goto('robo://lab/lab/arduino.html'); await w.waitForTimeout(2000);
 ok(await w.isVisible('#upBtn'), 'Robo Maker shows «upload to Arduino»');
 for (const board of ['uno', 'nanoOld', 'mega']) {
-  const r = await w.evaluate((b) => window.roboDesktop.arduino.upload({ board, port: 'COM99',
+  const r = await w.evaluate((board) => window.roboDesktop.arduino.upload({ board, port: 'COM99',
     code: '#include <Servo.h>\nServo s;\nvoid setup(){pinMode(13,OUTPUT);s.attach(9);}\nvoid loop(){digitalWrite(13,HIGH);delay(300);digitalWrite(13,LOW);delay(300);}\n' }, () => {}), board);
   ok(r.stage === 'upload' && r.why === 'noport', board + ': compiles, upload to a missing port says «board not found» (' + r.stage + '/' + r.why + ')');
 }
