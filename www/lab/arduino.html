@@ -3,24 +3,36 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Robo Maker: الأردوينو والروبوتات | Robo Egypt</title>
+<title>Robo Maker: محاكي أردوينو وروبوتات للأطفال | Robo Egypt</title>
 <meta name="description" content="وصّل بنفسك أردوينو أونو بالحساسات والمواتير والشاشات، وبرمجه بالبلوكات أو بالكود وشوفه بيشتغل في المتصفح. من Robo Egypt.">
+<link rel="canonical" href="https://roboegypt.com/lab/arduino">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Robo Egypt">
+<meta property="og:locale" content="ar_EG">
+<meta property="og:title" content="Robo Maker: محاكي أردوينو وروبوتات للأطفال">
+<meta property="og:description" content="وصّل بنفسك أردوينو أونو بالحساسات والمواتير والشاشات، وبرمجه بالبلوكات أو بالكود وشوفه بيشتغل في المتصفح. من Robo Egypt.">
+<meta property="og:url" content="https://roboegypt.com/lab/arduino">
+<meta property="og:image" content="https://roboegypt.com/assets/og/lab-arduino.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Robo Maker (Robo Maker)", "alternateName": "Robo Maker", "url": "https://roboegypt.com/lab/arduino", "description": "وصّل بنفسك أردوينو أونو بالحساسات والمواتير والشاشات، وبرمجه بالبلوكات أو بالكود وشوفه بيشتغل في المتصفح. من Robo Egypt.", "applicationCategory": "EducationalApplication", "operatingSystem": "Web browser, Windows", "inLanguage": "ar", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EGP"}, "image": "https://roboegypt.com/assets/og/lab-arduino.jpg", "audience": {"@type": "EducationalAudience", "educationalRole": "student", "audienceType": "أطفال وتينز", "suggestedMinAge": 9, "suggestedMaxAge": 17}, "provider": {"@type": "EducationalOrganization", "name": "Robo Egypt", "url": "https://roboegypt.com"}}</script>
 <meta name="theme-color" content="#1B2350">
 <link rel="icon" type="image/png" href="/assets/favicon.png">
 <link rel="preload" as="image" href="/lab/parts/uno.webp">
-  <script type="module" crossorigin src="/assets/arduino-DqEbrX2G.js"></script>
-  <link rel="modulepreload" crossorigin href="/assets/lab-634O2vs0.js">
+  <script type="module" crossorigin src="/assets/arduino-DDk3uTNv.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/lab-Ck2xiEv5.js">
   <link rel="modulepreload" crossorigin href="/assets/index-DeX6cwoY.js">
   <link rel="modulepreload" crossorigin href="/assets/gest-C4nmUrC5.js">
   <link rel="modulepreload" crossorigin href="/assets/acorn-DkYm1ITT.js">
-  <link rel="stylesheet" crossorigin href="/assets/lab-CfNlTA7a.css">
-  <link rel="stylesheet" crossorigin href="/assets/arduino-BgLPqS1F.css">
+  <link rel="stylesheet" crossorigin href="/assets/lab-GmRgLkqh.css">
+  <link rel="stylesheet" crossorigin href="/assets/arduino-0JKroKOf.css">
 </head>
 <body>
 <header class="top">
   <div class="wrap bar">
     <a class="logo" href="/" aria-label="Robo Egypt — الرئيسية"><img src="/assets/logo-header.png" alt="Robo Egypt" width="742" height="160"></a>
-    <nav class="crumbs" aria-label="مسار الصفحة"><a href="/lab/">مختبر روبو</a><span aria-hidden="true">‹</span><b>Robo Maker</b></nav>
+    <nav class="crumbs" aria-label="مسار الصفحة"><a href="/lab/">مختبر روبو</a><span aria-hidden="true">‹</span><b>Robo Maker</b><a class="learn" href="/articles/robo-maker-arduino">📖 اعرف أكتر</a></nav>
     <label class="sr-only" for="pname">اسم المشروع</label>
     <input id="pname" class="pname" dir="auto" maxlength="40" value="مشروعي">
     <button class="btn ghost small" id="myBtn">📁 مشاريعي</button>
@@ -31,7 +43,7 @@
 <div class="ardbar" role="toolbar" aria-label="أدوات">
   <div class="tg" id="wireColors" aria-label="لون السلك"></div>
   <div class="tg"><button class="tb" id="undoBtn" title="ارجع خطوة (Ctrl+Z)" aria-label="ارجع خطوة">↶</button><button class="tb" id="redoBtn" title="قدّم خطوة (Ctrl+Y)" aria-label="قدّم خطوة">↷</button></div>
-  <div class="tg"><button class="tb" id="rotBtn" title="لف القطعة (R)">⟳</button><button class="tb danger" id="delBtn" title="امسح (Delete)">🗑</button></div>
+  <div class="tg"><button class="tb" id="rotBtn" title="لف القطعة (R)">⟳</button><button class="tb" id="flipBtn" title="اقلب القطعة: الرجلين يبدّلوا مكانهم (F)" aria-label="اقلب القطعة">⇋</button><button class="tb danger" id="delBtn" title="امسح (Delete)">🗑</button></div>
   <div class="tg"><button class="tb" id="zOut" title="بعّد">－</button><button class="tb" id="zIn" title="قرّب">＋</button><button class="tb" id="zFit" title="شوف كل حاجة">⤢</button></div>
   <button class="tb danger" id="clearBench" title="شيل كل القطع">🧹</button>
   <span class="status" id="status" role="status" aria-live="polite"></span>
