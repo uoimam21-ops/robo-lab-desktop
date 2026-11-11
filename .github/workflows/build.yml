@@ -1,8 +1,10 @@
-# Builds the Windows installers on every push to main (as a downloadable artifact).
-# Publishing a Release on GitHub (Releases → Draft a new release → tag v1.0.0 → Publish) builds them and attaches them to it.
+# Builds the Windows installers on every push to main (as a downloadable artifact), installs each one on this
+# Windows machine and tests the installed app (offline, labs, Python, Arduino compile).
+# Publishing a Release on GitHub (Releases → Draft a new release → tag v1.0.0 → Publish) builds, tests and attaches them.
 name: build
 on:
   push: { branches: [main], tags: ['v*'] }
+  pull_request:
   release: { types: [published] }
   workflow_dispatch:
 permissions: { contents: write }
@@ -20,6 +22,29 @@ jobs:
       - run: node scripts/arduino.mjs
       - run: npx electron-builder --win --config build/modern.yml --publish never
       - run: npx electron-builder --win --config build/win7.yml --publish never
+      - name: test the Windows 10/11 installer
+        shell: pwsh
+        run: |
+          $s = Get-ChildItem dist/win10-11/*.exe | Select-Object -First 1
+          Start-Process -FilePath $s.FullName -ArgumentList '/S' -Wait
+          $exe = Get-ChildItem "$env:LOCALAPPDATA\Programs" -Recurse -Filter "Robo Lab.exe" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+          if (-not $exe) { Write-Error "Robo Lab.exe not found after installing $($s.Name)"; exit 1 }
+          Write-Host "installed: $($exe.FullName)"
+          node tests/smoke.mjs "$($exe.FullName)" win10-11
+      - name: test the Windows 7 (64-bit) installer
+        shell: pwsh
+        run: |
+          $s = Get-ChildItem dist/win7/*-win7-x64.exe | Select-Object -First 1
+          Start-Process -FilePath $s.FullName -ArgumentList '/S' -Wait
+          $exe = Get-ChildItem "$env:LOCALAPPDATA\Programs" -Recurse -Filter "Robo Lab.exe" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+          if (-not $exe) { Write-Error "Robo Lab.exe not found after installing $($s.Name)"; exit 1 }
+          Write-Host "installed: $($exe.FullName)"
+          node tests/smoke.mjs "$($exe.FullName)" win7-x64
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-screenshots
+          path: test-results/
       - uses: actions/upload-artifact@v4
         with:
           name: Robo-Lab-installers
