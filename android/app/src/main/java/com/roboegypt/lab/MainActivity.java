@@ -2,6 +2,7 @@ package com.roboegypt.lab;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.webkit.RenderProcessGoneDetail;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
@@ -35,6 +36,13 @@ public class MainActivity extends BridgeActivity {
                 }
                 res.setResponseHeaders(h);
                 return res;
+            }
+
+            // a page used too much memory and its renderer was killed: start the app again instead of crashing
+            @Override
+            public boolean onRenderProcessGone(WebView view, RenderProcessGoneDetail detail) {
+                runOnUiThread(MainActivity.this::recreate);
+                return true;
             }
         });
 

@@ -12,10 +12,25 @@ if (!dev) { console.error('no Android device'); process.exit(1); }
 console.log('[android] ' + dev.model() + ' · ' + dev.serial());
 await dev.shell('am force-stop ' + PKG);
 await dev.shell('am start -W -n ' + PKG + '/.MainActivity');
-const wv = await dev.webView({ pkg: PKG }, { timeout: 90000 });
-const p = await wv.page();
-const errs = []; p.on('pageerror', (e) => errs.push(e.message));
-const go = async (path, wait = 2500) => { await p.goto(HOME + path).catch(() => {}); await p.waitForTimeout(wait); };
+let p; const errs = [];
+// the WebView's page can be replaced (a lab page may crash it on a small emulator): reconnect when that happens
+const attach = async () => {
+  const wv = await dev.webView({ pkg: PKG }, { timeout: 90000 });
+  p = await wv.page(); p.on('pageerror', (e) => errs.push(e.message));
+};
+await attach();
+const go = async (path, wait = 2500) => {
+  for (let t = 0; t < 2; t++) {
+    try { await p.goto(HOME + path).catch(() => {}); await p.waitForTimeout(wait); return; }
+    catch (e) {
+      console.log('  ! page closed while opening ' + path + ' — ' + e.message.split('\n')[0]);
+      const pid = (await dev.shell('pidof ' + PKG)).toString().trim();
+      console.log('  ! app ' + (pid ? 'still running (pid ' + pid + ')' : 'is NOT running (crashed)'));
+      if (!pid) await dev.shell('am start -W -n ' + PKG + '/.MainActivity');
+      await attach();
+    }
+  }
+};
 const shot = (n) => dev.screenshot({ path: shots + '/' + n + '.png' }).catch(() => {});
 
 await p.waitForLoadState('load'); await p.waitForTimeout(2000);

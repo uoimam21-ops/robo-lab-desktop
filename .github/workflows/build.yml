@@ -219,13 +219,14 @@ jobs:
           arch: x86_64
           disable-animations: true
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -no-snapshot
-          script: adb install -r out/Robo-Lab-android-test.apk && node tests/android.mjs
+          script: adb install -r out/Robo-Lab-android-test.apk && (node tests/android.mjs; r=$?; adb logcat -d > test-results/android/logcat.txt; exit $r)
       - if: always()
         uses: actions/upload-artifact@v4
         with:
           name: test-screenshots-android
           path: test-results/
-      - uses: actions/upload-artifact@v4
+      - if: always()
+        uses: actions/upload-artifact@v4
         with:
           name: Robo-Lab-android
           path: out/
