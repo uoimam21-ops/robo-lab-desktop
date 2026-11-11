@@ -218,6 +218,8 @@ jobs:
           target: google_apis
           arch: x86_64
           disable-animations: true
+          ram-size: 4096M
+          disk-size: 6000M
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -no-snapshot
           script: adb install -r out/Robo-Lab-android-test.apk && (node tests/android.mjs; r=$?; adb logcat -d > test-results/android/logcat.txt; exit $r)
       - if: always()
