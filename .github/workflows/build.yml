@@ -27,7 +27,14 @@ jobs:
         run: |
           $s = Get-ChildItem dist/win10-11/*.exe | Select-Object -First 1
           $t0 = (Get-Date).AddMinutes(-1)
-          Start-Process -FilePath $s.FullName -ArgumentList '/S', '/currentuser' -Wait
+          # the silent installer sometimes hangs on the CI machine without installing: give it 5 minutes, then kill it and try again
+          for ($try = 1; $try -le 3; $try++) {
+            $pr = Start-Process -FilePath $s.FullName -ArgumentList '/S', '/currentuser' -PassThru
+            if ($pr.WaitForExit(300000)) { Write-Host "installer finished (try $try, exit $($pr.ExitCode))"; break }
+            Write-Host "installer still running after 5 minutes (try $try): killing it"
+            Get-Process | Where-Object { $_.Name -like 'Robo-Lab-Setup*' -or $_.Name -like '*nsis*' } | Stop-Process -Force -ErrorAction SilentlyContinue
+            Start-Sleep -Seconds 5
+          }
           # the installer may hand off to a child process: wait up to 3 minutes for the app to appear
           $roots = @("$env:LOCALAPPDATA\Programs", "$env:ProgramFiles", "${env:ProgramFiles(x86)}")
           $exe = $null
@@ -46,7 +53,14 @@ jobs:
         run: |
           $s = Get-ChildItem dist/win7/*-win7-x64.exe | Select-Object -First 1
           $t0 = (Get-Date).AddMinutes(-1)
-          Start-Process -FilePath $s.FullName -ArgumentList '/S', '/currentuser' -Wait
+          # the silent installer sometimes hangs on the CI machine without installing: give it 5 minutes, then kill it and try again
+          for ($try = 1; $try -le 3; $try++) {
+            $pr = Start-Process -FilePath $s.FullName -ArgumentList '/S', '/currentuser' -PassThru
+            if ($pr.WaitForExit(300000)) { Write-Host "installer finished (try $try, exit $($pr.ExitCode))"; break }
+            Write-Host "installer still running after 5 minutes (try $try): killing it"
+            Get-Process | Where-Object { $_.Name -like 'Robo-Lab-Setup*' -or $_.Name -like '*nsis*' } | Stop-Process -Force -ErrorAction SilentlyContinue
+            Start-Sleep -Seconds 5
+          }
           # the installer may hand off to a child process: wait up to 3 minutes for the app to appear
           $roots = @("$env:LOCALAPPDATA\Programs", "$env:ProgramFiles", "${env:ProgramFiles(x86)}")
           $exe = $null
