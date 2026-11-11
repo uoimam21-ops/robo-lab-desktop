@@ -21,6 +21,11 @@ try { settings = JSON.parse(fs.readFileSync(SETTINGS, 'utf8')); } catch (_) {}
 const saveSettings = () => { try { fs.mkdirSync(path.dirname(SETTINGS), { recursive: true }); fs.writeFileSync(SETTINGS, JSON.stringify(settings)); } catch (_) {} };
 const gpuOn = settings.gpu != null ? !!settings.gpu : !legacy;
 if (!gpuOn) app.disableHardwareAcceleration();
+// Electron 22 (the Windows 7 build) is older than Windows 10/11: its GPU process's sandbox can crash there
+// ("GPU process isn't usable. Goodbye.") even without hardware acceleration, so run that part without the sandbox
+if (legacy && process.platform === 'win32' && /^(10|11)\./.test(require('os').release())) {
+  app.commandLine.appendSwitch('disable-gpu-sandbox');
+}
 let gpuCrashes = 0;
 app.on('child-process-gone', (_e, d) => {
   if (d.type !== 'GPU' || !gpuOn || d.reason === 'clean-exit') return;
