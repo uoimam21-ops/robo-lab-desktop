@@ -27,13 +27,19 @@ jobs:
         run: |
           $s = Get-ChildItem dist/win10-11/*.exe | Select-Object -First 1
           Start-Process -FilePath $s.FullName -ArgumentList '/S' -Wait
-          node tests/smoke.mjs "$env:LOCALAPPDATA\Programs\Robo Lab\Robo Lab.exe" win10-11
+          $exe = Get-ChildItem "$env:LOCALAPPDATA\Programs" -Recurse -Filter "Robo Lab.exe" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+          if (-not $exe) { Write-Error "Robo Lab.exe not found after installing $($s.Name)"; exit 1 }
+          Write-Host "installed: $($exe.FullName)"
+          node tests/smoke.mjs "$($exe.FullName)" win10-11
       - name: test the Windows 7 (64-bit) installer
         shell: pwsh
         run: |
           $s = Get-ChildItem dist/win7/*-win7-x64.exe | Select-Object -First 1
           Start-Process -FilePath $s.FullName -ArgumentList '/S' -Wait
-          node tests/smoke.mjs "$env:LOCALAPPDATA\Programs\Robo Lab\Robo Lab.exe" win7-x64
+          $exe = Get-ChildItem "$env:LOCALAPPDATA\Programs" -Recurse -Filter "Robo Lab.exe" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+          if (-not $exe) { Write-Error "Robo Lab.exe not found after installing $($s.Name)"; exit 1 }
+          Write-Host "installed: $($exe.FullName)"
+          node tests/smoke.mjs "$($exe.FullName)" win7-x64
       - if: always()
         uses: actions/upload-artifact@v4
         with:
