@@ -11,8 +11,9 @@ const shots = 'test-results/' + label; mkdirSync(shots, { recursive: true });
 let last = 'start';
 const fails = [], ok = (c, m) => { last = m; console.log((c ? '  ✓ ' : '  ✗ ') + m); if (!c) fails.push(m); };
 // a test that hangs must fail, not keep the CI machine busy for hours: stop after 20 minutes and say where it was
-setTimeout(() => { console.log('  ✗ the test took more than 20 minutes; last step: ' + last); process.exit(1); }, 20 * 60e3).unref();
-// one Arduino compile + upload attempt may take a few minutes the first time (Rosetta on Apple Silicon), never more than 5
+setTimeout(() => { console.log('  ✗ the test took more than 30 minutes; last step: ' + last); process.exit(1); }, 30 * 60e3).unref();
+// one Arduino compile + upload attempt may take a few minutes the first time (Rosetta on Apple Silicon); the app itself stops
+// a compile after 6 minutes and an upload after 2, so 7 minutes here means the app didn't answer at all
 const within = (p, ms, what) => Promise.race([p, new Promise((r) => setTimeout(() => r({ stage: 'timeout', why: what + ' took more than ' + ms / 60e3 + ' min' }), ms))]);
 
 // no internet: every http(s) request goes to a proxy that isn't there (works on Electron 22 and 44; route() crashes Electron 22)
@@ -64,8 +65,9 @@ await w.screenshot({ path: shots + '/python.png' });
 await w.goto('robo://lab/lab/arduino.html'); await w.waitForTimeout(2000);
 ok(await w.isVisible('#upBtn'), 'Robo Maker shows «upload to Arduino»');
 for (const board of ['uno', 'nanoOld', 'mega']) {
-  const r = await within(w.evaluate(([board, PORT]) => window.roboDesktop.arduino.upload({ board, port: PORT,
-    code: '#include <Servo.h>\nServo s;\nvoid setup(){pinMode(13,OUTPUT);s.attach(9);}\nvoid loop(){digitalWrite(13,HIGH);delay(300);digitalWrite(13,LOW);delay(300);}\n' }, () => {}), [board, PORT]), 5 * 60e3, board);
+  const r = await within(w.evaluate(([board, PORT]) => { window.__ardLog = []; return window.roboDesktop.arduino.upload({ board, port: PORT,
+    code: '#include <Servo.h>\nServo s;\nvoid setup(){pinMode(13,OUTPUT);s.attach(9);}\nvoid loop(){digitalWrite(13,HIGH);delay(300);digitalWrite(13,LOW);delay(300);}\n' }, (l) => window.__ardLog.push(l)); }, [board, PORT]), 7 * 60e3, board);
+  if (!(r.stage === 'upload' && r.why === 'noport')) console.log('    last lines: ' + JSON.stringify(await w.evaluate(() => (window.__ardLog || []).slice(-6)).catch(() => [])));
   ok(r.stage === 'upload' && r.why === 'noport', board + ': compiles, upload to a missing port says «board not found» (' + r.stage + '/' + r.why + ')');
 }
 const bad = await within(w.evaluate((PORT) => window.roboDesktop.arduino.upload({ board: 'uno', port: PORT, code: 'void setup(){\n  pinMode(13,OUTPUT)\n}\nvoid loop(){}\n' }, () => {}), PORT), 5 * 60e3, 'compile error check');

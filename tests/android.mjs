@@ -67,6 +67,11 @@ try {
   console.log('  ! the app closed while Python was loading — ' + e.message.split('\n')[0]);
   await dev.shell('am start -W -n ' + PKG + '/.MainActivity'); await attach();
 }
+if (!ran) {   // the emulator is sometimes very slow the first time: open the page again once
+  console.log('  ! Python didn\'t answer, trying the page once more');
+  await go('/lab/python.html', 4000); await p.click('#runBtn').catch(() => {});
+  for (let i = 0; i < 120 && !ran; i++) { await p.waitForTimeout(1000); ran = await p.evaluate(() => { const f = document.getElementById('inForm'); const out = document.querySelector('#out, .out, .console'); return (!!f && !f.hidden) || (!!out && out.textContent.trim().length > 0); }).catch(() => false); }
+}
 ok(ran, 'Python runs offline' + (iso ? ' (waits for input())' : ' (input() limited without isolation)'));
 await shot('python-run');
 
