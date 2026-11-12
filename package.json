@@ -1,8 +1,8 @@
 {
   "name": "robo-lab-desktop",
-  "productName": "Robo Lab",
-  "version": "1.0.1",
-  "description": "روبو لاب: تطبيق ويندوز يشتغل من غير نت (Robo Egypt)",
+  "productName": "Robo Journey",
+  "version": "1.1.0",
+  "description": "رحلة روبو: الرحلة وكل مختبرات Robo Egypt، والمختبرات شغالة من غير نت",
   "author": "Robo Egypt",
   "private": true,
   "main": "electron/main.js",

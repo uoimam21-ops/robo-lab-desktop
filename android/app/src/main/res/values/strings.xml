@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Robo Lab</string>
-    <string name="title_activity_main">Robo Lab</string>
+    <string name="app_name">رحلة روبو</string>
+    <string name="title_activity_main">رحلة روبو</string>
     <string name="package_name">com.roboegypt.lab</string>
     <string name="custom_url_scheme">com.roboegypt.lab</string>
 </resources>

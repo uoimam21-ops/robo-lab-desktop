@@ -2,7 +2,7 @@
 # Not signed with an Apple Developer ID (ad-hoc only): the first time, right-click the app → Open
 # (macOS 15: System Settings → Privacy & Security → Open Anyway).
 appId: com.roboegypt.lab
-productName: Robo Lab
+productName: Robo Journey
 copyright: Robo Egypt
 directories: { output: dist/mac, buildResources: build }
 files: [electron/**, launcher/**, www/**, package.json, "!**/*.map"]
@@ -14,9 +14,9 @@ mac:
   identity: "-"
   hardenedRuntime: false
   target: [dmg]
-  artifactName: Robo-Lab-${version}-mac-${arch}.${ext}
+  artifactName: Robo-Journey-${version}-mac-${arch}.${ext}
   # Robo Block lets a child record their voice; macOS asks for the microphone with this sentence
   extendInfo:
-    NSMicrophoneUsageDescription: "Robo Lab uses the microphone so you can record your own sounds in Robo Block."
+    NSMicrophoneUsageDescription: "Robo Journey uses the microphone so you can record your own sounds in Robo Block."
 dmg:
-  title: Robo Lab
+  title: Robo Journey

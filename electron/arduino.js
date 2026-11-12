@@ -33,16 +33,19 @@ function configPath() {
   if (!fs.existsSync(f) || fs.readFileSync(f, 'utf8') !== y) fs.writeFileSync(f, y);
   return f;
 }
-function cli(args, onLine) {
+// ms: stop the tool if it hangs (a board that never answers, a stuck compiler…), so «upload» never stays busy for ever
+function cli(args, onLine, ms) {
   return new Promise((resolve) => {
     const exe = cliPath();
     if (!exe) return resolve({ code: -1, out: 'arduino-cli missing' });
     const p = spawn(exe, [...args, '--config-file', configPath()], { windowsHide: true });
-    let out = '';
+    let out = '', done = false;
+    const end = (r) => { if (done) return; done = true; clearTimeout(t); resolve(r); };
+    const t = ms ? setTimeout(() => { try { p.kill('SIGKILL'); } catch (_) {} end({ code: -2, out: out + '\n[timeout]', timeout: true }); }, ms) : null;
     const feed = (d) => { const s = d.toString(); out += s; if (onLine) s.split(/\r?\n/).filter(Boolean).forEach(onLine); };
     p.stdout.on('data', feed); p.stderr.on('data', feed);
-    p.on('error', (e) => resolve({ code: -1, out: String(e) }));
-    p.on('close', (code) => resolve({ code, out }));
+    p.on('error', (e) => end({ code: -1, out: String(e) }));
+    p.on('close', (code) => end({ code, out }));
   });
 }
 
@@ -88,11 +91,15 @@ async function upload(e, { code, board, port }) {
   try {
     fs.mkdirSync(sk); fs.writeFileSync(path.join(sk, 'sketch.ino'), code);
     send('⚙️ compile');
-    const c = await cli(['compile', '--fqbn', BOARDS[board], sk], send);
+    const c = await cli(['compile', '--fqbn', BOARDS[board], sk], send, 6 * 60e3);   // the first compile on an old PC can take a couple of minutes
+    if (c.timeout) return { ok: false, stage: 'compile', why: 'timeout', out: c.out.slice(-4000) };
     if (c.code !== 0) return Object.assign({ ok: false, stage: 'compile', out: c.out.slice(-4000) }, /bad cpu type|incompatible architecture/i.test(c.out) ? { why: 'rosetta' } : explain(c.out, 'compile'));
     const size = (c.out.match(/Sketch uses (\d+) bytes \((\d+)%\)/) || []).slice(1).map(Number);
     send('⬆️ upload');
-    const u = await cli(['upload', '--fqbn', BOARDS[board], '-p', port, sk], send);
+    // Mac/Linux: a port that isn't there (the board was unplugged) — say so now instead of waiting for the uploader
+    if (process.platform !== 'win32' && /^\//.test(port) && !fs.existsSync(port)) return { ok: false, stage: 'upload', why: 'noport' };
+    const u = await cli(['upload', '--fqbn', BOARDS[board], '-p', port, sk], send, 2 * 60e3);
+    if (u.timeout) return { ok: false, stage: 'upload', why: 'timeout', out: u.out.slice(-4000) };
     if (u.code !== 0) return Object.assign({ ok: false, stage: 'upload', out: u.out.slice(-4000) }, explain(u.out, 'upload'));
     return { ok: true, bytes: size[0] || null, percent: size[1] || null };
   } finally {

@@ -31,3 +31,6 @@ h1{margin:0;font:800 34px/1.3 "Baloo Bhaijaan 2",Cairo,sans-serif}
 .dbtn{border:1.5px solid var(--line);background:#fff;border-radius:999px;min-height:44px;padding:0 18px;font:700 15px Cairo,sans-serif;cursor:pointer}
 .dbtn.main{background:#0B8A60;border-color:#0B8A60;color:#fff}.dbtn.main:hover{background:#08704E}
 .dbtn.link{border:0;color:var(--muted);text-decoration:underline;margin-inline-start:auto}
+
+/* back to the journey (the app opens there) */
+.back{margin-inline-start:auto;padding:8px 16px;border-radius:999px;background:var(--brand);color:#fff;font-weight:800;text-decoration:none;white-space:nowrap}.back:hover,.back:focus-visible{filter:brightness(1.1)}.off:not([hidden])+.back{margin-inline-start:8px}

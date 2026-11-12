@@ -1,6 +1,6 @@
 # Windows 7 / 8 / 8.1: Electron 22 is the last version that runs there. 32-bit too, for older lab PCs.
 appId: com.roboegypt.lab
-productName: Robo Lab
+productName: Robo Journey
 copyright: Robo Egypt
 electronVersion: 22.3.27
 directories: { output: dist/win7, buildResources: build }
@@ -11,12 +11,12 @@ extraResources: [{ from: arduino, to: arduino }]
 win:
   icon: build/icon.ico
   target: [{ target: nsis, arch: [x64, ia32] }]
-  artifactName: Robo-Lab-Setup-${version}-win7-${arch}.${ext}
+  artifactName: Robo-Journey-Setup-${version}-win7-${arch}.${ext}
 nsis:
   oneClick: false
   perMachine: false
   allowToChangeInstallationDirectory: true
   createDesktopShortcut: always
-  shortcutName: Robo Lab
+  shortcutName: رحلة روبو
   installerLanguages: [ar_SA, en_US]
   language: "1025"

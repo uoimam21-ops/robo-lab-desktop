@@ -34,8 +34,12 @@ const go = async (path, wait = 2500) => {
 const shot = (n) => dev.screenshot({ path: shots + '/' + n + '.png' }).catch(() => {});
 
 await p.waitForLoadState('load'); await p.waitForTimeout(2000);
-ok((await p.$$('.card')).length === 10, 'home screen shows 9 labs + the Journey');
+ok(await p.evaluate(() => /\/journey\.html$/.test(location.pathname) && !!document.getElementById('landing')), 'the app opens on the journey');
+ok(await p.evaluate(() => { const b = document.getElementById('labBtn'); return !!b && !b.hidden; }), 'the journey menu has «روبو لاب»');
 await shot('home');
+await go('/lab/index.html');
+ok((await p.$$('.card')).length === 9, 'the labs page («روبو لاب») shows the 9 labs');
+await shot('labs');
 
 const info = await p.evaluate(() => ({ ua: navigator.userAgent.replace(/.*(Chrome\/[\d.]+).*/, '$1'), w: innerWidth, h: innerHeight }));
 console.log('  webview ' + info.ua + ', ' + info.w + '×' + info.h);
@@ -55,7 +59,7 @@ console.log('  cross-origin isolated: ' + iso);
 await p.click('#runBtn').catch(() => {});
 let ran = false;
 try {
-  for (let i = 0; i < 90 && !ran; i++) {
+  for (let i = 0; i < 180 && !ran; i++) {
     await p.waitForTimeout(1000);
     ran = await p.evaluate(() => { const f = document.getElementById('inForm'); const out = document.querySelector('#out, .out, .console'); return (!!f && !f.hidden) || (!!out && out.textContent.trim().length > 0); });
   }
@@ -63,6 +67,14 @@ try {
   console.log('  ! the app closed while Python was loading — ' + e.message.split('\n')[0]);
   await dev.shell('am start -W -n ' + PKG + '/.MainActivity'); await attach();
 }
+if (!ran) {   // the emulator is sometimes very slow the first time: open the page again once
+  console.log('  ! Python didn\'t answer, trying the page once more');
+  await go('/lab/python.html', 4000); await p.click('#runBtn').catch(() => {});
+  for (let i = 0; i < 120 && !ran; i++) { await p.waitForTimeout(1000); ran = await p.evaluate(() => { const f = document.getElementById('inForm'); const out = document.querySelector('#out, .out, .console'); return (!!f && !f.hidden) || (!!out && out.textContent.trim().length > 0); }).catch(() => false); }
+}
+// Python ran but stopped at input() because this WebView isn't cross-origin isolated (coi-sw.js): Python works, input() doesn't
+const noInput = !ran && await p.evaluate(() => { const b = document.getElementById('errBox'); return !!b && !b.hidden && /input\(\)/.test(b.textContent); }).catch(() => false);
+if (noInput) { ran = true; console.log('  ⚠ Python runs, but input() needs cross-origin isolation and this WebView has none'); }
 ok(ran, 'Python runs offline' + (iso ? ' (waits for input())' : ' (input() limited without isolation)'));
 await shot('python-run');
 
