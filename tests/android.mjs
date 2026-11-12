@@ -54,9 +54,14 @@ const iso = await p.evaluate(() => self.crossOriginIsolated);
 console.log('  cross-origin isolated: ' + iso);
 await p.click('#runBtn').catch(() => {});
 let ran = false;
-for (let i = 0; i < 90 && !ran; i++) {
-  await p.waitForTimeout(1000);
-  ran = await p.evaluate(() => { const f = document.getElementById('inForm'); const out = document.querySelector('#out, .out, .console'); return (!!f && !f.hidden) || (!!out && out.textContent.trim().length > 0); });
+try {
+  for (let i = 0; i < 90 && !ran; i++) {
+    await p.waitForTimeout(1000);
+    ran = await p.evaluate(() => { const f = document.getElementById('inForm'); const out = document.querySelector('#out, .out, .console'); return (!!f && !f.hidden) || (!!out && out.textContent.trim().length > 0); });
+  }
+} catch (e) {
+  console.log('  ! the app closed while Python was loading — ' + e.message.split('\n')[0]);
+  await dev.shell('am start -W -n ' + PKG + '/.MainActivity'); await attach();
 }
 ok(ran, 'Python runs offline' + (iso ? ' (waits for input())' : ' (input() limited without isolation)'));
 await shot('python-run');
