@@ -19,11 +19,11 @@
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "روبو كاد (Robo CAD)", "alternateName": "Robo CAD", "url": "https://roboegypt.com/lab/3d", "description": "صمّم مجسمات ثلاثية الأبعاد في المتصفح: أشكال وفتحات وألوان ومقاسات بالملّي، وصدّر ملف STL للطباعة. من Robo Egypt.", "applicationCategory": "EducationalApplication", "operatingSystem": "Web browser, Windows", "inLanguage": "ar", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EGP"}, "image": "https://roboegypt.com/assets/og/lab-3d.jpg", "audience": {"@type": "EducationalAudience", "educationalRole": "student", "audienceType": "أطفال وتينز", "suggestedMinAge": 8, "suggestedMaxAge": 17}, "provider": {"@type": "EducationalOrganization", "name": "Robo Egypt", "url": "https://roboegypt.com"}}</script>
 <meta name="theme-color" content="#1B2350">
 <link rel="icon" type="image/png" href="/assets/favicon.png">
-  <script type="module" crossorigin src="/assets/d3-BtDvrt-6.js"></script>
+  <script type="module" crossorigin src="/assets/d3-BPZVz1CA.js"></script>
   <link rel="modulepreload" crossorigin href="/assets/lab-Ck2xiEv5.js">
   <link rel="modulepreload" crossorigin href="/assets/split-DJAd-vnY.js">
   <link rel="stylesheet" crossorigin href="/assets/lab-GmRgLkqh.css">
-  <link rel="stylesheet" crossorigin href="/assets/d3-p_Uhw_iD.css">
+  <link rel="stylesheet" crossorigin href="/assets/d3-BGfINymY.css">
 </head>
 <body>
 <header class="top">
@@ -39,6 +39,13 @@
 
 <main class="d3" id="d3">
   <aside class="shapes" aria-label="الأشكال">
+    <h2>ارسم واكتب</h2>
+    <div class="tools3" role="group" aria-label="أدوات الرسم والنص">
+      <button class="btn ghost small" id="drawFree" title="ارسم شكل بصباعك أو بالماوس، ويبقى مجسّم">✏️ رسم حر</button>
+      <button class="btn ghost small" id="drawPen" title="حط نقط، وتطلع شكل بخطوط مستقيمة أو منحنية">🖊️ قلم</button>
+      <button class="btn ghost small" id="textTool" title="اكتب كلمة بالعربي أو بالإنجليزي، وتبقى مجسّمة">🔤 نص</button>
+    </div>
+    <div class="txtrow" id="txtRow" hidden><select id="txtFont" aria-label="نوع الخط"></select><input id="txtIn" dir="auto" maxlength="24" placeholder="روبو Robo" aria-label="النص"><button class="btn run small" id="txtAdd" aria-label="ضيف النص">➕ نص</button></div>
     <h2>الأشكال</h2>
     <p class="sub">دوس على شكل يتحط على السطح، أو اسحبه وحطه في المكان اللي انت عايزه</p>
     <div class="sgrid" id="shapeList"></div>
@@ -48,9 +55,6 @@
     <h2>فتحة</h2>
     <p class="sub">الفتحة بتخرّم الشكل اللي تحتها لما تجمّعهم</p>
     <div class="sgrid" id="holeList"></div>
-    <h2>نص</h2>
-    <p class="sub">اكتب بالعربي أو بالإنجليزي</p>
-    <div class="txtrow"><select id="txtFont" aria-label="نوع الخط"></select><input id="txtIn" dir="auto" maxlength="24" placeholder="روبو Robo" aria-label="النص"><button class="btn run small" id="txtAdd" aria-label="ضيف النص">➕ نص</button></div>
   </aside>
 
   <section class="stagewrap" aria-label="مساحة التصميم">
