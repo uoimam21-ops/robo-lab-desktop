@@ -1,5 +1,6 @@
 # Builds the Windows installers, the Mac apps and the Android app, installs each one and tests it (offline, labs, Python,
-# Arduino compile) on every pull request and push to main. Publishing a Release (tag v1.0.1) also attaches the files.
+# Arduino compile) on every pull request and push to main. A release (a tag like v1.1.0, or the nightly site update in
+# nightly.yml calling this with «tag») also publishes the files, with the update file (latest.yml) the Windows app reads.
 # The repository is public, so GitHub's machines cost nothing here.
 name: build
 on:
@@ -8,7 +9,17 @@ on:
     types: [opened, synchronize, reopened, labeled]
   release: { types: [published] }
   workflow_dispatch:
+  # the nightly site update (nightly.yml): build that commit and publish it as release «tag»
+  workflow_call:
+    inputs:
+      tag: { type: string, required: true }
+      ref: { type: string, required: true }
 permissions: { contents: write }
+env:
+  # the release tag when this run publishes one, empty otherwise
+  REL_TAG: ${{ inputs.tag || (startsWith(github.ref, 'refs/tags/v') && github.ref_name) || '' }}
+  # the installed app must not look for updates while it is being tested
+  ROBO_NO_UPDATES: '1'
 # a release made from GitHub's page can fire both «release» and the tag push: build only once
 concurrency: { group: 'build-${{ github.ref }}', cancel-in-progress: true }
 jobs:
@@ -18,6 +29,7 @@ jobs:
     timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4
+        with: { ref: '${{ inputs.ref }}' }
       - uses: actions/setup-node@v4
         with: { node-version: 20, cache: npm }
       - run: npm ci
@@ -103,28 +115,33 @@ jobs:
           path: |
             dist/win10-11/*.exe
             dist/win7/*.exe
-      - if: startsWith(github.ref, 'refs/tags/v')
+      - if: env.REL_TAG != ''
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ env.REL_TAG }}
+          target_commitish: ${{ inputs.ref || github.sha }}
           files: |
             dist/win10-11/*.exe
             dist/win7/*.exe
       # public downloads: the same installers on github.com/uoimam21-ops/robo-lab-download, with fixed names so the
       # website can always link to …/releases/latest/download/Robo-Journey-Setup-win10-11.exe
-      - if: startsWith(github.ref, 'refs/tags/v')
+      - if: env.REL_TAG != ''
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Force public-files | Out-Null
           Copy-Item (Get-ChildItem dist/win10-11/*-win10-11.exe | Select-Object -First 1) public-files/Robo-Journey-Setup-win10-11.exe
           Copy-Item (Get-ChildItem dist/win7/*-win7-x64.exe | Select-Object -First 1) public-files/Robo-Journey-Setup-win7-64bit.exe
           Copy-Item (Get-ChildItem dist/win7/*-win7-ia32.exe | Select-Object -First 1) public-files/Robo-Journey-Setup-win7-32bit.exe
-      - if: startsWith(github.ref, 'refs/tags/v')
+          # the Windows 10/11 app updates itself from these (electron-updater reads latest.yml, then the installer it names)
+          New-Item -ItemType Directory -Force public-update | Out-Null
+          Copy-Item dist/win10-11/latest.yml, dist/win10-11/*-win10-11.exe, dist/win10-11/*-win10-11.exe.blockmap public-update/
+      - if: env.REL_TAG != ''
         uses: softprops/action-gh-release@v2
         with:
           repository: uoimam21-ops/robo-lab-download
           token: ${{ secrets.RELEASES_TOKEN }}
-          tag_name: ${{ github.ref_name }}
-          name: Robo Journey ${{ github.ref_name }}
+          tag_name: ${{ env.REL_TAG }}
+          name: Robo Journey ${{ env.REL_TAG }}
           make_latest: 'true'
           body: |
             ## رحلة روبو (Robo Journey): الرحلة وكل المختبرات
@@ -140,7 +157,9 @@ jobs:
 
             لو ويندوز قال «Windows protected your PC»: دوس **More info** وبعدين **Run anyway**.
             على الماك أول مرة: كليك يمين على Robo Journey ← **Open**. (macOS 15: System Settings ← Privacy & Security ← **Open Anyway**.)
-          files: public-files/*.exe
+          files: |
+            public-files/*.exe
+            public-update/*
   # macOS: one app per kind of Mac, each built (and tested) on that kind of Mac, because the Arduino tools differ
   mac:
     strategy:
@@ -153,6 +172,7 @@ jobs:
     timeout-minutes: 60   # a stuck Mac job blocked the queue for hours before
     steps:
       - uses: actions/checkout@v4
+        with: { ref: '${{ inputs.ref }}' }
       - uses: actions/setup-node@v4
         with: { node-version: 20, cache: npm }
       - run: npm ci
@@ -173,18 +193,20 @@ jobs:
         with:
           name: Robo-Journey-mac-${{ matrix.label }}
           path: dist/mac/*.dmg
-      - if: startsWith(github.ref, 'refs/tags/v')
+      - if: env.REL_TAG != ''
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ env.REL_TAG }}
+          target_commitish: ${{ inputs.ref || github.sha }}
           files: dist/mac/*.dmg
-      - if: startsWith(github.ref, 'refs/tags/v')
+      - if: env.REL_TAG != ''
         run: mkdir -p public-files && cp dist/mac/*.dmg "public-files/Robo-Journey-mac-${{ matrix.label }}.dmg"
-      - if: startsWith(github.ref, 'refs/tags/v')
+      - if: env.REL_TAG != ''
         uses: softprops/action-gh-release@v2
         with:
           repository: uoimam21-ops/robo-lab-download
           token: ${{ secrets.RELEASES_TOKEN }}
-          tag_name: ${{ github.ref_name }}
+          tag_name: ${{ env.REL_TAG }}
           files: public-files/*.dmg
   # Android (Capacitor): debug APK tested on an emulator; with the upload key in secrets, a signed AAB for Google Play
   # and a signed APK for direct download. Secrets: ANDROID_KEYSTORE_B64, ANDROID_KEYSTORE_PASSWORD, ANDROID_KEY_ALIAS, ANDROID_KEY_PASSWORD
@@ -196,6 +218,7 @@ jobs:
       HAS_KEY: ${{ secrets.ANDROID_KEYSTORE_B64 != '' }}
     steps:
       - uses: actions/checkout@v4
+        with: { ref: '${{ inputs.ref }}' }
       - uses: actions/setup-node@v4
         with: { node-version: 22, cache: npm }
       - uses: actions/setup-java@v4
@@ -252,16 +275,18 @@ jobs:
         with:
           name: Robo-Journey-android
           path: out/
-      - if: startsWith(github.ref, 'refs/tags/v') && env.HAS_KEY == 'true'
+      - if: env.REL_TAG != '' && env.HAS_KEY == 'true'
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ env.REL_TAG }}
+          target_commitish: ${{ inputs.ref || github.sha }}
           files: |
             out/Robo-Journey-android.aab
             out/Robo-Journey-android.apk
-      - if: startsWith(github.ref, 'refs/tags/v') && env.HAS_KEY == 'true'
+      - if: env.REL_TAG != '' && env.HAS_KEY == 'true'
         uses: softprops/action-gh-release@v2
         with:
           repository: uoimam21-ops/robo-lab-download
           token: ${{ secrets.RELEASES_TOKEN }}
-          tag_name: ${{ github.ref_name }}
+          tag_name: ${{ env.REL_TAG }}
           files: out/Robo-Journey-android.apk

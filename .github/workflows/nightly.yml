@@ -1,0 +1,57 @@
+# Nightly site update (Youssef, 12 Nov 2026, option «ب»): every night at 3:00 Cairo time, build the website (main), copy its
+# journey and labs into www/ (npm run sync), and if anything changed: raise the version (1.1.0 → 1.1.1), commit to main and
+# build + test + publish that version with build.yml. The Windows 10/11 app then updates itself; Mac and Windows 7 show
+# «فيه نسخة جديدة». Nothing changed on the site → nothing happens. «Run workflow» on GitHub runs it right away.
+# Needs the secret SITE_READ_TOKEN: a fine-grained token with read-only «Contents» on uoimam21-ops/robo-egypt-site
+# (that repository is private). Publishing to robo-lab-download uses RELEASES_TOKEN, as in build.yml.
+name: nightly site update
+on:
+  schedule: [{ cron: '0 1 * * *' }]   # 01:00 UTC = 03:00 Cairo
+  workflow_dispatch:
+permissions: { contents: write }
+concurrency: { group: nightly, cancel-in-progress: false }
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    outputs:
+      tag: ${{ steps.bump.outputs.tag }}
+      ref: ${{ steps.bump.outputs.ref }}
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: main }
+      - uses: actions/checkout@v4
+        with:
+          repository: uoimam21-ops/robo-egypt-site
+          ref: main
+          token: ${{ secrets.SITE_READ_TOKEN }}
+          path: site
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - name: build the website
+        working-directory: site
+        run: npm ci && npm run build
+      - name: copy the journey and labs into the app
+        run: node scripts/sync-site.mjs site
+      - name: new version if the site changed
+        id: bump
+        run: |
+          if git diff --quiet -- www && [ -z "$(git ls-files --others --exclude-standard www)" ]; then
+            echo "the site didn't change: no new version"; exit 0
+          fi
+          npm version patch --no-git-tag-version >/dev/null
+          V=$(node -p "require('./package.json').version")
+          git config user.name "Robo Egypt CI"; git config user.email "ci@roboegypt.com"
+          git add www package.json package-lock.json
+          git commit -q -m "Site update: v$V (journey and labs from the website, $(git -C site rev-parse --short HEAD))"
+          git push origin HEAD:main
+          echo "tag=v$V" >> "$GITHUB_OUTPUT"; echo "ref=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          echo "new version v$V"
+  release:
+    needs: sync
+    if: needs.sync.outputs.tag != ''
+    uses: ./.github/workflows/build.yml
+    with:
+      tag: ${{ needs.sync.outputs.tag }}
+      ref: ${{ needs.sync.outputs.ref }}
+    secrets: inherit

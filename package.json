@@ -44,5 +44,8 @@
     "electron-builder": "26.0.12",
     "playwright": "1.63.0",
     "pyodide": "0.26.4"
+  },
+  "dependencies": {
+    "electron-updater": "6.6.2"
   }
 }
