@@ -118,7 +118,7 @@ let win = null;
 function createWindow() {
   win = new BrowserWindow({
     width: 1280, height: 820, minWidth: 900, minHeight: 600,
-    title: 'Robo Lab | مختبر روبو',
+    title: 'Robo Lab | روبو لاب',
     icon: path.join(__dirname, '..', 'build', 'icon.png'),
     backgroundColor: '#F6F8FE',
     autoHideMenuBar: true,
@@ -132,7 +132,7 @@ function createWindow() {
 // F11 full screen, Ctrl+R reload, Ctrl +/- zoom: handy on the academy's lab PCs
 function menu() {
   Menu.setApplicationMenu(Menu.buildFromTemplate([
-    { label: 'مختبر روبو', submenu: [
+    { label: 'روبو لاب', submenu: [
       { label: 'الصفحة الرئيسية', accelerator: 'Alt+Home', click: () => win && win.loadURL(ORIGIN + '/') },
       { role: 'reload', label: 'إعادة تحميل' }, { role: 'togglefullscreen', label: 'ملء الشاشة' },
       { label: 'تسريع الرسوميات (كارت الشاشة)', type: 'checkbox', checked: gpuOn, click: (it) => { settings.gpu = it.checked; saveSettings(); app.relaunch(); app.exit(0); } },

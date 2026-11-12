@@ -113,7 +113,7 @@ jobs:
           name: Robo Lab ${{ github.ref_name }}
           make_latest: 'true'
           body: |
-            ## Robo Lab: مختبر روبو للويندوز
+            ## Robo Lab: روبو لاب للويندوز
             كل مختبرات Robo Egypt من غير إنترنت، ورفع الكود على أردوينو حقيقي.
 
             | الجهاز | الملف |
