@@ -15,5 +15,8 @@ mac:
   hardenedRuntime: false
   target: [dmg]
   artifactName: Robo-Lab-${version}-mac-${arch}.${ext}
+  # Robo Block lets a child record their voice; macOS asks for the microphone with this sentence
+  extendInfo:
+    NSMicrophoneUsageDescription: "Robo Lab uses the microphone so you can record your own sounds in Robo Block."
 dmg:
   title: Robo Lab

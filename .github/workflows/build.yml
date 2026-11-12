@@ -47,7 +47,8 @@ jobs:
           if (-not $exe) { Write-Error "Robo Lab.exe not found after installing $($s.Name)"; exit 1 }
           Write-Host "installed: $($exe.FullName)"
           # the installer starts the app when it finishes; close it, the app allows a single copy at a time
-          Get-Process | Where-Object { $_.Path -eq $exe.FullName } | Stop-Process -Force -ErrorAction SilentlyContinue; Start-Sleep -Seconds 3
+          # the installer starts the app when it's done (sometimes a few seconds later): close it, or the test's copy exits at once (one copy at a time)
+          for ($i = 0; $i -lt 15; $i++) { Get-Process -Name 'Robo Lab' -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue; Start-Sleep -Seconds 1 }
           node tests/smoke.mjs "$($exe.FullName)" win10-11
       - name: test the Windows 7 (64-bit) installer
         shell: pwsh
@@ -73,7 +74,8 @@ jobs:
           if (-not $exe) { Write-Error "Robo Lab.exe not found after installing $($s.Name)"; exit 1 }
           Write-Host "installed: $($exe.FullName)"
           # the installer starts the app when it finishes; close it, the app allows a single copy at a time
-          Get-Process | Where-Object { $_.Path -eq $exe.FullName } | Stop-Process -Force -ErrorAction SilentlyContinue; Start-Sleep -Seconds 3
+          # the installer starts the app when it's done (sometimes a few seconds later): close it, or the test's copy exits at once (one copy at a time)
+          for ($i = 0; $i -lt 15; $i++) { Get-Process -Name 'Robo Lab' -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue; Start-Sleep -Seconds 1 }
           node tests/smoke.mjs "$($exe.FullName)" win7-x64
           if ($LASTEXITCODE -ne 0) { Write-Host "--- again without GPU acceleration ---"; $env:SMOKE_ARGS = "--disable-gpu --in-process-gpu"; node tests/smoke.mjs "$($exe.FullName)" win7-x64-nogpu }
       - if: always()
@@ -216,7 +218,8 @@ jobs:
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 34
-          target: google_apis
+          # plain Android (no Google Play services): on the emulator those services crash under load and take the app down with them
+          target: default
           arch: x86_64
           disable-animations: true
           ram-size: 4096M
