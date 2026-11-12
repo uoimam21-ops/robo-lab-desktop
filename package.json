@@ -2,7 +2,7 @@
   "name": "robo-lab-desktop",
   "productName": "Robo Lab",
   "version": "1.0.0",
-  "description": "مختبر روبو: تطبيق ويندوز يشتغل من غير نت (Robo Egypt)",
+  "description": "روبو لاب: تطبيق ويندوز يشتغل من غير نت (Robo Egypt)",
   "author": "Robo Egypt",
   "private": true,
   "main": "electron/main.js",
