@@ -1,6 +1,6 @@
-// Smoke test of an INSTALLED Robo Lab (run in CI on Windows after the silent install).
-// Usage: node tests/smoke.mjs "<path to Robo Lab.exe>" <label>
-// Checks, with the internet blocked: the home screen, every lab opens, Python runs, Robo Block loads,
+// Smoke test of an INSTALLED «رحلة روبو» (Robo Journey) app (run in CI on Windows after the silent install).
+// Usage: node tests/smoke.mjs "<path to Robo Journey.exe>" <label>
+// Checks, with the internet blocked: the app opens on the journey, the labs page, every lab opens, Python runs, Robo Block loads,
 // the Arduino toolchain compiles (upload to a missing port must fail at the upload step), and the USB-driver check works.
 import { _electron } from 'playwright';
 import { mkdirSync } from 'node:fs';
@@ -22,8 +22,12 @@ await w.waitForLoadState('load'); await w.waitForTimeout(1500);
 
 console.log('[' + label + '] ' + JSON.stringify(await w.evaluate(() => window.roboDesktop.info())));
 ok(await w.evaluate(() => fetch('https://roboegypt.com/', { mode: 'no-cors' }).then(() => false, () => true)), 'internet is blocked for this test');
-ok((await w.$$('.card')).length === 10, 'home screen shows 9 labs + the Journey');
+ok(await w.evaluate(() => location.pathname === '/journey' && !!document.getElementById('landing')), 'the app opens on the journey');
+ok(await w.evaluate(() => { const b = document.getElementById('labBtn'); return !!b && !b.hidden && /روبو لاب/.test(b.textContent); }), 'the journey menu has «روبو لاب»');
 await w.screenshot({ path: shots + '/home.png' });
+await w.evaluate(() => document.getElementById('labBtn').click()); await w.waitForTimeout(1500);
+ok((await w.$$('.card')).length === 9 && !!(await w.$('a.back[href="/journey.html"]')), 'the labs page («روبو لاب») shows the 9 labs and a way back to the journey');
+await w.screenshot({ path: shots + '/labs.png' });
 
 const drv = await w.evaluate(() => window.roboDesktop.arduino.driver());
 if (process.platform === 'win32') ok(drv.needed === true && drv.available === true, 'CH340 driver bundled (installed on this machine: ' + drv.installed + ')');

@@ -1,7 +1,7 @@
-// The labs, as on roboegypt.com/lab/ (lib/site.ts → LABS). Robo Block opens its own page.
+// «روبو لاب»: the labs page of the «رحلة روبو» app (the app opens on the journey; this page is in its menu). Same labs as
+// roboegypt.com/lab/ (lib/site.ts → LABS). Robo Block opens its own page.
 // Links end in .html: the Android app serves files as they are (no pretty paths).
 const LABS = [
-  ['/journey.html', 'journey', 'رحلة روبو', 'دروس ومستويات عالم ورا عالم، ونجوم ونقط وشهادات. محتاجة نت عشان حسابك.', '#3B3FC9', 'net'],
   ['/lab/junior.html', 'junior', 'روبو جونيور', 'من ٥ سنين: برمجة بالصور والأيقونات، وحرّك الشخصيات واعمل قصة.', '#E06A00'],
   ['/lab/roboblock.html?go=free', 'block', 'روبو بلوك', 'اسحب البلوكات واعمل ألعاب وقصص وأنيميشن بشخصية روبو.', '#6E33E0'],
   ['/lab/ai.html', 'ai', 'مختبر الذكاء الاصطناعي', 'درّب الكمبيوتر يفرّق بين الرسومات والصور والجمل، واعمل شات بوت.', '#7A2FE0'],
@@ -20,7 +20,7 @@ const net = () => { document.getElementById('net').hidden = navigator.onLine; };
 addEventListener('online', net); addEventListener('offline', net); net();
 if (window.roboDesktop) window.roboDesktop.info().then((i) => { document.getElementById('ver').textContent = 'v' + i.version + (i.electron.startsWith('22.') ? ' · Windows 7' : ''); });
 
-// first launch on Windows: offer the CH340 USB driver (needed to upload to most Uno/Nano boards) until it's installed
+// first visit to the labs on Windows: offer the CH340 USB driver (needed to upload to most Uno/Nano boards) until it's installed
 (function driverPrompt() {
   const A = window.roboDesktop && window.roboDesktop.arduino;
   if (!A || !A.driver) return;

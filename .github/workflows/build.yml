@@ -33,7 +33,7 @@ jobs:
             $pr = Start-Process -FilePath $s.FullName -ArgumentList '/S', '/currentuser' -PassThru
             if ($pr.WaitForExit(300000)) { Write-Host "installer finished (try $try, exit $($pr.ExitCode))"; break }
             Write-Host "installer still running after 5 minutes (try $try): killing it"
-            Get-Process | Where-Object { $_.Name -like 'Robo-Lab-Setup*' -or $_.Name -like '*nsis*' } | Stop-Process -Force -ErrorAction SilentlyContinue
+            Get-Process | Where-Object { $_.Name -like 'Robo-Journey-Setup*' -or $_.Name -like '*nsis*' } | Stop-Process -Force -ErrorAction SilentlyContinue
             Start-Sleep -Seconds 5
           }
           # the installer may hand off to a child process: wait up to 3 minutes for the app to appear
@@ -41,14 +41,14 @@ jobs:
           $exe = $null
           for ($i = 0; $i -lt 90 -and -not $exe; $i++) {
             Start-Sleep -Seconds 2
-            $exe = Get-ChildItem $roots -Recurse -Filter "Robo Lab.exe" -ErrorAction SilentlyContinue | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+            $exe = Get-ChildItem $roots -Recurse -Filter "Robo Journey.exe" -ErrorAction SilentlyContinue | Sort-Object LastWriteTime -Descending | Select-Object -First 1
           }
           if (-not $exe) { Get-ChildItem "$env:LOCALAPPDATA\Programs" -ErrorAction SilentlyContinue | Format-Table Name; Get-Process | Where-Object { $_.Name -like '*Robo*' -or $_.Name -like '*Setup*' } | Format-Table Name, Id }
-          if (-not $exe) { Write-Error "Robo Lab.exe not found after installing $($s.Name)"; exit 1 }
+          if (-not $exe) { Write-Error "Robo Journey.exe not found after installing $($s.Name)"; exit 1 }
           Write-Host "installed: $($exe.FullName)"
           # the installer starts the app when it finishes; close it, the app allows a single copy at a time
           # the installer starts the app when it's done (sometimes a few seconds later): close it, or the test's copy exits at once (one copy at a time)
-          for ($i = 0; $i -lt 15; $i++) { Get-Process -Name 'Robo Lab' -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue; Start-Sleep -Seconds 1 }
+          for ($i = 0; $i -lt 15; $i++) { Get-Process -Name 'Robo Journey' -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue; Start-Sleep -Seconds 1 }
           node tests/smoke.mjs "$($exe.FullName)" win10-11
       - name: test the Windows 7 (64-bit) installer
         shell: pwsh
@@ -60,7 +60,7 @@ jobs:
             $pr = Start-Process -FilePath $s.FullName -ArgumentList '/S', '/currentuser' -PassThru
             if ($pr.WaitForExit(300000)) { Write-Host "installer finished (try $try, exit $($pr.ExitCode))"; break }
             Write-Host "installer still running after 5 minutes (try $try): killing it"
-            Get-Process | Where-Object { $_.Name -like 'Robo-Lab-Setup*' -or $_.Name -like '*nsis*' } | Stop-Process -Force -ErrorAction SilentlyContinue
+            Get-Process | Where-Object { $_.Name -like 'Robo-Journey-Setup*' -or $_.Name -like '*nsis*' } | Stop-Process -Force -ErrorAction SilentlyContinue
             Start-Sleep -Seconds 5
           }
           # the installer may hand off to a child process: wait up to 3 minutes for the app to appear
@@ -68,14 +68,14 @@ jobs:
           $exe = $null
           for ($i = 0; $i -lt 90 -and -not $exe; $i++) {
             Start-Sleep -Seconds 2
-            $exe = Get-ChildItem $roots -Recurse -Filter "Robo Lab.exe" -ErrorAction SilentlyContinue | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+            $exe = Get-ChildItem $roots -Recurse -Filter "Robo Journey.exe" -ErrorAction SilentlyContinue | Sort-Object LastWriteTime -Descending | Select-Object -First 1
           }
           if (-not $exe) { Get-ChildItem "$env:LOCALAPPDATA\Programs" -ErrorAction SilentlyContinue | Format-Table Name; Get-Process | Where-Object { $_.Name -like '*Robo*' -or $_.Name -like '*Setup*' } | Format-Table Name, Id }
-          if (-not $exe) { Write-Error "Robo Lab.exe not found after installing $($s.Name)"; exit 1 }
+          if (-not $exe) { Write-Error "Robo Journey.exe not found after installing $($s.Name)"; exit 1 }
           Write-Host "installed: $($exe.FullName)"
           # the installer starts the app when it finishes; close it, the app allows a single copy at a time
           # the installer starts the app when it's done (sometimes a few seconds later): close it, or the test's copy exits at once (one copy at a time)
-          for ($i = 0; $i -lt 15; $i++) { Get-Process -Name 'Robo Lab' -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue; Start-Sleep -Seconds 1 }
+          for ($i = 0; $i -lt 15; $i++) { Get-Process -Name 'Robo Journey' -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue; Start-Sleep -Seconds 1 }
           node tests/smoke.mjs "$($exe.FullName)" win7-x64
           if ($LASTEXITCODE -ne 0) { Write-Host "--- again without GPU acceleration ---"; $env:SMOKE_ARGS = "--disable-gpu --in-process-gpu"; node tests/smoke.mjs "$($exe.FullName)" win7-x64-nogpu }
       - if: always()
@@ -85,7 +85,7 @@ jobs:
           path: test-results/
       - uses: actions/upload-artifact@v4
         with:
-          name: Robo-Lab-installers
+          name: Robo-Journey-installers
           path: |
             dist/win10-11/*.exe
             dist/win7/*.exe
@@ -96,36 +96,36 @@ jobs:
             dist/win10-11/*.exe
             dist/win7/*.exe
       # public downloads: the same installers on github.com/uoimam21-ops/robo-lab-download, with fixed names so the
-      # website can always link to …/releases/latest/download/Robo-Lab-Setup-win10-11.exe
+      # website can always link to …/releases/latest/download/Robo-Journey-Setup-win10-11.exe
       - if: startsWith(github.ref, 'refs/tags/v')
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Force public-files | Out-Null
-          Copy-Item (Get-ChildItem dist/win10-11/*-win10-11.exe | Select-Object -First 1) public-files/Robo-Lab-Setup-win10-11.exe
-          Copy-Item (Get-ChildItem dist/win7/*-win7-x64.exe | Select-Object -First 1) public-files/Robo-Lab-Setup-win7-64bit.exe
-          Copy-Item (Get-ChildItem dist/win7/*-win7-ia32.exe | Select-Object -First 1) public-files/Robo-Lab-Setup-win7-32bit.exe
+          Copy-Item (Get-ChildItem dist/win10-11/*-win10-11.exe | Select-Object -First 1) public-files/Robo-Journey-Setup-win10-11.exe
+          Copy-Item (Get-ChildItem dist/win7/*-win7-x64.exe | Select-Object -First 1) public-files/Robo-Journey-Setup-win7-64bit.exe
+          Copy-Item (Get-ChildItem dist/win7/*-win7-ia32.exe | Select-Object -First 1) public-files/Robo-Journey-Setup-win7-32bit.exe
       - if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v2
         with:
           repository: uoimam21-ops/robo-lab-download
           token: ${{ secrets.RELEASES_TOKEN }}
           tag_name: ${{ github.ref_name }}
-          name: Robo Lab ${{ github.ref_name }}
+          name: Robo Journey ${{ github.ref_name }}
           make_latest: 'true'
           body: |
-            ## Robo Lab: روبو لاب للويندوز
+            ## رحلة روبو (Robo Journey): الرحلة وكل المختبرات
             كل مختبرات Robo Egypt من غير إنترنت، ورفع الكود على أردوينو حقيقي.
 
             | الجهاز | الملف |
             |---|---|
-            | ويندوز ١٠ و ١١ | `Robo-Lab-Setup-win10-11.exe` |
-            | ويندوز ٧ و ٨ (٦٤ بت) | `Robo-Lab-Setup-win7-64bit.exe` |
-            | ويندوز ٧ و ٨ (٣٢ بت) | `Robo-Lab-Setup-win7-32bit.exe` |
-            | ماك Apple Silicon (M1 وأحدث) | `Robo-Lab-mac-apple-silicon.dmg` |
-            | ماك Intel | `Robo-Lab-mac-intel.dmg` |
+            | ويندوز ١٠ و ١١ | `Robo-Journey-Setup-win10-11.exe` |
+            | ويندوز ٧ و ٨ (٦٤ بت) | `Robo-Journey-Setup-win7-64bit.exe` |
+            | ويندوز ٧ و ٨ (٣٢ بت) | `Robo-Journey-Setup-win7-32bit.exe` |
+            | ماك Apple Silicon (M1 وأحدث) | `Robo-Journey-mac-apple-silicon.dmg` |
+            | ماك Intel | `Robo-Journey-mac-intel.dmg` |
 
             لو ويندوز قال «Windows protected your PC»: دوس **More info** وبعدين **Run anyway**.
-            على الماك أول مرة: كليك يمين على Robo Lab ← **Open**. (macOS 15: System Settings ← Privacy & Security ← **Open Anyway**.)
+            على الماك أول مرة: كليك يمين على Robo Journey ← **Open**. (macOS 15: System Settings ← Privacy & Security ← **Open Anyway**.)
           files: public-files/*.exe
   # macOS: one app per kind of Mac, each built (and tested) on that kind of Mac, because the Arduino tools differ
   mac:
@@ -146,9 +146,9 @@ jobs:
       - run: npx electron-builder --mac --${{ matrix.arch }} --config build/mac.yml --publish never
       - name: test the Mac app
         run: |
-          APP=$(find dist/mac -maxdepth 3 -name "Robo Lab.app" -type d | head -1)
+          APP=$(find dist/mac -maxdepth 3 -name "Robo Journey.app" -type d | head -1)
           echo "app: $APP"
-          node tests/smoke.mjs "$APP/Contents/MacOS/Robo Lab" mac-${{ matrix.label }}
+          node tests/smoke.mjs "$APP/Contents/MacOS/Robo Journey" mac-${{ matrix.label }}
       - if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -156,14 +156,14 @@ jobs:
           path: test-results/
       - uses: actions/upload-artifact@v4
         with:
-          name: Robo-Lab-mac-${{ matrix.label }}
+          name: Robo-Journey-mac-${{ matrix.label }}
           path: dist/mac/*.dmg
       - if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v2
         with:
           files: dist/mac/*.dmg
       - if: startsWith(github.ref, 'refs/tags/v')
-        run: mkdir -p public-files && cp dist/mac/*.dmg "public-files/Robo-Lab-mac-${{ matrix.label }}.dmg"
+        run: mkdir -p public-files && cp dist/mac/*.dmg "public-files/Robo-Journey-mac-${{ matrix.label }}.dmg"
       - if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v2
         with:
@@ -203,10 +203,10 @@ jobs:
       - name: collect files
         run: |
           mkdir -p out
-          cp android/app/build/outputs/apk/debug/app-debug.apk out/Robo-Lab-android-test.apk
+          cp android/app/build/outputs/apk/debug/app-debug.apk out/Robo-Journey-android-test.apk
           if [ -f android/app/build/outputs/bundle/release/app-release.aab ]; then
-            cp android/app/build/outputs/bundle/release/app-release.aab out/Robo-Lab-android.aab
-            cp android/app/build/outputs/apk/release/app-release.apk out/Robo-Lab-android.apk
+            cp android/app/build/outputs/bundle/release/app-release.aab out/Robo-Journey-android.aab
+            cp android/app/build/outputs/apk/release/app-release.apk out/Robo-Journey-android.apk
           fi
           ls -la out
       - name: enable KVM for the emulator
@@ -225,7 +225,7 @@ jobs:
           ram-size: 4096M
           disk-size: 6000M
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -no-snapshot
-          script: adb install -r out/Robo-Lab-android-test.apk && (node tests/android.mjs; r=$?; adb logcat -d > test-results/android/logcat.txt; exit $r)
+          script: adb install -r out/Robo-Journey-android-test.apk && (node tests/android.mjs; r=$?; adb logcat -d > test-results/android/logcat.txt; exit $r)
       - if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -234,18 +234,18 @@ jobs:
       - if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: Robo-Lab-android
+          name: Robo-Journey-android
           path: out/
       - if: startsWith(github.ref, 'refs/tags/v') && env.HAS_KEY == 'true'
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            out/Robo-Lab-android.aab
-            out/Robo-Lab-android.apk
+            out/Robo-Journey-android.aab
+            out/Robo-Journey-android.apk
       - if: startsWith(github.ref, 'refs/tags/v') && env.HAS_KEY == 'true'
         uses: softprops/action-gh-release@v2
         with:
           repository: uoimam21-ops/robo-lab-download
           token: ${{ secrets.RELEASES_TOKEN }}
           tag_name: ${{ github.ref_name }}
-          files: out/Robo-Lab-android.apk
+          files: out/Robo-Journey-android.apk

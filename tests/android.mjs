@@ -34,8 +34,12 @@ const go = async (path, wait = 2500) => {
 const shot = (n) => dev.screenshot({ path: shots + '/' + n + '.png' }).catch(() => {});
 
 await p.waitForLoadState('load'); await p.waitForTimeout(2000);
-ok((await p.$$('.card')).length === 10, 'home screen shows 9 labs + the Journey');
+ok(await p.evaluate(() => /\/journey\.html$/.test(location.pathname) && !!document.getElementById('landing')), 'the app opens on the journey');
+ok(await p.evaluate(() => { const b = document.getElementById('labBtn'); return !!b && !b.hidden; }), 'the journey menu has «روبو لاب»');
 await shot('home');
+await go('/lab/index.html');
+ok((await p.$$('.card')).length === 9, 'the labs page («روبو لاب») shows the 9 labs');
+await shot('labs');
 
 const info = await p.evaluate(() => ({ ua: navigator.userAgent.replace(/.*(Chrome\/[\d.]+).*/, '$1'), w: innerWidth, h: innerHeight }));
 console.log('  webview ' + info.ua + ', ' + info.w + '×' + info.h);

@@ -1,6 +1,6 @@
 {
   "appId": "com.roboegypt.lab",
-  "appName": "Robo Lab",
+  "appName": "رحلة روبو",
   "webDir": "mobile/www",
   "android": {
     "allowMixedContent": false,

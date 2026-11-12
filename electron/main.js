@@ -1,9 +1,12 @@
-// Robo Lab desktop: the Robo Egypt labs in a window, working without internet.
+// «رحلة روبو» (Robo Journey) desktop: the Robo Egypt journey and all the labs in a window; the labs work without internet.
 // Runs on Electron 44 (Windows 10/11) and Electron 22 (the last one for Windows 7), so it only uses APIs both have.
 const { app, BrowserWindow, protocol, shell, Menu, ipcMain } = require('electron');
 const path = require('path');
 const fs = require('fs');
 const arduino = require('./arduino');
+// The app was called «Robo Lab» before (until v1.0.1). Its saved projects, progress and settings live in a folder named after the
+// app, so keep that folder when the name changes: nothing a child saved is lost after the update.
+app.setPath('userData', path.join(app.getPath('appData'), 'Robo Lab'));
 
 const ROOT = path.join(__dirname, '..', 'www');
 const LAUNCHER = path.join(__dirname, '..', 'launcher');
@@ -118,7 +121,7 @@ let win = null;
 function createWindow() {
   win = new BrowserWindow({
     width: 1280, height: 820, minWidth: 900, minHeight: 600,
-    title: 'Robo Lab | روبو لاب',
+    title: 'رحلة روبو | Robo Journey',
     icon: path.join(__dirname, '..', 'build', 'icon.png'),
     backgroundColor: '#F6F8FE',
     autoHideMenuBar: true,
@@ -126,14 +129,15 @@ function createWindow() {
   });
   route(win.webContents);
   win.webContents.on('did-create-window', (w) => route(w.webContents));
-  win.loadURL(ORIGIN + '/');
+  win.loadURL(ORIGIN + '/journey');   // the app opens on the journey; the labs are in its menu (and at /lab/)
 }
 
 // F11 full screen, Ctrl+R reload, Ctrl +/- zoom: handy on the academy's lab PCs
 function menu() {
   Menu.setApplicationMenu(Menu.buildFromTemplate([
-    { label: 'روبو لاب', submenu: [
-      { label: 'الصفحة الرئيسية', accelerator: 'Alt+Home', click: () => win && win.loadURL(ORIGIN + '/') },
+    { label: 'رحلة روبو', submenu: [
+      { label: 'الرحلة', accelerator: 'Alt+Home', click: () => win && win.loadURL(ORIGIN + '/journey') },
+      { label: 'روبو لاب: كل المختبرات', accelerator: 'Alt+L', click: () => win && win.loadURL(ORIGIN + '/lab/') },
       { role: 'reload', label: 'إعادة تحميل' }, { role: 'togglefullscreen', label: 'ملء الشاشة' },
       { label: 'تسريع الرسوميات (كارت الشاشة)', type: 'checkbox', checked: gpuOn, click: (it) => { settings.gpu = it.checked; saveSettings(); app.relaunch(); app.exit(0); } },
       { role: 'zoomIn', label: 'تكبير' }, { role: 'zoomOut', label: 'تصغير' }, { role: 'resetZoom', label: 'الحجم العادي' },
