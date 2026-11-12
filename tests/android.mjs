@@ -59,7 +59,7 @@ console.log('  cross-origin isolated: ' + iso);
 await p.click('#runBtn').catch(() => {});
 let ran = false;
 try {
-  for (let i = 0; i < 90 && !ran; i++) {
+  for (let i = 0; i < 180 && !ran; i++) {
     await p.waitForTimeout(1000);
     ran = await p.evaluate(() => { const f = document.getElementById('inForm'); const out = document.querySelector('#out, .out, .console'); return (!!f && !f.hidden) || (!!out && out.textContent.trim().length > 0); });
   }

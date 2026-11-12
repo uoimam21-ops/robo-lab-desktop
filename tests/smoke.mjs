@@ -8,7 +8,12 @@ import { mkdirSync } from 'node:fs';
 const [exe, label = 'app'] = process.argv.slice(2);
 const PORT = process.platform === 'win32' ? 'COM99' : '/dev/cu.robo-missing';   // a port that isn't there
 const shots = 'test-results/' + label; mkdirSync(shots, { recursive: true });
-const fails = [], ok = (c, m) => { console.log((c ? '  ✓ ' : '  ✗ ') + m); if (!c) fails.push(m); };
+let last = 'start';
+const fails = [], ok = (c, m) => { last = m; console.log((c ? '  ✓ ' : '  ✗ ') + m); if (!c) fails.push(m); };
+// a test that hangs must fail, not keep the CI machine busy for hours: stop after 20 minutes and say where it was
+setTimeout(() => { console.log('  ✗ the test took more than 20 minutes; last step: ' + last); process.exit(1); }, 20 * 60e3).unref();
+// one Arduino compile + upload attempt may take a few minutes the first time (Rosetta on Apple Silicon), never more than 5
+const within = (p, ms, what) => Promise.race([p, new Promise((r) => setTimeout(() => r({ stage: 'timeout', why: what + ' took more than ' + ms / 60e3 + ' min' }), ms))]);
 
 // no internet: every http(s) request goes to a proxy that isn't there (works on Electron 22 and 44; route() crashes Electron 22)
 const extra = (process.env.SMOKE_ARGS || '').split(' ').filter(Boolean);
@@ -59,11 +64,11 @@ await w.screenshot({ path: shots + '/python.png' });
 await w.goto('robo://lab/lab/arduino.html'); await w.waitForTimeout(2000);
 ok(await w.isVisible('#upBtn'), 'Robo Maker shows «upload to Arduino»');
 for (const board of ['uno', 'nanoOld', 'mega']) {
-  const r = await w.evaluate(([board, PORT]) => window.roboDesktop.arduino.upload({ board, port: PORT,
-    code: '#include <Servo.h>\nServo s;\nvoid setup(){pinMode(13,OUTPUT);s.attach(9);}\nvoid loop(){digitalWrite(13,HIGH);delay(300);digitalWrite(13,LOW);delay(300);}\n' }, () => {}), [board, PORT]);
+  const r = await within(w.evaluate(([board, PORT]) => window.roboDesktop.arduino.upload({ board, port: PORT,
+    code: '#include <Servo.h>\nServo s;\nvoid setup(){pinMode(13,OUTPUT);s.attach(9);}\nvoid loop(){digitalWrite(13,HIGH);delay(300);digitalWrite(13,LOW);delay(300);}\n' }, () => {}), [board, PORT]), 5 * 60e3, board);
   ok(r.stage === 'upload' && r.why === 'noport', board + ': compiles, upload to a missing port says «board not found» (' + r.stage + '/' + r.why + ')');
 }
-const bad = await w.evaluate((PORT) => window.roboDesktop.arduino.upload({ board: 'uno', port: PORT, code: 'void setup(){\n  pinMode(13,OUTPUT)\n}\nvoid loop(){}\n' }, () => {}), PORT);
+const bad = await within(w.evaluate((PORT) => window.roboDesktop.arduino.upload({ board: 'uno', port: PORT, code: 'void setup(){\n  pinMode(13,OUTPUT)\n}\nvoid loop(){}\n' }, () => {}), PORT), 5 * 60e3, 'compile error check');
 ok(bad.why === 'compile' && bad.line === 3, 'a code mistake is reported with its line (' + bad.line + ')');
 const ports = await w.evaluate(() => window.roboDesktop.arduino.ports());
 ok(ports.ok, 'port scan works (' + ports.ports.length + ' ports)');
