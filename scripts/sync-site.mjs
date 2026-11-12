@@ -18,6 +18,9 @@ mkdirSync(join(WWW, 'lab'), { recursive: true });
 for (const l of LABS) cpSync(join(DIST, 'lab', l + '.html'), join(WWW, 'lab', l + '.html'));
 cpSync(join(DIST, 'journey.html'), join(WWW, 'lab', 'roboblock.html'));   // Robo Block lives inside the journey page
 cpSync(join(DIST, 'journey.html'), join(WWW, 'journey.html'));   // the Journey (needs internet for accounts); the Android app has no pretty paths
+// the service worker that makes the lab pages cross-origin isolated (Python's input() and Stop). The desktop app sends those
+// headers itself; the Android app has no headers of its own, so the Python page registers this file there
+cpSync(join(DIST, 'coi-sw.js'), join(WWW, 'coi-sw.js'));
 for (const d of ['blockly-media', 'parts']) cpSync(join(DIST, 'lab', d), join(WWW, 'lab', d), { recursive: true });
 // shared images + the labs' JS/CSS chunks; leave out the photo folders only the website uses
 cpSync(join(DIST, 'assets'), join(WWW, 'assets'), {

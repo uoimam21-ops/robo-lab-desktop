@@ -72,6 +72,9 @@ if (!ran) {   // the emulator is sometimes very slow the first time: open the pa
   await go('/lab/python.html', 4000); await p.click('#runBtn').catch(() => {});
   for (let i = 0; i < 120 && !ran; i++) { await p.waitForTimeout(1000); ran = await p.evaluate(() => { const f = document.getElementById('inForm'); const out = document.querySelector('#out, .out, .console'); return (!!f && !f.hidden) || (!!out && out.textContent.trim().length > 0); }).catch(() => false); }
 }
+// Python ran but stopped at input() because this WebView isn't cross-origin isolated (coi-sw.js): Python works, input() doesn't
+const noInput = !ran && await p.evaluate(() => { const b = document.getElementById('errBox'); return !!b && !b.hidden && /input\(\)/.test(b.textContent); }).catch(() => false);
+if (noInput) { ran = true; console.log('  ⚠ Python runs, but input() needs cross-origin isolation and this WebView has none'); }
 ok(ran, 'Python runs offline' + (iso ? ' (waits for input())' : ' (input() limited without isolation)'));
 await shot('python-run');
 
