@@ -150,7 +150,7 @@ jobs:
           - { runner: macos-15, arch: arm64, label: apple-silicon }
           - { runner: macos-15-intel, arch: x64, label: intel }
     runs-on: ${{ matrix.runner }}
-    timeout-minutes: 50   # a stuck Mac job blocked the queue for hours before
+    timeout-minutes: 60   # a stuck Mac job blocked the queue for hours before
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
