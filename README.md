@@ -30,6 +30,19 @@ npm start                                # تشغيل للتجربة
 npm run dist                             # المثبّتين (على ويندوز)
 ```
 
+## التحديثات (كل ليلة)
+- **`.github/workflows/nightly.yml`** كل يوم الساعة ٣ الفجر بتوقيت القاهرة (أو «Run workflow» من GitHub):
+  1. يبني الموقع (`main`).
+  2. ينسخ الرحلة والمختبرات لـ `www/`.
+  3. لو فيه أي تغيير: يزوّد رقم النسخة (1.1.0 ← 1.1.1)، ويعمل commit على `main`، ويبني ويختبر وينشر النسخة دي (`build.yml`).
+  4. لو الموقع ما اتغيّرش: مفيش نسخة جديدة.
+- **ويندوز ١٠ و ١١:** التطبيق بيحمّل التحديث لوحده في الخلفية (`electron/updates.js` + electron-updater + `latest.yml` في مستودع التحميل)، وبيتثبّت لما يقفل التطبيق أو لما الطفل يدوس «حدّث دلوقتي».
+- **ماك وويندوز ٧:** رسالة «فيه نسخة جديدة» فيها لينك التحميل. التحديث الأوتوماتيك على الماك محتاج توقيع Apple.
+- **التطبيق بيدوّر على تحديث** بعد ما يفتح بـ ٨ ثواني، ومرة كل ٦ ساعات بالكتير. ومش بيدوّر في الاختبارات (`ROBO_NO_UPDATES`).
+- **الـ Secrets المطلوبة:**
+  - `SITE_READ_TOKEN`: fine-grained token، صلاحيته Contents: Read-only على `robo-egypt-site` بس.
+  - `RELEASES_TOKEN`: صلاحيته Contents: Read and write على `robo-lab-download`.
+
 ## البناء الأوتوماتيك (GitHub Actions)
 `.github/workflows/build.yml` على `windows-latest`: أي push على `main` بيطلّع المثبّتين كـ artifact. لو عملت tag زي `v1.0.0` بيتنشروا كـ Release.
 

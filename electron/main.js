@@ -4,6 +4,7 @@ const { app, BrowserWindow, protocol, shell, Menu, ipcMain } = require('electron
 const path = require('path');
 const fs = require('fs');
 const arduino = require('./arduino');
+const updates = require('./updates');
 // The app was called «Robo Lab» before (until v1.0.1). Its saved projects, progress and settings live in a folder named after the
 // app, so keep that folder when the name changes: nothing a child saved is lost after the update.
 app.setPath('userData', path.join(app.getPath('appData'), 'Robo Lab'));
@@ -153,6 +154,6 @@ ipcMain.handle('robo:info', () => ({ version: app.getVersion(), electron: proces
 if (!app.requestSingleInstanceLock()) app.quit();
 else {
   app.on('second-instance', () => { if (win) { if (win.isMinimized()) win.restore(); win.focus(); } });
-  app.whenReady().then(() => { registerProtocol(); arduino.setup(); menu(); createWindow(); });
+  app.whenReady().then(() => { registerProtocol(); arduino.setup(); menu(); createWindow(); updates.checkForUpdates(win); });
   app.on('window-all-closed', () => app.quit());
 }

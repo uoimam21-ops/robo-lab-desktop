@@ -2,6 +2,8 @@
 appId: com.roboegypt.lab
 productName: Robo Journey
 copyright: Robo Egypt
+# makes latest.yml next to the installer: the Windows 10/11 app updates itself from that release (electron/updates.js)
+publish: { provider: github, owner: uoimam21-ops, repo: robo-lab-download }
 directories: { output: dist/win10-11, buildResources: build }
 files: [electron/**, launcher/**, www/**, package.json, "!**/*.map"]
 asar: false
