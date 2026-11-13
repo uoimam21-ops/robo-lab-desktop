@@ -37,6 +37,10 @@ jobs:
       - run: node scripts/arduino.mjs
       - run: npx electron-builder --win --config build/modern.yml --publish never
       - run: npx electron-builder --win --config build/win7.yml --publish never
+      # Microsoft Store package (MSIX/AppX, identity from Partner Center): uploaded by hand in Partner Center
+      - run: npx electron-builder --win appx --config build/store.yml --publish never
+      - uses: actions/upload-artifact@v4
+        with: { name: Robo-Journey-microsoft-store, path: 'dist/store/*.appx', if-no-files-found: error }
       - name: test the app (Windows 10/11 build, not installed)
         shell: pwsh
         run: node tests/smoke.mjs "dist/win10-11/win-unpacked/Robo Journey.exe" win10-11-app

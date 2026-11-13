@@ -72,6 +72,7 @@ async function notifyOnly(win) {
 
 function checkForUpdates(win) {
   if (!app.isPackaged || process.env.ROBO_NO_UPDATES) return;   // not while developing, and not in the CI tests
+  if (process.windowsStore) return;   // the Microsoft Store version is updated by the Store
   const st = readState(), now = Date.now();
   if (st.last && now - st.last < 6 * 3600e3) return;
   writeState(Object.assign(st, { last: now }));
