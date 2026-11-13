@@ -19,11 +19,11 @@
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "روبو كاد (Robo CAD)", "alternateName": "Robo CAD", "url": "https://roboegypt.com/lab/3d", "description": "صمّم مجسمات ثلاثية الأبعاد في المتصفح: أشكال وفتحات وألوان ومقاسات بالملّي، وصدّر ملف STL للطباعة. من Robo Egypt.", "applicationCategory": "EducationalApplication", "operatingSystem": "Web browser, Windows", "inLanguage": "ar", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EGP"}, "image": "https://roboegypt.com/assets/og/lab-3d.jpg", "audience": {"@type": "EducationalAudience", "educationalRole": "student", "audienceType": "أطفال وتينز", "suggestedMinAge": 8, "suggestedMaxAge": 17}, "provider": {"@type": "EducationalOrganization", "name": "Robo Egypt", "url": "https://roboegypt.com"}}</script>
 <meta name="theme-color" content="#1B2350">
 <link rel="icon" type="image/png" href="/assets/favicon.png">
-  <script type="module" crossorigin src="/assets/d3-DEAkAeKR.js"></script>
+  <script type="module" crossorigin src="/assets/d3-DcYSt1IL.js"></script>
   <link rel="modulepreload" crossorigin href="/assets/lab-Ck2xiEv5.js">
   <link rel="modulepreload" crossorigin href="/assets/split-DJAd-vnY.js">
   <link rel="stylesheet" crossorigin href="/assets/lab-GmRgLkqh.css">
-  <link rel="stylesheet" crossorigin href="/assets/d3-CHv3bn9t.css">
+  <link rel="stylesheet" crossorigin href="/assets/d3-o9YM3CXS.css">
 </head>
 <body>
 <header class="top">
@@ -52,7 +52,7 @@
     <p class="sub">روبو وعربية وبيت… كل جزء بلونه، وتقدر تغيّره</p>
     <div class="sgrid" id="presetList"></div>
     <h2>فتحة</h2>
-    <p class="sub">الفتحة بتخرّم الشكل اللي تحتها لما تجمّعهم</p>
+    <p class="sub">حط الفتحة جوه الشكل، وهي بتخرّمه على طول</p>
     <div class="sgrid" id="holeList"></div>
   </aside>
 
@@ -60,7 +60,7 @@
     <div class="tbar" role="toolbar" aria-label="أدوات" id="tbar">
       <div class="tg">
         <button class="tb" id="undoBtn" title="تراجع (Ctrl+Z)"><i>↶</i><span>رجوع</span></button>
-        <button class="tb" id="redoBtn" title="إعادة (Ctrl+Y)"><i>↷</i><span>قدّام</span></button>
+        <button class="tb" id="redoBtn" title="إعادة (Ctrl+Shift+Z أو Ctrl+Y)"><i>↷</i><span>قدّام</span></button>
       </div>
       <div class="tg" role="radiogroup" aria-label="نوع التحريك">
         <button class="tb mode on" data-mode="translate" title="حرّك (W)"><i>✥</i><span>حرّك</span></button>
@@ -71,7 +71,7 @@
         <button class="tb" id="multiBtn" title="تحديد أكتر من شكل: دوس على الأشكال واحد واحد، أو اسحب مستطيل. على الموبايل: اضغط مطوّل على الشكل" aria-pressed="false"><i>☑</i><span>تحديد متعدد</span></button>
         <button class="tb" id="lockBtn" title="اقفل الشكل عشان ميتحركش"><i>🔓</i><span>قفل</span></button>
         <button class="tb" id="alignBtn" title="رصّ الأشكال (Align) — اختار شكلين أو أكتر"><i>⫼</i><span>رصّ</span></button>
-        <button class="tb" id="dupBtn" title="نسخة (Ctrl+D)"><i>⧉</i><span>نسخة</span></button>
+        <button class="tb" id="dupBtn" title="نسخة (Ctrl+D) · انسخ Ctrl+C · الزق Ctrl+V"><i>⧉</i><span>نسخة</span></button>
         <button class="tb" id="dropBtn" title="نزّله على السطح (D)"><i>⤓</i><span>على السطح</span></button>
         <button class="tb" id="groupBtn" title="جمّع (Ctrl+G)"><i>⊕</i><span>جمّع</span></button>
         <button class="tb" id="ungroupBtn" title="فك التجميع"><i>⊖</i><span>فك</span></button>
@@ -92,6 +92,7 @@
       <div class="props" id="props" hidden>
         <div class="phead"><b id="pTitle">شكل</b><button class="x" id="pClose" aria-label="إغلاق">✕</button></div>
         <div class="seg" role="radiogroup" aria-label="نوع الشكل"><button id="pSolid" class="on">🎨 مُصمت</button><button id="pHole">⬚ فتحة</button></div>
+        <button class="btn run small applyHole" id="pApplyHole" hidden title="الفتحة بتخرّم الشكل وبيبقوا قطعة واحدة، ومش هتتحرك لوحدها تاني">✂️ نفّذ الفتحة</button>
         <label class="txtrow" id="pTxtRow" hidden>النص <input id="pTxt" dir="auto" maxlength="24"><select id="pFont" aria-label="نوع الخط"></select></label>
         <div class="swatches" id="swatches" aria-label="الألوان"></div>
         <div class="shapeopt" id="pShape" hidden>

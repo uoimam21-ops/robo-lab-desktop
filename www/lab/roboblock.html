@@ -166,6 +166,27 @@ header .hud{flex:1 1 auto;justify-content:center;min-width:0}
 .plan2 h3{font-family:var(--f-display);font-weight:800;font-size:19px;margin:0}
 .plan2 .ps0{color:var(--muted);font-size:13px;margin:0 0 8px}
 .placebox{display:flex;gap:10px;align-items:center;flex-wrap:wrap;border-top:2px dashed var(--line);padding-top:12px}
+.pkwrap{text-align:center}.pkwrap h2{margin:2px 0 4px}.pksub{margin:0 auto 10px;max-width:46ch;color:#5b6080}
+.pktabs{display:inline-flex;gap:4px;padding:4px;border-radius:999px;background:#EEF0F8;margin:2px 0 6px}.pktab{all:unset;cursor:pointer;padding:6px 14px;border-radius:999px;font-weight:700;font-size:.92em;color:#5b6080}.pktab.on{background:#fff;color:#2b1d8f;box-shadow:0 2px 8px rgba(30,30,80,.12)}
+.pktask{margin:0 0 10px;font-weight:700;color:#2b1d8f}
+.pkgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;text-align:start}@media(max-width:620px){.pkgrid{grid-template-columns:1fr}}
+.pkcard{position:relative;display:flex;flex-direction:column;gap:10px;padding:14px;border-radius:22px;background:#fff;border:1px solid #E6E8F3;box-shadow:0 10px 28px -14px rgba(40,30,120,.35);overflow:hidden}
+.pkcard::before{content:"";position:absolute;inset:0 0 auto 0;height:5px}.pk-blocks::before{background:linear-gradient(90deg,#FFAB19,#9966FF)}.pk-py::before{background:linear-gradient(90deg,#3776AB,#FFD43B)}
+.pkcard.cur{outline:3px solid #5B3DF5;outline-offset:-3px}
+.pkhead{display:flex;align-items:center;gap:10px}.pkic{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font-size:24px;flex:none}.pk-blocks .pkic{background:#FFF1D6}.pk-py .pkic{background:#E3EEF9}
+.pkhead h3{margin:0;font-size:1.08em}.pkhead small{color:#6a7090}
+.pkex{min-height:150px;border-radius:16px;padding:12px;display:flex;align-items:center;justify-content:center}.pk-blocks .pkex{background:repeating-linear-gradient(0deg,#F7F8FC 0 19px,#EEF0F7 19px 20px),repeating-linear-gradient(90deg,transparent 0 19px,#EEF0F7 19px 20px);background-blend-mode:multiply}.pk-py .pkex{background:#0F1630;padding:0;align-items:stretch}
+.pkst{direction:ltr;display:flex;flex-direction:column;align-items:flex-start;font:700 13px/1.2 system-ui,sans-serif;color:#fff}
+.pkb{display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border-radius:8px;box-shadow:inset 0 -2px 0 rgba(0,0,0,.15);white-space:nowrap}
+.pkb.ev{background:#FFBF00;border-radius:18px 18px 8px 8px;color:#3d2b00}.pkb.ctl{background:#FFAB19;border-radius:8px 8px 0 8px}.pkb.ctl.mid{border-radius:0 8px 8px 0}.pkb.ctl.end{width:70px;height:14px;padding:0;border-radius:0 0 8px 8px}.pkb.lk{background:#9966FF}
+.pkc{display:flex;flex-direction:column;align-items:flex-start;margin-top:2px}.pkin{border-left:14px solid #FFAB19;padding:4px 0 4px 2px}
+.pkq,.pkn{font-style:normal;background:#fff;color:#333;border-radius:999px;padding:2px 9px;font-weight:700}.pkn{border-radius:6px;padding:1px 7px}.pkop{font-style:normal;background:#59C059;border-radius:999px;padding:3px 9px;display:inline-flex;gap:4px;align-items:center}
+.pkcode{margin:0;width:100%;padding:0 14px 14px;font:13.5px/1.7 ui-monospace,SFMono-Regular,Consolas,monospace;color:#E6EAF5;white-space:pre;text-align:left;overflow-x:auto}
+.pkdots{display:flex;align-items:center;gap:6px;margin:0 -14px 10px;padding:9px 12px;border-bottom:1px solid #1F2950}.pkdots i{width:9px;height:9px;border-radius:50%;background:#FF5F57}.pkdots i+i{background:#FEBC2E}.pkdots i+i+i{background:#28C840}.pkdots b{font-weight:500;color:#8C96B8;font-size:12px;margin-inline-start:6px}
+.pkcode .kw{color:#FF7AB6}.pkcode .fn{color:#7CC4FF}.pkcode .nm{color:#FFB86B}.pkcode .st{color:#A6E37A}
+.pkpts{list-style:none;margin:0;padding:0;display:grid;gap:6px;font-size:.94em}.pkpts li{position:relative;padding-inline-start:26px;line-height:1.55}.pkpts li::before{content:"✓";position:absolute;inset-inline-start:0;top:1px;width:19px;height:19px;border-radius:50%;background:#E3F6EA;color:#1f7a44;font-size:12px;display:grid;place-items:center;font-weight:800}.pkpts li.warn::before{content:"!";background:#FFF1D6;color:#a05a00}
+.pkwho{margin:0;font-size:.9em;color:#4a5070;background:#F5F6FB;border-radius:12px;padding:8px 10px}.pkgo{margin-top:auto;width:100%}
+.picknote{font-size:.92em;color:#5b6080;margin:12px 0 0}
 .thlist{text-align:start;display:grid;gap:10px;margin:6px 0 4px;padding:0;list-style:none;font-size:1.05em;line-height:1.7}.thlist li{background:var(--soft,#F4F6FF);border-radius:14px;padding:10px 14px}
 .cities{min-width:0}.chsvg{width:100%;height:100%;display:block}.av,.bav,.bigav,.sav{overflow:hidden}.chbox{display:grid;grid-template-columns:minmax(140px,220px) 1fr;gap:16px;align-items:center;margin:8px 0 16px;padding:14px;border:1.5px solid var(--line);border-radius:20px;background:color-mix(in srgb,var(--accent) 6%,var(--panel))}.chstage{background:#141A3F;border-radius:16px;aspect-ratio:200/230;padding:6px}.chopts{display:flex;flex-direction:column;gap:10px;min-width:0}.chopts h4{margin:0}.chrow{display:flex;flex-wrap:wrap;gap:8px}.chk[aria-pressed=true]{background:var(--accent);color:#fff;border-color:var(--accent)}.chsw{width:32px;height:32px;border-radius:50%;border:3px solid var(--line);cursor:pointer;padding:0}.chsw[aria-pressed=true]{border-color:var(--accent);box-shadow:0 0 0 2px var(--panel) inset}.chi b{font-size:13px;text-align:center}.chmini{width:76px;height:76px;border-radius:16px;background:#141A3F;display:block;padding:2px}.chwin{display:flex;align-items:center;gap:12px;justify-content:center;margin:6px 0}.chwin svg{width:90px;height:auto}@media (max-width:560px){.chbox{grid-template-columns:1fr}.chstage{max-width:200px;margin-inline:auto}}.leadbox{margin-top:10px;padding:10px 12px;border-radius:14px;background:rgba(255,255,255,.06)}.leadbox.light{background:color-mix(in srgb,var(--accent) 7%,var(--panel));border:1.5px solid var(--line);margin:0 0 12px}.leadt{display:block;margin-bottom:6px}.leads{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}.leads li{display:flex;align-items:center;gap:6px;padding:4px 10px 4px 6px;border-radius:999px;background:rgba(255,255,255,.1)}.leadbox.light .leads li{background:var(--panel);border:1.5px solid var(--line)}.leads li.mine{outline:2px solid #FFD54A}.leads small{opacity:.8}.leads .bav{width:30px;height:30px;flex:none;border-radius:50%;background:var(--fr);display:grid;place-items:center;font-size:18px;overflow:hidden}.leadnote{margin:4px 0 0;font-size:13.5px;opacity:.85}.lead1{display:block;font-weight:700;color:#B07A00}.hidesw{display:flex;gap:8px;align-items:center;margin:0 0 12px;font-size:14px;cursor:pointer}canvas.confetti{position:fixed;inset:0;width:100vw;height:100vh;pointer-events:none;z-index:9999;background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;margin:0!important;max-width:none!important;aspect-ratio:auto!important}.popper{position:fixed;bottom:max(6px,env(safe-area-inset-bottom,0px));font-size:44px;z-index:10000;pointer-events:none;animation:popr .9s ease-out forwards}.popper.l{left:6px;transform:scaleX(-1)}.popper.r{right:6px}@keyframes popr{0%{opacity:0;scale:.3}15%{opacity:1;scale:1.35}40%{scale:1}100%{opacity:0;scale:1}}.robo-art.dance{animation:dance .7s ease-in-out infinite alternate;transform-origin:50% 90%}@keyframes dance{0%{transform:rotate(-10deg) translateY(0)}100%{transform:rotate(10deg) translateY(-8px)}}@media (prefers-reduced-motion:reduce){.robo-art.dance,.popper{animation:none}}.story{display:flex;flex-direction:column;gap:12px;width:min(560px,100%);margin-inline:auto}.ststage{position:relative;border-radius:18px;overflow:hidden;background:#0B1030;aspect-ratio:320/150}.stcity{display:block;width:100%;height:100%}.stover{position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:center;gap:10px;padding-bottom:8px}.strobo{width:28%;max-width:120px;animation:stin .6s ease-out}.stme{width:20%;max-width:90px;animation:stin .6s .15s ease-out both}.stme svg{width:100%;height:auto;display:block}.duo{gap:4%}.shaw{width:40%;max-width:170px;align-self:center;animation:stin .4s ease-out}.shwj{animation:jit .25s steps(2) infinite}.shawname{position:absolute;top:8px;inset-inline-start:12px;color:#2BE38A;font-weight:800;letter-spacing:.5px;text-shadow:2px 0 #7B2CF5}.st-glitch .stcity{animation:flick 1.2s steps(6) 1}.stwin{animation:twk 1.6s ease-in-out infinite}.pend{border:1.5px solid var(--line);border-radius:16px;overflow:hidden;text-align:center}.pend .stcity{display:block;width:100%;height:auto;max-height:120px}.pend p{margin:0;padding:8px 12px 10px;font-size:15px;line-height:1.8}
 .sthd{display:block;font-size:13px;font-weight:700;color:var(--accent);margin:0 0 -6px}
@@ -857,6 +878,7 @@ html.booted #bootSplash{opacity:0;pointer-events:none}
           <button role="menuitem" id="who" hidden></button>
           <button role="menuitem" id="acctBtn" hidden></button>
           <button role="menuitem" id="labBtn" hidden></button>
+          <button role="menuitem" id="pickBtn" hidden></button>
           <button role="menuitem" id="aboutBtn"></button>
           <button role="menuitem" id="langBtn"></button>
         </div></div>
@@ -1586,8 +1608,50 @@ let kidAccess={id:null,paid:false};
 const needPay=m=>!prog.all&&loggedKid()&&!(kidAccess.id===cloudKid&&kidAccess.paid)&&specPlay(specOf(m)).indexOf(m)>0;
 const gated=m=>needLogin(m)||needPay(m);
 function gateNudge(m){if(needLogin(m))loginNudge();else payNudge()}
-async function loadAccess(k){kidAccess={id:k.id,paid:!!k.class_id};if(!sb)return;if(kidAccess.paid){loadLessons();return}
-  try{const {data,error}=await sb.rpc("kid_has_access",{p_student:k.id});if(cloudKid!==k.id||error)return;kidAccess={id:k.id,paid:!!data};loadLessons();if(view==="home")renderHome()}catch(e){}}
+async function loadAccess(k){kidAccess={id:k.id,paid:!!k.class_id};if(!sb)return;if(kidAccess.paid){loadLessons();startPickSoon();return}
+  try{const {data,error}=await sb.rpc("kid_has_access",{p_student:k.id});if(cloudKid!==k.id||error)return;kidAccess={id:k.id,paid:!!data};loadLessons();if(view==="home")renderHome();startPickSoon()}catch(e){}}
+/* ---------- START WITH PYTHON OR BLOCKS (Youssef, 12 Nov 2026). A subscribed child aged 10+ chooses, the first time the journey
+   opens after the subscription is active, between Robo Block (keep the blocks road of their city) and Python (typed code, which
+   lives in the Engineers town): Python makes «s» their city (earlier towns stay open to visit). They can switch back any time from
+   the menu, and the blocks choice puts back the city they had. Trainers / admins (prog.all) and class-limited kids aren't asked. ---------- */
+const PICK_AGE=10;
+const pickEligible=()=>loggedKid()&&kidAccess.id===cloudKid&&kidAccess.paid&&!prog.all&&!prog.allowed&&(prog.age||0)>=PICK_AGE&&(prog.startPick==="py"||homeCity()!=="s");
+function pickMenu(){const b=$("pickBtn");if(!b)return;b.hidden=!pickEligible();b.textContent=t().pickMenu}
+let pickT=0;
+function startPickSoon(){pickMenu();clearTimeout(pickT);pickT=setTimeout(()=>{if(pickEligible()&&!prog.startPick&&view==="home"&&$("gm").hidden)startPick()},900)}
+function startPick(){const c=t(),cur=prog.startPick;
+  const blk=(cls,txt)=>'<span class="pkb '+cls+'">'+txt+'</span>',q=x=>'<i class="pkq"><bdi>'+esc(x)+'</bdi></i>';
+  const EX=[
+   {blocks:'<div class="pkst">'+blk("ev","when 🚩 clicked")+'<div class="pkc"><span class="pkb ctl">repeat <i class="pkn">3</i></span><div class="pkin">'+blk("lk","say "+q(c.pickHi))+'</div><span class="pkb ctl end"></span></div></div>',
+    code:'<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="nm">3</span>):\n    <span class="fn">print</span>(<span class="st">"<bdi>'+esc(c.pickHi)+'</bdi>"</span>)'},
+   {blocks:'<div class="pkst">'+blk("ev","when 🚩 clicked")+'<div class="pkc"><span class="pkb ctl">if <i class="pkop">score &gt; <i class="pkn">10</i></i> then</span><div class="pkin">'+blk("lk","say "+q(c.pickWin))+'</div><span class="pkb ctl mid">else</span><div class="pkin">'+blk("lk","say "+q(c.pickMore))+'</div><span class="pkb ctl end"></span></div></div>',
+    code:'<span class="kw">if</span> score &gt; <span class="nm">10</span>:\n    <span class="fn">print</span>(<span class="st">"<bdi>'+esc(c.pickWin)+'</bdi>"</span>)\n<span class="kw">else</span>:\n    <span class="fn">print</span>(<span class="st">"<bdi>'+esc(c.pickMore)+'</bdi>"</span>)'}];
+  const card=(k,ic,ti,sub,pts,who,btn)=>'<div class="pkcard pk-'+k+(cur===k?" cur":"")+'"><div class="pkhead"><span class="pkic" aria-hidden="true">'+ic+'</span><div><h3>'+esc(ti)+'</h3><small>'+esc(sub)+'</small></div></div>'+
+    '<div class="pkex" data-pane="'+k+'"></div><ul class="pkpts">'+pts.map((x,i)=>'<li class="'+(k==="py"&&i===pts.length-1?"warn":"")+'">'+esc(x)+'</li>').join("")+'</ul><p class="pkwho">'+esc(who)+'</p><button class="btn '+(k==="blocks"?"lprim":"ghostb")+' pkgo" data-pick="'+k+'">'+esc(btn)+'</button></div>';
+  gmOpen('<div class="pkwrap"><h2>'+esc(c.pickT)+'</h2><p class="pksub">'+esc(c.pickSub)+'</p>'+
+    '<div class="pktabs" role="tablist">'+c.pickExT.map((x,i)=>'<button role="tab" class="pktab'+(i?"":" on")+'" data-ex="'+i+'" aria-selected="'+(i?"false":"true")+'">'+esc(x)+'</button>').join("")+'</div><p class="pktask" id="pkTask"></p>'+
+    '<div class="pkgrid">'+card("blocks","🧩",c.pickBlocksT,c.pickBlocksSub,c.pickBlocks,c.pickBlocksWho,c.pickBlocksBtn)+card("py","🐍",c.pickPyT,c.pickPySub,c.pickPy,c.pickPyWho,c.pickPyBtn)+'</div>'+
+    '<p class="picknote">'+esc(c.pickNote)+'</p></div>',true);
+  const show=i=>{const g=$("gmCard");g.querySelector('[data-pane="blocks"]').innerHTML=EX[i].blocks;g.querySelector('[data-pane="py"]').innerHTML='<pre class="pkcode" dir="ltr"><span class="pkdots"><i></i><i></i><i></i><b>main.py</b></span>'+EX[i].code+'</pre>';
+    $("pkTask").textContent=c.pickTask[i];g.querySelectorAll(".pktab").forEach(b=>{const on=+b.dataset.ex===i;b.classList.toggle("on",on);b.setAttribute("aria-selected",on)})};
+  show(0);$("gmCard").querySelectorAll(".pktab").forEach(b=>b.onclick=()=>show(+b.dataset.ex));
+  $("gmCard").querySelectorAll("[data-pick]").forEach(b=>b.onclick=()=>setStartPick(b.dataset.pick))}
+function setStartPick(k){
+  if(k==="py"&&prog.startPick!=="py"){prog.placeBlocks=prog.place?Object.assign({},prog.place):null;prog.place={c:"s"};prog.city="s"}
+  if(k==="blocks"&&prog.startPick==="py"){if(prog.placeBlocks)prog.place=prog.placeBlocks;else delete prog.place;delete prog.placeBlocks;ensurePlace(false);prog.city=homeCity()}
+  prog.startPick=k;homeSpec=null;saveProg();pickMenu();gmClose();toast(k==="py"?t().pickPyDone:t().pickBlocksDone)}
+Object.assign(T.ar,{pickMenu:"🔀 أبدأ ببايثون ولا بالبلوكات؟",pickT:"تحب تبدأ بإيه؟",pickSub:"إنت مشترك 🎉 وتقدر تختار طريقك في البرمجة. الطريقين بيوصّلوك لنفس المكان، الفرق في طريقة الكتابة.",
+  pickBlocksT:"روبو بلوك",pickBlocksSub:"بتسحب البلوكات وتركّبها",pickBlocks:["من غير كتابة ولا أخطاء إملائية","ألعاب وقصص وأنيميشن بسرعة","نفس أفكار البرمجة، وبعدها بايثون أسهل"],
+  pickBlocksWho:"مناسب لو دي أول مرة تبرمج، أو بتحب تعمل ألعاب.",pickBlocksBtn:"أبدأ بالبلوكات 🧩",
+  pickPyT:"بايثون",pickPySub:"بتكتب الكود بإيدك",pickPy:["زي المهندسين بالظبط، على الكيبورد","لغة الذكاء الاصطناعي وشركات زي جوجل","هتروح مدينة المهندسين 🛠️","أصعب في الأول: الكتابة لازم تبقى مظبوطة بالحرف"],
+  pickPyWho:"مناسب لو بتحب الكتابة على الكيبورد وعندك صبر، أو جرّبت سكرتش قبل كده.",pickPyBtn:"أبدأ ببايثون 🐍",
+  pickExT:["مثال ١: التكرار","مثال ٢: لو… وإلا"],pickTask:["المهمة: روبو يقول «أهلاً» ٣ مرات","المهمة: لو السكور أكبر من ١٠ يقول «كسبت»، وإلا «كمّل»"],pickHi:"أهلاً",pickWin:"كسبت",pickMore:"كمّل",pickNote:"نفس البرنامج بالطريقتين 👆 مش متأكد؟ ابدأ بالبلوكات. وتقدر تغيّر اختيارك في أي وقت من القايمة ☰.",pickPyDone:"🐍 يلا بينا على بايثون في مدينة المهندسين!",pickBlocksDone:"🧩 يلا بينا على البلوكات!"});
+Object.assign(T.en,{pickMenu:"🔀 Start with Python or blocks?",pickT:"How would you like to start?",pickSub:"You're subscribed 🎉 and you can pick your coding road. Both lead to the same place; the difference is how you write code.",
+  pickBlocksT:"Robo Block",pickBlocksSub:"Drag and snap blocks",pickBlocks:["No typing, no spelling mistakes","Games, stories and animations, fast","The same coding ideas, so Python is easier later"],
+  pickBlocksWho:"Good if it's your first time coding, or if you love making games.",pickBlocksBtn:"Start with blocks 🧩",
+  pickPyT:"Python",pickPySub:"Type the code yourself",pickPy:["Exactly like engineers, on the keyboard","The language of AI and companies like Google","You'll go to the Engineers' town 🛠️","Harder at first: the typing must be exactly right"],
+  pickPyWho:"Good if you like typing and have patience, or you've tried Scratch before.",pickPyBtn:"Start with Python 🐍",
+  pickExT:["Example 1: repeat","Example 2: if… else"],pickTask:["The task: Robo says «Hi!» 3 times","The task: if the score is over 10 say «You win!», else «Keep going!»"],pickHi:"Hi!",pickWin:"You win! 🏆",pickMore:"Keep going!",pickNote:"The same program both ways 👆 Not sure? Start with blocks. You can change your choice any time from the ☰ menu.",pickPyDone:"🐍 Off to Python in the Engineers' town!",pickBlocksDone:"🧩 Off to the blocks!"});
 function payNudge(){const c=t();gmOpen('<span class="robo-art" data-mood="happy" style="width:86px" aria-hidden="true"></span><h2>'+esc(c.payT)+'</h2><p>'+esc(c.payP)+'</p><div class="gmacts"><a class="btn lprim" style="text-decoration:none" href="/subscribe?kid='+encodeURIComponent(cloudKid||"")+'">'+esc(c.payGo)+'</a><a class="chip ghost" style="text-decoration:none" href="/plans">'+esc(c.payPlans)+'</a><button class="chip ghost" id="gmX">'+esc(c.xClose)+'</button></div>');$("gmX").onclick=gmClose}
 // the world the child is working on now: first open game world not finished yet
 const currentWorld=()=>playable().find(m=>worldOpen(m)&&!solvedAll(m)&&!(prog.mastered||{})[m]);
@@ -1683,7 +1747,9 @@ function inject(){
    window so Blockly's own handler doesn't undo a second time. */
 addEventListener("keydown",e=>{if(!(e.ctrlKey||e.metaKey)||e.altKey||view!=="play"||!ws||$("blockly").hidden||!$("paint").hidden)return;
   const tg=e.target,typing=tg&&(/^(INPUT|TEXTAREA|SELECT)$/.test(tg.tagName)||tg.isContentEditable||(tg.closest&&tg.closest(".blocklyWidgetDiv,.blocklyHtmlInput")));if(typing)return;
-  const z=e.code==="KeyZ",y=e.code==="KeyY";if(!z&&!y)return;e.preventDefault();e.stopPropagation();if(running)return;
+  const z=e.code==="KeyZ",y=e.code==="KeyY",d=e.code==="KeyD";if(!z&&!y&&!d)return;e.preventDefault();e.stopPropagation();if(running)return;
+  // Ctrl+D duplicates the chosen block (with the blocks under it), like every Robo Lab; Ctrl+C / Ctrl+V are Blockly's own
+  if(d){const b=Blockly.getSelected&&Blockly.getSelected();if(b&&b.isDeletable&&b.isDeletable()&&!b.isShadow()){try{const nb=Blockly.Xml.domToBlock(Blockly.Xml.blockToDom(b,true),ws);nb.moveBy(30,30);nb.select&&nb.select()}catch(_){}}return}
   try{Blockly.hideChaff()}catch(_){}ws.undo(y||(z&&e.shiftKey))},true);
   ws.addChangeListener(e=>{if(!e.isUiEvent&&isFree())freeAuto()});
   ws.addChangeListener(e=>{if(e.type===Blockly.Events.CLICK&&e.targetType==="block"&&e.blockId&&isFree()){const b=ws.getBlockById(e.blockId);if(b)skRunStack(b)}});
@@ -1985,7 +2051,7 @@ async function renderAdmin(){const c=t(),el=$("admin");if(!isStaff()){el.innerHT
   const tabs=[["students",c.adStudents],["grid",c.adGrid],["lessons",c.adLessons],["classes",c.adClasses],["report",c.adReport],["content",c.adContent]];
   let body="";const date=d=>d?new Date(d).toLocaleDateString(lang==="ar"?"ar-EG":"en-GB",{day:"numeric",month:"short"}):"—";
   if(adminTab==="students"){body='<div class="atable" role="region" aria-label="'+esc(c.adStudents)+'" tabindex="0"><table><thead><tr><th>'+esc(c.adKid)+'</th><th>'+esc(c.adAge)+'</th><th>'+esc(c.adParent)+'</th><th>'+esc(c.adClass)+'</th><th>'+esc(c.adPts)+'</th><th>'+esc(c.adProg)+'</th><th>'+esc(c.adLast)+'</th><th></th></tr></thead><tbody>'+
-    (adm.st.length?adm.st.map(k=>{const p=adm.pr[k.parent_id]||{},s=kidStats(k);return '<tr><td><b>'+esc(k.name)+'</b></td><td>'+num(k.age)+'</td><td>'+esc(p.full_name||"")+'<br><small dir="ltr">'+esc(p.phone||p.email||"")+'</small></td>'+
+    (adm.st.length?adm.st.map(k=>{const p=adm.pr[k.parent_id]||{},s=kidStats(k);return '<tr><td><b>'+esc(k.name)+'</b></td><td>'+num(k.age)+'</td><td>'+esc(p.full_name||"")+(p.email&&!/@phone\.roboegypt\.com$/.test(p.email)?'<br><small dir="ltr">'+esc(p.email)+'</small>':'')+(p.phone?'<br><small dir="ltr">'+esc(p.phone)+'</small>':'')+'</td>'+
       '<td><select data-cls="'+k.id+'"><option value="">—</option>'+adm.cl.map(cl=>'<option value="'+cl.id+'"'+(cl.id===k.class_id?" selected":"")+'>'+esc(cl.name)+'</option>').join("")+'</select></td>'+
       '<td>'+num(s.points)+'</td><td><div class="bar" title="'+s.done+'/'+s.all+'"><span style="width:'+s.pct+'%"></span></div><small>'+num(s.pct)+'%</small></td><td>'+date(s.when)+'</td><td><button class="chip ghost" data-rep="'+k.id+'">'+esc(c.adReport)+'</button></td></tr>'}).join(""):'<tr><td colspan="8">'+esc(c.adEmpty)+'</td></tr>')+'</tbody></table></div>'}
   if(adminTab==="grid"){const W=ALLW.filter(m=>WORLD_META[m]&&WORLD_META[m].play);if(!W.includes(gridW))gridW=W[0];if(gridCls&&!adm.cl.some(x=>x.id===gridCls))gridCls="";
@@ -2135,7 +2201,7 @@ function courseHTML(m){const n=wName(m),lv=levelsOf(m),done=lv.filter((_,i)=>pro
    '<ol class="lessons">'+lessonsOf(m).map((ls,j)=>{const d=ls.idx.filter(i=>prog.solved[m][i]).length,full=d===ls.idx.length,lk=!open||!levelOpen(m,ls.idx[0]);
      return '<li class="lesson'+(full?" ok":"")+(lk?" locked":"")+(open&&ls.idx.includes(nextI)?" cur":"")+'"><div class="lname"><span class="lno" aria-hidden="true">'+(full?"✓":lk?"🔒":num(j+1))+'</span><div><b>'+esc(lessonName(ls,j+1))+'</b><small>'+esc(tt?tt[ls.idx[0]]||"":"")+'</small></div><span class="lcount">'+num(d)+' / '+num(ls.idx.length)+'</span></div>'+
       '<div class="bubbles">'+extrasHTML(m,ls,"pre")+ls.idx.map(i=>bubble(m,i,nextI,tt)).join("")+extrasHTML(m,ls,"post")+'</div></li>'}).join("")+'</ol>'+bossHTML(m)+'</div>'}
-function renderHome(){
+function renderHome(){if(!prog.startPick&&kidAccess.paid&&typeof startPickSoon==="function")startPickSoon();
   const side=prog.side==="robo"?"robo":"games";
   $("sGames").textContent=t().sideGames;$("sRobo").textContent=t().sideRobo;
   $("sGames").setAttribute("aria-selected",side==="games");$("sRobo").setAttribute("aria-selected",side==="robo");
@@ -3797,7 +3863,7 @@ function applyText(){
   const u=UNLOCK[w]||{},fresh=L>0&&!prog.all&&!placing?Object.keys(u).filter(b=>u[b]===L):[];
   const label=b=>({bibo_east:"➡",bibo_up:"⬆",bibo_down:"⬇",bibo_west:"⬅",bibo_repeat:small()?"🔁":bt().bRepeat.replace(" %1",""),bibo_move:bt().bMove,bibo_left:bt().bLeft,bibo_right:bt().bRight})[b];
   $("expect").hidden=!isPy();if(isPy()){$("expectL").textContent=t().expectL;$("expectPre").textContent=SKL()[L].expect||""}
-  $("aboutBtn").textContent=t().aboutBtn;$("labBtn").textContent=lang==="ar"?"🧪 روبو لاب: كل المختبرات":"🧪 Robo Lab: all the labs";$("acctBtn").textContent=t().acctBtn;if(view==="acct")renderAcct();if(view==="admin")renderAdmin();if(view==="landing")renderLanding();
+  $("aboutBtn").textContent=t().aboutBtn;if(typeof pickMenu==="function")pickMenu();$("labBtn").textContent=lang==="ar"?"🧪 روبو لاب: كل المختبرات":"🧪 Robo Lab: all the labs";$("acctBtn").textContent=t().acctBtn;if(view==="acct")renderAcct();if(view==="admin")renderAdmin();if(view==="landing")renderLanding();
   $("codeL").textContent=t().codeL;$("codeGo").textContent=t().codeGo;$("pinIn").placeholder=t().pinPh;$("pinSet").textContent=t().pinSetL;$("pinSet").hidden=!prog.all;$("pinIn").hidden=false;
   const task=isSk()&&SKL()[L].free?t().freeTask:isSk()?skt().hints[L]:t().hints[mode==="bar"?"bar":w][L];
   if(isSk()&&SKL()[L].free)$("lvGoal").textContent="🧱 روبو بلوك";
@@ -4012,12 +4078,53 @@ const SND_ALL=["Pop","Drum","Boing","Music","Coin","Laser","Win","Jump","Bell","
 // from the device (no internet, no cost); pitch and rate turn them into a boy, a girl, a giant…
 const TTS_VOICES=[["robo","🤖","روبو","m",.55,1.05],["boy","👦","ولد","m",1.45,1.1],["girl","👧","بنت","f",1.6,1.08],["man","👨","راجل","m",.9,1],["woman","👩","ست","f",1.1,1],["giant","🦣","عملاق","m",.1,.78],["mouse","🐭","فار","f",2,1.45],["grandpa","👴","جدّو","m",.7,.82]];
 const TTS_F=/(female|hoda|laila|layla|zeina|salma|mariam|amira|hala|samantha|zira|karen|victoria|susan|tessa|moira|fiona|ava|allison|aria|jenny|sara)/i,TTS_M=/(male|naayf|maged|tarik|hamed|shakir|david|mark|daniel|alex|fred|guy|james|george|ryan)/i;
-function ttsSpeak(txt,voice,lng){if(!window.speechSynthesis)return;const ar=lng==="ar"||(lng!=="en"&&/[\u0600-\u06FF]/.test(txt)),P=TTS_VOICES.find(v=>v[0]===voice);
-  const u=new SpeechSynthesisUtterance(txt);u.lang=ar?"ar-EG":"en-US";
-  const all=speechSynthesis.getVoices()||[],L=all.filter(v=>v.lang&&v.lang.toLowerCase().startsWith(ar?"ar":"en"));
-  if(P){const want=L.filter(v=>(P[3]==="f"?TTS_F:TTS_M).test(v.name));if(want[0]||L[0])u.voice=want[0]||L[0];u.pitch=P[4];u.rate=P[5]}else{if(L[0])u.voice=L[0];u.rate=.95}
+/* text to speech, fixed (Youssef, 13 Nov 2026): «Arabic doesn't work and the English voices all sound the same».
+   1) Chrome's online voices («Google …») ignore pitch, so the boy / giant / mouse sounded alike: a voice with a pitch now
+      prefers a voice on the device (localService), which follows pitch and rate.
+   2) Many PCs have no Arabic voice: then the child gets a clear note once (and how to add one) instead of silence.
+   3) The voice list loads late in Chrome: it is cached and refreshed on «voiceschanged». */
+let TTS_LIST=[],ttsWarned=false;
+const ttsLoad=()=>{try{TTS_LIST=speechSynthesis.getVoices()||[]}catch(e){TTS_LIST=[]}};
+function ttsPick(ar,P){const L=TTS_LIST.filter(v=>v.lang&&v.lang.toLowerCase().replace("_","-").startsWith(ar?"ar":"en"));if(!L.length)return null;
+  const eg=ar?L.filter(v=>/ar-eg/i.test(v.lang)):L.filter(v=>/en-(us|gb)/i.test(v.lang)),base=eg.length?eg.concat(L.filter(v=>!eg.includes(v))):L;
+  const local=base.filter(v=>v.localService),pool=P&&P[4]!==1&&local.length?local:base;   // pitch only works on the device's own voices
+  const want=P?pool.filter(v=>(P[3]==="f"?TTS_F:TTS_M).test(v.name)):[];return want[0]||pool[0]}
+function ttsNoArabic(){if(ttsWarned)return;ttsWarned=true;
+  const win=/Windows/i.test(navigator.userAgent),andr=/Android/i.test(navigator.userAgent);
+  toast(lang==="ar"?"🔇 الجهاز ده مفيهوش صوت عربي، فروبو مش هيتكلم عربي. "+(win?"تقدر تضيفه من إعدادات ويندوز ← الوقت واللغة ← الكلام ← إضافة أصوات ← العربية.":andr?"تقدر تضيفه من إعدادات أندرويد ← تحويل النص إلى كلام ← محرك Google ← تثبيت البيانات الصوتية ← العربية.":"ضيف صوت عربي من إعدادات الجهاز (تحويل النص إلى كلام).")
+    :"🔇 This device has no Arabic voice. Add one in the device's text-to-speech settings.")}
+// inside the Android app the WebView has no speechSynthesis: use the phone's own speech engine (the app's TextToSpeech plugin),
+// which speaks Arabic when the phone has the Arabic voice data, and follows pitch and rate
+const ttsNative=()=>{const C=window.Capacitor;if(!C||!C.isNativePlatform||!C.isNativePlatform())return null;try{return (C.Plugins&&C.Plugins.TextToSpeech)||(C.registerPlugin&&C.registerPlugin("TextToSpeech"))||null}catch(e){return null}};
+let ttsNativeLangs=null;
+async function ttsSpeakNative(N,txt,ar,P){
+  if(!ttsNativeLangs){try{ttsNativeLangs=((await N.getSupportedLanguages())||{}).languages||[]}catch(e){ttsNativeLangs=[]}}
+  if(ar&&ttsNativeLangs.length&&!ttsNativeLangs.some(l=>/^ar/i.test(l))){ttsNoArabic();return}
+  try{await N.stop()}catch(e){}
+  try{await N.speak({text:txt,lang:ar?(ttsNativeLangs.find(l=>/^ar-EG/i.test(l))||ttsNativeLangs.find(l=>/^ar/i.test(l))||"ar"):"en-US",rate:P?P[5]:.95,pitch:P?Math.max(.1,P[4]):1,volume:1,category:"ambient"})}catch(e){if(ar)ttsNoArabic()}}
+/* natural voices (Youssef, 13 Nov 2026: «add Azure for the dialects»): when online, the sentence is spoken by Azure's Egyptian
+   voices (Shakir / Salma) or English ones, through our edge function «tts», which makes each sentence once and keeps the mp3.
+   Offline, no key yet, or any error: the device's own voices below, as before. */
+const ttsAz={off:false,cache:new Map(),au:null};
+async function ttsAzure(txt,voice,ar){
+  if(ttsAz.off||!navigator.onLine||!txt||txt.length>200)return false;
+  const k=(ar?"ar":"en")+"|"+(voice||"man")+"|"+txt;let url=ttsAz.cache.get(k);
+  if(!url){const ac=new AbortController(),t=setTimeout(()=>ac.abort(),6000);
+    try{const r=await fetch(SB_URL+"/functions/v1/tts",{method:"POST",signal:ac.signal,headers:{"Content-Type":"application/json",apikey:SB_KEY},body:JSON.stringify({text:txt,voice:voice||"man",lang:ar?"ar":"en"})});
+      if(r.status===503||r.status===403){ttsAz.off=true;return false}if(!r.ok)return false;url=(await r.json()).url;if(!url)return false;ttsAz.cache.set(k,url)}
+    catch(e){return false}finally{clearTimeout(t)}}
+  try{if(ttsAz.au)ttsAz.au.pause();const a=new Audio(url);ttsAz.au=a;await a.play();return true}catch(e){return false}}
+function ttsSpeak(txt,voice,lng){const ar=lng==="ar"||(lng!=="en"&&/[\u0600-\u06FF]/.test(txt));
+  ttsAzure(String(txt||"").replace(/\s+/g," ").trim(),voice,ar).then(ok=>{if(!ok)ttsDevice(txt,voice,lng)})}
+function ttsDevice(txt,voice,lng){const N=ttsNative();if(N){const ar=lng==="ar"||(lng!=="en"&&/[\u0600-\u06FF]/.test(txt));ttsSpeakNative(N,txt,ar,TTS_VOICES.find(v=>v[0]===voice));return}
+  if(!window.speechSynthesis)return;if(!TTS_LIST.length)ttsLoad();
+  const ar=lng==="ar"||(lng!=="en"&&/[\u0600-\u06FF]/.test(txt)),P=TTS_VOICES.find(v=>v[0]===voice);
+  const v=ttsPick(ar,P);if(ar&&!v){ttsNoArabic();return}
+  const u=new SpeechSynthesisUtterance(txt);u.lang=v?v.lang:ar?"ar-EG":"en-US";if(v)u.voice=v;
+  if(P){u.pitch=P[4];u.rate=P[5]}else u.rate=.95;
   speechSynthesis.cancel();speechSynthesis.speak(u)}
-try{speechSynthesis.getVoices()}catch(e){}
+try{ttsLoad();speechSynthesis.addEventListener("voiceschanged",ttsLoad)}catch(e){}
+
 // in a block's sound menu, pointing at a sound plays it (the same rule as the library)
 document.addEventListener("mouseover",e=>{const it=e.target.closest&&e.target.closest(".blocklyDropDownDiv .blocklyMenuItem,.blocklyDropDownDiv [role=option]");if(!it||muted)return;
   const n=it.textContent.trim();if(!SND_ALL.includes(n)||it._t&&performance.now()-it._t<700)return;it._t=performance.now();try{const a=sndCtx();if(a)sndSynth(a,n,a.currentTime,a.destination)}catch(_){}});
@@ -6022,7 +6129,7 @@ $("acctBtn").onclick=()=>{if(!running)show("acct")};
 sbInit();
 $("aboutBtn").onclick=()=>{if(!running)location.href=APP?"https://roboegypt.com/":"/"};
 // inside the «رحلة روبو» app (Windows/Mac/Android) the app opens on the journey, and the labs page is one tap away in the menu
-$("labBtn").hidden=!APP;$("labBtn").onclick=()=>{if(!running)location.href="/lab/index.html"};
+$("pickBtn").onclick=()=>{if(!running)startPick()};$("labBtn").hidden=!APP;$("labBtn").onclick=()=>{if(!running)location.href="/lab/index.html"};
 $("codeBox").onsubmit=e=>{e.preventDefault();const r=openByCode($("codeIn").value);$("codeErr").textContent=r?t()[r]:"";if(!r)$("codeIn").value=""};
 // a link like …#S7-4 (from a QR code in the book) opens that level straight away
 // links from the new home page: journey.html?go=login|reg|start|hoc|course&m=…|board (&age=…)
@@ -6051,6 +6158,10 @@ window.__bibo={blockRules,storyOpen,storyCheck,get story(){return story},celebra
       const parts=n.nodeValue.split("🚩"),fr=document.createDocumentFragment();parts.forEach((x,k)=>{if(k){const sp=document.createElement("span");sp.className="gf";sp.textContent="🚩";fr.appendChild(sp)}if(x)fr.appendChild(document.createTextNode(x))});p.replaceChild(fr,n)})}
   const st=document.createElement("style");st.textContent=".gf{filter:"+FIX+";display:inline-block}";document.head.appendChild(st);
   new MutationObserver(()=>{if(!q){q=true;requestAnimationFrame(fix)}}).observe(document.body,{childList:true,subtree:true,characterData:true});fix()})();
+
+/* the site's admin pages link here (/journey.html#admin): once the account has loaded, open the full admin panel
+   (every child with the parent's email, points, progress per world, reports, classes). Youssef, 13 Nov 2026 */
+if(location.hash==="#admin"){let tries=0;const go=()=>{if(typeof isStaff==="function"&&isStaff()){adm=null;show("admin");return}if(++tries<25)setTimeout(go,600)};setTimeout(go,800)}
 </script>
 
 </body>
