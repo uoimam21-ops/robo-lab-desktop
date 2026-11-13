@@ -1,0 +1,22 @@
+# Microsoft Store (MSIX / AppX) for Windows 10 / 11. The Store signs it and updates it, so: no signing here, no
+# self-update (electron/updates.js skips when process.windowsStore). Identity from Partner Center (Product identity).
+appId: com.roboegypt.lab
+productName: Robo Journey
+copyright: Robo Egypt
+directories: { output: dist/store, buildResources: build }
+files: [electron/**, launcher/**, www/**, package.json, "!**/*.map"]
+asar: false
+extraResources: [{ from: arduino, to: arduino }]
+win:
+  icon: build/icon.ico
+  target: [{ target: appx, arch: [x64] }]
+  artifactName: Robo-Journey-${version}-microsoft-store.${ext}
+appx:
+  identityName: RoboEgypt.525498DF2ACF0
+  publisher: CN=ADDA1F84-FF88-47F7-932B-D7EA5A52B386
+  publisherDisplayName: Robo Egypt
+  applicationId: RoboJourney
+  displayName: رحلة روبو
+  languages: [ar-EG, en-US]
+  backgroundColor: "#FFFFFF"
+  showNameOnTiles: false
