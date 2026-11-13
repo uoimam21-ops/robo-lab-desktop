@@ -46,6 +46,7 @@
     "pyodide": "0.26.4"
   },
   "dependencies": {
+    "@capacitor-community/text-to-speech": "^8.0.2",
     "electron-updater": "6.6.2"
   }
 }
