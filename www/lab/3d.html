@@ -12,18 +12,20 @@
 <meta property="og:title" content="روبو كاد: تصميم ثلاثي الأبعاد للأطفال وطباعة 3D">
 <meta property="og:description" content="صمّم مجسمات ثلاثية الأبعاد في المتصفح: أشكال وفتحات وألوان ومقاسات بالملّي، وصدّر ملف STL للطباعة. من Robo Egypt.">
 <meta property="og:url" content="https://roboegypt.com/lab/3d">
-<meta property="og:image" content="https://roboegypt.com/assets/og/lab-3d.jpg">
+<meta property="og:image" content="https://roboegypt.com/assets/og/v2/lab-3d.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "روبو كاد (Robo CAD)", "alternateName": "Robo CAD", "url": "https://roboegypt.com/lab/3d", "description": "صمّم مجسمات ثلاثية الأبعاد في المتصفح: أشكال وفتحات وألوان ومقاسات بالملّي، وصدّر ملف STL للطباعة. من Robo Egypt.", "applicationCategory": "EducationalApplication", "operatingSystem": "Web browser, Windows", "inLanguage": "ar", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EGP"}, "image": "https://roboegypt.com/assets/og/lab-3d.jpg", "audience": {"@type": "EducationalAudience", "educationalRole": "student", "audienceType": "أطفال وتينز", "suggestedMinAge": 8, "suggestedMaxAge": 17}, "provider": {"@type": "EducationalOrganization", "name": "Robo Egypt", "url": "https://roboegypt.com"}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "روبو كاد (Robo CAD)", "alternateName": "Robo CAD", "url": "https://roboegypt.com/lab/3d", "description": "صمّم مجسمات ثلاثية الأبعاد في المتصفح: أشكال وفتحات وألوان ومقاسات بالملّي، وصدّر ملف STL للطباعة. من Robo Egypt.", "applicationCategory": "EducationalApplication", "operatingSystem": "Web browser, Windows", "inLanguage": "ar", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EGP"}, "image": "https://roboegypt.com/assets/og/v2/lab-3d.jpg", "audience": {"@type": "EducationalAudience", "educationalRole": "student", "audienceType": "أطفال وتينز", "suggestedMinAge": 8, "suggestedMaxAge": 17}, "provider": {"@type": "EducationalOrganization", "name": "Robo Egypt", "url": "https://roboegypt.com"}}</script>
 <meta name="theme-color" content="#1B2350">
 <link rel="icon" type="image/png" href="/assets/favicon.png">
-  <script type="module" crossorigin src="/assets/d3-DcYSt1IL.js"></script>
-  <link rel="modulepreload" crossorigin href="/assets/lab-Ck2xiEv5.js">
+<script src="/site-bar.js" defer></script>
+  <script type="module" crossorigin src="/assets/d3-CS7w1GK_.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/lab-tours-DMzJh-H9.js">
   <link rel="modulepreload" crossorigin href="/assets/split-DJAd-vnY.js">
-  <link rel="stylesheet" crossorigin href="/assets/lab-GmRgLkqh.css">
-  <link rel="stylesheet" crossorigin href="/assets/d3-o9YM3CXS.css">
+  <link rel="modulepreload" crossorigin href="/assets/task-peek-5dTstnx6.js">
+  <link rel="stylesheet" crossorigin href="/assets/lab-tours-GmRgLkqh.css">
+  <link rel="stylesheet" crossorigin href="/assets/d3-CiyPvpUg.css">
 </head>
 <body>
 <header class="top">
@@ -88,7 +90,7 @@
     <div class="stage3" id="stage3"><canvas id="c3" aria-label="مساحة التصميم الثلاثي الأبعاد"></canvas>
       <canvas id="vcube" width="220" height="220" title="دوس على وش المكعب عشان تبص من الناحية دي" aria-label="مكعب الاتجاهات"></canvas>
       <div class="camtools" aria-label="الكاميرا"><button id="homeBtn" title="الرؤية الرئيسية" aria-label="الرؤية الرئيسية"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></button><button id="fitBtn" title="ركّز على التصميم" aria-label="ركّز على التصميم"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5" fill="none" stroke="currentColor" stroke-width="2"/><rect x="9" y="9" width="6" height="6" transform="rotate(45 12 12)" fill="none" stroke="currentColor" stroke-width="2"/></svg></button><button id="zoomIn" title="قرّب" aria-label="قرّب">＋</button><button id="zoomOut" title="بعّد" aria-label="بعّد">－</button></div>
-      <div class="hint3" id="hint3">النقط البيضا والسودا تغيّر المقاس، واللي فوق تغيّر الارتفاع · دبل كليك على النص تعدّله · كليك يمين واسحب عشان تلف الكاميرا · كليك شمال يختار، واسحب مستطيل تختار أكتر من شكل · العجلة للتقريب · Shift + يمين يحرّك المنظر · Shift مع التكبير = نفس النسبة</div>
+      <button class="keysBtn" id="keysBtn" type="button">ℹ️ معلومات واختصارات</button><div class="hint3" id="hint3">النقط البيضا والسودا تغيّر المقاس، واللي فوق تغيّر الارتفاع · دبل كليك على النص تعدّله · كليك يمين واسحب عشان تلف الكاميرا · كليك شمال يختار، واسحب مستطيل تختار أكتر من شكل · العجلة للتقريب · Shift + يمين يحرّك المنظر · Shift مع التكبير = نفس النسبة</div>
       <div class="props" id="props" hidden>
         <div class="phead"><b id="pTitle">شكل</b><button class="x" id="pClose" aria-label="إغلاق">✕</button></div>
         <div class="seg" role="radiogroup" aria-label="نوع الشكل"><button id="pSolid" class="on">🎨 مُصمت</button><button id="pHole">⬚ فتحة</button></div>
@@ -133,6 +135,43 @@
   </section>
 </main>
 
+<div class="modal" id="keysModal" hidden>
+  <div class="mcard" role="dialog" aria-modal="true" aria-labelledby="kmT">
+    <div class="mHead"><h2 id="kmT">ℹ️ معلومات واختصارات</h2><button class="x" id="kmClose" aria-label="إغلاق">✕</button></div>
+    <h3 class="kmH">بالماوس واللمس</h3>
+    <ul class="kmList">
+      <li>دوس على شكل من الجنب يتحط على السطح، أو اسحبه وحطه في المكان اللي انت عايزه</li>
+      <li>«نص»: اسحبه، وبعدين اكتب الكلمة وغيّر شكلها · دبل كليك على النص تعدّله</li>
+      <li>النقط البيضا والسودا تغيّر المقاس، واللي فوق تغيّر الارتفاع</li>
+      <li>كليك شمال يختار، واسحب مستطيل تختار أكتر من شكل</li>
+      <li>كليك يمين واسحب عشان تلف الكاميرا · Shift + يمين يحرّك المنظر · العجلة للتقريب</li>
+      <li>على التليفون: صباع واحد يلف الكاميرا، وصباعين يقرّبوا ويحرّكوا · اضغط مطوّل على شكل تختاره مع اللي قبله</li>
+    </ul>
+    <h3 class="kmH">اختصارات الكيبورد</h3>
+    <table class="kmKeys"><tbody>
+      <tr><td><kbd>W</kbd></td><td>حرّك</td></tr>
+      <tr><td><kbd>E</kbd></td><td>لف</td></tr>
+      <tr><td><kbd>R</kbd></td><td>المقاس</td></tr>
+      <tr><td><kbd>[</kbd> <kbd>]</kbd></td><td>لف الشكل ١٥° شمال أو يمين</td></tr>
+      <tr><td><kbd>D</kbd></td><td>نزّل الشكل على السطح</td></tr>
+      <tr><td>الأسهم</td><td>حرّك الشكل خطوة (مع <kbd>Shift</kbd>: ١٠ خطوات)</td></tr>
+      <tr><td><kbd>Ctrl</kbd> + <kbd>↑</kbd> <kbd>↓</kbd></td><td>طلّع الشكل لفوق أو نزّله</td></tr>
+      <tr><td><kbd>Shift</kbd> مع التكبير</td><td>كبّر بنفس النسبة</td></tr>
+      <tr><td><kbd>Ctrl</kbd> + <kbd>C</kbd></td><td>انسخ</td></tr>
+      <tr><td><kbd>Ctrl</kbd> + <kbd>X</kbd></td><td>قص</td></tr>
+      <tr><td><kbd>Ctrl</kbd> + <kbd>V</kbd></td><td>الزق</td></tr>
+      <tr><td><kbd>Ctrl</kbd> + <kbd>D</kbd></td><td>نسخة جنبه على طول</td></tr>
+      <tr><td><kbd>Ctrl</kbd> + <kbd>A</kbd></td><td>اختار كل الأشكال</td></tr>
+      <tr><td><kbd>Ctrl</kbd> + <kbd>G</kbd></td><td>جمّع الأشكال المختارة</td></tr>
+      <tr><td><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>G</kbd></td><td>فك المجموعة</td></tr>
+      <tr><td><kbd>Ctrl</kbd> + <kbd>Z</kbd></td><td>رجوع</td></tr>
+      <tr><td><kbd>Ctrl</kbd> + <kbd>Y</kbd></td><td>قدّام</td></tr>
+      <tr><td><kbd>Ctrl</kbd> + <kbd>S</kbd></td><td>احفظ</td></tr>
+      <tr><td><kbd>Delete</kbd></td><td>امسح الشكل</td></tr>
+      <tr><td><kbd>Esc</kbd></td><td>الغي الاختيار</td></tr>
+    </tbody></table>
+  </div>
+</div>
 <div class="modal" id="projModal" hidden>
   <div class="mcard" role="dialog" aria-modal="true" aria-labelledby="pmT">
     <div class="mHead"><h2 id="pmT">مشاريعي</h2><button class="x" id="pmClose" aria-label="إغلاق">✕</button></div>

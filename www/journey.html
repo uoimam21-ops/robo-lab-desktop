@@ -166,15 +166,15 @@ header .hud{flex:1 1 auto;justify-content:center;min-width:0}
 .plan2 h3{font-family:var(--f-display);font-weight:800;font-size:19px;margin:0}
 .plan2 .ps0{color:var(--muted);font-size:13px;margin:0 0 8px}
 .placebox{display:flex;gap:10px;align-items:center;flex-wrap:wrap;border-top:2px dashed var(--line);padding-top:12px}
-.pkwrap{text-align:center}.pkwrap h2{margin:2px 0 4px}.pksub{margin:0 auto 10px;max-width:46ch;color:#5b6080}
-.pktabs{display:inline-flex;gap:4px;padding:4px;border-radius:999px;background:#EEF0F8;margin:2px 0 6px}.pktab{all:unset;cursor:pointer;padding:6px 14px;border-radius:999px;font-weight:700;font-size:.92em;color:#5b6080}.pktab.on{background:#fff;color:#2b1d8f;box-shadow:0 2px 8px rgba(30,30,80,.12)}
-.pktask{margin:0 0 10px;font-weight:700;color:#2b1d8f}
+.pkwrap{text-align:center}.pkwrap h2{margin:2px 0 4px}.pksub{margin:0 auto 10px;max-width:46ch;color:var(--muted)}
+.pktabs{display:inline-flex;gap:4px;padding:4px;border-radius:999px;background:var(--tile);margin:2px 0 6px}.pktab{all:unset;cursor:pointer;padding:6px 14px;border-radius:999px;font-weight:700;font-size:.92em;color:var(--muted)}.pktab.on{background:var(--panel);color:var(--accent);box-shadow:0 2px 8px rgba(30,30,80,.12)}
+.pktask{margin:0 0 10px;font-weight:700;color:var(--accent)}
 .pkgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;text-align:start}@media(max-width:620px){.pkgrid{grid-template-columns:1fr}}
-.pkcard{position:relative;display:flex;flex-direction:column;gap:10px;padding:14px;border-radius:22px;background:#fff;border:1px solid #E6E8F3;box-shadow:0 10px 28px -14px rgba(40,30,120,.35);overflow:hidden}
+.pkcard{position:relative;display:flex;flex-direction:column;gap:10px;padding:14px;border-radius:22px;background:var(--panel);color:var(--ink);border:1px solid var(--line);box-shadow:0 10px 28px -14px rgba(40,30,120,.35);overflow:hidden}
 .pkcard::before{content:"";position:absolute;inset:0 0 auto 0;height:5px}.pk-blocks::before{background:linear-gradient(90deg,#FFAB19,#9966FF)}.pk-py::before{background:linear-gradient(90deg,#3776AB,#FFD43B)}
 .pkcard.cur{outline:3px solid #5B3DF5;outline-offset:-3px}
 .pkhead{display:flex;align-items:center;gap:10px}.pkic{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font-size:24px;flex:none}.pk-blocks .pkic{background:#FFF1D6}.pk-py .pkic{background:#E3EEF9}
-.pkhead h3{margin:0;font-size:1.08em}.pkhead small{color:#6a7090}
+.pkhead h3{margin:0;font-size:1.08em}.pkhead small{color:var(--muted)}
 .pkex{min-height:150px;border-radius:16px;padding:12px;display:flex;align-items:center;justify-content:center}.pk-blocks .pkex{background:repeating-linear-gradient(0deg,#F7F8FC 0 19px,#EEF0F7 19px 20px),repeating-linear-gradient(90deg,transparent 0 19px,#EEF0F7 19px 20px);background-blend-mode:multiply}.pk-py .pkex{background:#0F1630;padding:0;align-items:stretch}
 .pkst{direction:ltr;display:flex;flex-direction:column;align-items:flex-start;font:700 13px/1.2 system-ui,sans-serif;color:#fff}
 .pkb{display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border-radius:8px;box-shadow:inset 0 -2px 0 rgba(0,0,0,.15);white-space:nowrap}
@@ -185,7 +185,7 @@ header .hud{flex:1 1 auto;justify-content:center;min-width:0}
 .pkdots{display:flex;align-items:center;gap:6px;margin:0 -14px 10px;padding:9px 12px;border-bottom:1px solid #1F2950}.pkdots i{width:9px;height:9px;border-radius:50%;background:#FF5F57}.pkdots i+i{background:#FEBC2E}.pkdots i+i+i{background:#28C840}.pkdots b{font-weight:500;color:#8C96B8;font-size:12px;margin-inline-start:6px}
 .pkcode .kw{color:#FF7AB6}.pkcode .fn{color:#7CC4FF}.pkcode .nm{color:#FFB86B}.pkcode .st{color:#A6E37A}
 .pkpts{list-style:none;margin:0;padding:0;display:grid;gap:6px;font-size:.94em}.pkpts li{position:relative;padding-inline-start:26px;line-height:1.55}.pkpts li::before{content:"✓";position:absolute;inset-inline-start:0;top:1px;width:19px;height:19px;border-radius:50%;background:#E3F6EA;color:#1f7a44;font-size:12px;display:grid;place-items:center;font-weight:800}.pkpts li.warn::before{content:"!";background:#FFF1D6;color:#a05a00}
-.pkwho{margin:0;font-size:.9em;color:#4a5070;background:#F5F6FB;border-radius:12px;padding:8px 10px}.pkgo{margin-top:auto;width:100%}
+.pkwho{margin:0;font-size:.9em;color:var(--muted);background:var(--bg);border-radius:12px;padding:8px 10px}.pkgo{margin-top:auto;width:100%}
 .picknote{font-size:.92em;color:#5b6080;margin:12px 0 0}
 .thlist{text-align:start;display:grid;gap:10px;margin:6px 0 4px;padding:0;list-style:none;font-size:1.05em;line-height:1.7}.thlist li{background:var(--soft,#F4F6FF);border-radius:14px;padding:10px 14px}
 .cities{min-width:0}.chsvg{width:100%;height:100%;display:block}.av,.bav,.bigav,.sav{overflow:hidden}.chbox{display:grid;grid-template-columns:minmax(140px,220px) 1fr;gap:16px;align-items:center;margin:8px 0 16px;padding:14px;border:1.5px solid var(--line);border-radius:20px;background:color-mix(in srgb,var(--accent) 6%,var(--panel))}.chstage{background:#141A3F;border-radius:16px;aspect-ratio:200/230;padding:6px}.chopts{display:flex;flex-direction:column;gap:10px;min-width:0}.chopts h4{margin:0}.chrow{display:flex;flex-wrap:wrap;gap:8px}.chk[aria-pressed=true]{background:var(--accent);color:#fff;border-color:var(--accent)}.chsw{width:32px;height:32px;border-radius:50%;border:3px solid var(--line);cursor:pointer;padding:0}.chsw[aria-pressed=true]{border-color:var(--accent);box-shadow:0 0 0 2px var(--panel) inset}.chi b{font-size:13px;text-align:center}.chmini{width:76px;height:76px;border-radius:16px;background:#141A3F;display:block;padding:2px}.chwin{display:flex;align-items:center;gap:12px;justify-content:center;margin:6px 0}.chwin svg{width:90px;height:auto}@media (max-width:560px){.chbox{grid-template-columns:1fr}.chstage{max-width:200px;margin-inline:auto}}.leadbox{margin-top:10px;padding:10px 12px;border-radius:14px;background:rgba(255,255,255,.06)}.leadbox.light{background:color-mix(in srgb,var(--accent) 7%,var(--panel));border:1.5px solid var(--line);margin:0 0 12px}.leadt{display:block;margin-bottom:6px}.leads{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}.leads li{display:flex;align-items:center;gap:6px;padding:4px 10px 4px 6px;border-radius:999px;background:rgba(255,255,255,.1)}.leadbox.light .leads li{background:var(--panel);border:1.5px solid var(--line)}.leads li.mine{outline:2px solid #FFD54A}.leads small{opacity:.8}.leads .bav{width:30px;height:30px;flex:none;border-radius:50%;background:var(--fr);display:grid;place-items:center;font-size:18px;overflow:hidden}.leadnote{margin:4px 0 0;font-size:13.5px;opacity:.85}.lead1{display:block;font-weight:700;color:#B07A00}.hidesw{display:flex;gap:8px;align-items:center;margin:0 0 12px;font-size:14px;cursor:pointer}canvas.confetti{position:fixed;inset:0;width:100vw;height:100vh;pointer-events:none;z-index:9999;background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;margin:0!important;max-width:none!important;aspect-ratio:auto!important}.popper{position:fixed;bottom:max(6px,env(safe-area-inset-bottom,0px));font-size:44px;z-index:10000;pointer-events:none;animation:popr .9s ease-out forwards}.popper.l{left:6px;transform:scaleX(-1)}.popper.r{right:6px}@keyframes popr{0%{opacity:0;scale:.3}15%{opacity:1;scale:1.35}40%{scale:1}100%{opacity:0;scale:1}}.robo-art.dance{animation:dance .7s ease-in-out infinite alternate;transform-origin:50% 90%}@keyframes dance{0%{transform:rotate(-10deg) translateY(0)}100%{transform:rotate(10deg) translateY(-8px)}}@media (prefers-reduced-motion:reduce){.robo-art.dance,.popper{animation:none}}.story{display:flex;flex-direction:column;gap:12px;width:min(560px,100%);margin-inline:auto}.ststage{position:relative;border-radius:18px;overflow:hidden;background:#0B1030;aspect-ratio:320/150}.stcity{display:block;width:100%;height:100%}.stover{position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:center;gap:10px;padding-bottom:8px}.strobo{width:28%;max-width:120px;animation:stin .6s ease-out}.stme{width:20%;max-width:90px;animation:stin .6s .15s ease-out both}.stme svg{width:100%;height:auto;display:block}.duo{gap:4%}.shaw{width:40%;max-width:170px;align-self:center;animation:stin .4s ease-out}.shwj{animation:jit .25s steps(2) infinite}.shawname{position:absolute;top:8px;inset-inline-start:12px;color:#2BE38A;font-weight:800;letter-spacing:.5px;text-shadow:2px 0 #7B2CF5}.st-glitch .stcity{animation:flick 1.2s steps(6) 1}.stwin{animation:twk 1.6s ease-in-out infinite}.pend{border:1.5px solid var(--line);border-radius:16px;overflow:hidden;text-align:center}.pend .stcity{display:block;width:100%;height:auto;max-height:120px}.pend p{margin:0;padding:8px 12px 10px;font-size:15px;line-height:1.8}
@@ -346,7 +346,7 @@ canvas.wide{aspect-ratio:4/3;border:2px solid var(--line);cursor:pointer}
 .xrow{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 .xblk{unicode-bidi:isolate;color:#fff;font-family:var(--f-display);font-weight:700;font-size:14px;border-radius:10px;padding:2px 12px;white-space:nowrap}
 .skinfo{font-family:var(--f-mono);font-size:13px;color:var(--muted);text-align:center;font-variant-numeric:tabular-nums}
-.sprinfo{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;background:var(--tile);border-radius:16px;padding:10px;font-size:13px;font-weight:700;color:var(--muted)}
+.sprinfo{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1.6fr);gap:8px;background:var(--tile);border-radius:16px;padding:10px;font-size:13px;font-weight:700;color:var(--muted)}
 .sprinfo .sihead{grid-column:1/-1;display:flex;gap:8px;align-items:center}
 .sprinfo .sihead input{flex:1;height:40px;font-size:16px;text-align:start}
 .sprinfo .sitile{background:var(--panel,#fff);border:2px solid var(--line);border-radius:14px;padding:8px 10px;display:flex;flex-direction:column;gap:6px;min-width:0}
@@ -354,11 +354,11 @@ canvas.wide{aspect-ratio:4/3;border:2px solid var(--line);cursor:pointer}
 .sprinfo .sitile.wide{grid-column:1/-1;flex-direction:row;align-items:center;gap:10px;flex-wrap:wrap}
 .sprinfo .sirow{display:flex;gap:6px;align-items:center}
 .sprinfo .sirow label{flex:1}
-.sprinfo .sirow input{flex:1;min-width:52px;padding:0 4px}
+.sprinfo .sirow input{flex:1;min-width:40px;padding:0 4px}
 .sprinfo .sib{all:unset;cursor:pointer;min-width:34px;height:34px;padding:0 8px;box-sizing:border-box;border-radius:10px;background:var(--tile);color:var(--ink);font:800 15px var(--f-body);display:grid;place-items:center}
 .sprinfo .sib:hover{background:var(--line)}.sprinfo .sib.on{background:var(--accent);color:#fff}
 .sprinfo .sib:focus-visible{outline:3px solid var(--sun)}
-.sprinfo .sidial{width:52px;height:52px;flex:none}
+.sprinfo .sidial{width:26px;height:26px;flex:none;vertical-align:middle;margin-inline-start:4px}
 .sprinfo .sidial circle:first-child{fill:var(--tile);stroke:var(--line);stroke-width:2}
 .sprinfo .sidial line,.sprinfo .sidial .tip{transform-origin:32px 32px;transform:rotate(var(--a,0deg));transition:transform .2s}
 .sprinfo .sidial line{stroke:#6E33E0;stroke-width:4;stroke-linecap:round}.sprinfo .sidial .tip{fill:#6E33E0}.sprinfo .sidial .mid{fill:var(--ink)}
@@ -371,7 +371,18 @@ canvas.wide{aspect-ratio:4/3;border:2px solid var(--line);cursor:pointer}
 .sprinfo input:focus{border-color:var(--accent);outline:none}
 .sprinfo .nm{grid-column:1/-1}.sprinfo .nm input{text-align:start}
 .sprinfo .eye{display:flex;border:2px solid var(--line);border-radius:999px;overflow:hidden;background:var(--panel,#fff)}
-.sprinfo .eye button{all:unset;cursor:pointer;padding:3px 9px;font-size:15px;line-height:22px}
+.sprinfo .eye button{all:unset;cursor:pointer;padding:0 16px;height:42px;display:flex;align-items:center;gap:4px;font:800 15px var(--f-body);color:var(--ink);white-space:nowrap}
+.sprinfo .eye{border-width:2.5px}
+.sprinfo .sitile{padding:6px 8px;gap:5px}
+.sprinfo .sidirt .sirow input{flex:0 0 46px;min-width:0;padding:0 2px}
+.sprinfo .eye{flex:none}
+.sprinfo .sirow label input{min-width:0}
+.sprinfo .sidirt .siq{display:flex;gap:3px;flex:1;justify-content:flex-end;flex-wrap:nowrap}
+.sprinfo .sidirt .sib{min-width:26px;height:30px;padding:0 3px;font-size:15px}
+.sprinfo .sirow .sib{min-width:30px}
+@media (max-width:560px){.sprinfo{grid-template-columns:1fr 1fr}.sprinfo .sidirt{grid-column:1/-1}}
+/* Robo Block: the stage starts higher, the «روبو بلوك» line above it said what the page already says (Youssef, 14 Nov 2026) */
+body.rb-free .stage>.mission{display:none}
 .sprinfo .eye button.on{background:var(--accent);color:#fff}
 .sprinfo.live input{opacity:.8}
 @media (max-width:520px){.sprinfo{grid-template-columns:repeat(2,minmax(0,1fr))}}
@@ -482,7 +493,9 @@ footer{color:var(--muted);font-size:13px;text-align:center}
 .bubbles .stone.ex{border-style:dashed}.bubbles .stone.ex.done{border-style:solid}
 @media (max-width:700px){.lesson{grid-template-columns:1fr}}
 .hocbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:linear-gradient(135deg,#7b5cff,#2f6fed);color:#fff;border-radius:16px;padding:8px 14px;margin-bottom:12px}
-.hocbar b{font-family:var(--f-display);font-size:18px}.hdots{display:flex;gap:6px;flex-wrap:wrap;flex:1}
+.hocbar b{font-family:var(--f-display);font-size:18px}.hdots{display:flex;gap:6px;flex-wrap:wrap;flex:1 1 auto;min-width:min(100%,260px)}
+/* phones (Youssef, 13 Nov 2026: «the numbers aren't written well»): the title and buttons on one row, the level numbers in one row under them that scrolls sideways */
+@media (max-width:640px){.hocbar{gap:8px;padding:8px 10px}.hocbar b{flex:1 1 0;font-size:15px;min-width:0}.hocbar .hdots{order:3;flex:1 1 100%;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding:3px 2px;min-width:0}.hocbar .hdots::-webkit-scrollbar{display:none}.hocbar .hdots button{flex:0 0 auto}}
 .hdots button{width:30px;height:30px;border-radius:50%;border:2px solid rgba(255,255,255,.7);background:transparent;color:#fff;font-weight:800;cursor:pointer;font-family:var(--f-display)}
 .hdots button.ok{background:#fff;color:#2f6fed}.hdots button.cur{box-shadow:0 0 0 3px #ffd166}
 .hocbar .chip{background:rgba(255,255,255,.15);border-color:#fff;color:#fff}
@@ -705,6 +718,15 @@ body.rb-free .sprbd .bdstrip{display:block;max-height:340px;overflow-y:auto}body
 .sprinfo input{height:38px;border-radius:12px;border-width:1.5px;background:var(--tile)}
 .sprinfo .nm{flex-direction:row;align-items:center;gap:8px;font-size:13px}.sprinfo .nm input{flex:1;background:var(--tile)}
 .sprinfo .eye{height:38px;border-radius:12px;border-width:1.5px;background:var(--tile)}.sprinfo .eye button{flex:1;text-align:center;padding:0;line-height:34px}
+/* two rows, a bigger show/hide (Youssef, 14 Nov 2026) */
+.sprinfo{grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1.6fr)}
+.sprinfo .eye{height:44px;border-width:2px;flex:none}.sprinfo .eye button{flex:none;padding:0 14px;line-height:normal;font-size:15px;height:100%}
+.sprinfo .sihead input{height:44px}
+.sprinfo .sidirt .sirow input{height:38px}
+.sprinfo .sitile{padding:6px 6px}.sprinfo .sirow{gap:4px}.sprinfo .sirow .sib{min-width:26px;padding:0 2px}.sprinfo .sidirt .sib{min-width:24px}
+.sprinfo .sirow input{min-width:34px;padding:0 2px;height:38px}.sprinfo .sitile label input{height:38px!important;flex:none}
+.sprinfo input[type=number]{-moz-appearance:textfield;appearance:textfield}.sprinfo input[type=number]::-webkit-inner-spin-button,.sprinfo input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}.sprinfo .sitile>b{white-space:nowrap}
+@media (max-width:560px){.sprinfo{grid-template-columns:1fr 1fr}}
 .sprbar{display:grid;grid-template-columns:repeat(auto-fill,minmax(78px,1fr));gap:10px}
 .sprbar .sprl{grid-column:1/-1;display:flex;flex-direction:column;gap:2px;color:var(--ink)}.sprbar .sprl b{font-size:14px}.sprbar .sprl small{font-size:12.5px;font-weight:700;color:var(--muted)}
 .sprbar .spr{min-width:0;padding:8px 4px}
@@ -739,6 +761,10 @@ body.rb-free .sprbd .bdstrip{display:block;max-height:340px;overflow-y:auto}body
 @keyframes wpop{0%{transform:scale(.3);opacity:0}100%{transform:scale(1);opacity:1}}
 @media (prefers-reduced-motion:reduce){.winpop .wword,.winpop .wstars i,.winpop .wpts .tot.bump{animation:none}}
 .gm-card{border-color:#7b5cff;max-width:520px;gap:12px}.gm-card.wide{max-width:760px}
+/* a tall window card never hides its buttons on a laptop screen (Youssef, 13 Nov 2026: «تحب تبدأ بإيه؟» had no buttons): it scrolls inside,
+   and on short screens the start-pick card gets more compact */
+.gm-card{max-height:calc(100dvh - 32px);overflow-y:auto;overscroll-behavior:contain}
+@media (max-height:860px){.pkwrap h2{margin:0}.pksub{margin-bottom:6px;font-size:.95em}.pkex{min-height:0;padding:8px}.pkcard{gap:7px;padding:12px}.pkpts{gap:3px;font-size:.9em}.pkwho{display:none}.pktabs{margin:0 0 4px}.pktask{margin:0 0 6px}.picknote{margin:6px 0 0}}
 .gm-card h2{font-family:var(--f-display);margin:0;font-size:22px;color:var(--ink)}.gmacts{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;align-items:center}
 .slide{display:flex;gap:12px;align-items:flex-start;text-align:start}.slide .bubble{flex:1;background:var(--tile);border-radius:18px;padding:14px;position:relative}
 .slide .bubble p{margin:8px 0 0;line-height:1.8}.slide .tr{display:block;margin-top:6px;color:var(--muted);font-size:14px}
@@ -803,11 +829,13 @@ body.rb-free .sprbd .bdstrip{display:block;max-height:340px;overflow-y:auto}body
 .pboard.done{box-shadow:0 0 0 5px var(--mint)}
 .pboard.done .pslot{border:0}
 @media (max-width:640px){.pblk{width:160px}.pboard{width:240px}}
-.k-circ,.k-lab{display:block;padding:0;touch-action:auto}.circframe{display:block;width:100%;height:min(720px,80vh);border:0;border-radius:20px;background:#fff}.circopen{display:block;text-align:center;padding:8px;font-size:13px}
+.k-circ,.k-lab{display:block;padding:0;touch-action:auto}.circframe{display:block;width:100%;height:min(720px,80vh);border:0;border-radius:20px;background:#fff}.circfail{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;margin:10px 0;padding:12px;border-radius:16px;background:#FFF1D6;color:#5a3a00;text-align:center}.circfail[hidden],.circframe[hidden]{display:none}.circbar{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:4px 14px;padding:8px 0}.circbar .circopen{padding:4px}.circfull{min-height:40px}.circbar .circask,.circbar .circdone{display:none;min-height:40px}.ministage.full .circbar .circask,.ministage.full .circbar .circdone{display:inline-flex}.circdone{background:#E7F8F1;color:#11704f;border:2px solid #3fd0a0}.circdone.ready{background:#13a37a;color:#fff;animation:cdPulse 1s ease-in-out infinite alternate}@keyframes cdPulse{to{transform:scale(1.06)}}.circtask{flex-basis:100%;margin:2px 8px 4px;padding:8px 12px;border-radius:12px;background:#FFF8E1;color:#4a3800;font-weight:700;text-align:center;line-height:1.6}.circtask[hidden]{display:none}.circbar .circtask{order:5}
+.ministage.full{position:fixed;inset:0;z-index:2000;margin:0;border-radius:0;background:var(--bg);display:flex;flex-direction:column;padding:0 0 env(safe-area-inset-bottom,0)}.ministage.full .circframe{flex:1;height:auto;min-height:0;border-radius:0}.ministage.full .circbar{order:-1;padding:6px;background:var(--panel);border-bottom:1px solid var(--line)}.ministage.full .circopen{display:none}html.labfull,html.labfull body{overflow:hidden}
+.circopen{display:block;text-align:center;padding:8px;font-size:13px}
 .k-pop{display:block}.balloon{position:absolute;font-size:62px;background:none;border:0;cursor:pointer;line-height:1;padding:0}
 .balloon{width:72px;height:80px;display:grid;place-items:center;touch-action:none;user-select:none}.balloon.drift{animation:fly0 5s ease-in-out infinite alternate}.balloon.drift.f1{animation-name:fly1}.balloon.drift.f2{animation-name:fly2}
 @keyframes fly0{0%{transform:translate(0,0)}50%{transform:translate(26px,-18px)}100%{transform:translate(-20px,14px)}}@keyframes fly1{0%{transform:translate(0,0)}50%{transform:translate(-24px,-16px)}100%{transform:translate(18px,16px)}}@keyframes fly2{0%{transform:translate(0,0)}50%{transform:translate(10px,22px)}100%{transform:translate(-14px,-20px)}}
-.balloon.popped{animation:none;transform:scale(1.3)}
+.balloon.popped{animation:none;transform:scale(1.3);pointer-events:none}
 @media (prefers-reduced-motion:reduce){.balloon.drift{animation-duration:12s}}
 .k-drag{justify-content:space-around}.dsrc{display:flex;flex-direction:column;gap:16px}.dtgts{display:flex;flex-direction:column;gap:16px}
 .ditem{font-size:64px;cursor:grab;user-select:none;touch-action:none;display:inline-block;line-height:1;position:relative;z-index:5}.ditem.dragging{cursor:grabbing;z-index:50}
@@ -817,7 +845,7 @@ body.rb-free .sprbd .bdstrip{display:block;max-height:340px;overflow-y:auto}body
 .sslot small{position:absolute;top:4px;inset-inline-start:8px;font-size:14px;font-weight:800;color:var(--muted)}.sslot.empty{border-style:dashed;cursor:default;background:var(--panel)}
 .sslot.bad{border-color:var(--berry);background:color-mix(in srgb,var(--berry) 12%,var(--panel))}.sslot.good{border-color:var(--mint)}
 .spic{font-size:54px;background:var(--panel);border:3px solid var(--accent);border-radius:18px;width:90px;height:90px;cursor:pointer}
-.k-tile{gap:24px}.tgrid{display:grid;grid-template-columns:repeat(var(--n),1fr);gap:4px;width:min(320px,80vw)}.tgrid.done{gap:0}
+.k-tile{gap:24px}.tgrid{direction:ltr;display:grid;grid-template-columns:repeat(var(--n),1fr);gap:4px;width:min(320px,80vw)}.tgrid.done{gap:0}
 .tpc{padding:0;border:3px solid transparent;border-radius:8px;cursor:pointer;background:none;line-height:0}.tpc img{width:100%;display:block;border-radius:5px}.tpc.sel{border-color:var(--accent);transform:scale(.94)}
 .tlook{display:flex;flex-direction:column;align-items:center}.tlook span{font-size:70px}
 .k-snap{flex-direction:column;align-items:stretch;padding:8px}.miniblockly{height:340px;width:100%;border-radius:14px;overflow:hidden}
@@ -860,6 +888,7 @@ html.booted #bootSplash{opacity:0;pointer-events:none}
 
 <div id="bootSplash" aria-hidden="true"><span class="bot">🤖</span><span class="bar"><i></i></span></div>
 <script>setTimeout(function(){document.documentElement.classList.add("booted")},12000)</script>
+<script src="/site-bar.js" defer></script>
 
 <div class="wrap" id="wrap" dir="rtl">
   <header>
@@ -1132,7 +1161,7 @@ const T={
   newBlock:b=>"🆕 بلوك جديد: "+b,aboutBtn:"🏠 الرئيسية",acctBtn:"👤 حسابي",acTitle:"حساب ولي الأمر",acLead:"سجّل مرة واحدة، وضيف أولادك، وكل طفل تقدّمه بيتحفظ ويكمّل من أي جهاز.",acLogin:"دخول",acReg:"حساب جديد",acGoogle:"الدخول بحساب جوجل",acOr:"أو بالإيميل",
   acName:"اسم ولي الأمر",acPhone:"رقم الموبايل (واتساب)",acEmail:"الإيميل",acPass:"كلمة السر (6 حروف أو أكتر)",acConsent:"أوافق إن أولادي يستخدموا المنصة، وعلى",privT:"سياسة الخصوصية",acRegGo:"اعمل الحساب",acLoginGo:"ادخل",acForgot:"نسيت كلمة السر؟",
   acGuest:"جرّب من غير حساب (التقدّم يتحفظ على الجهاز ده بس)",acWa:"واتساب",acWaLead:"هنبعتلك كود من 6 أرقام على واتساب. لو الرقم جديد هيتعمل حساب على طول.",acWaNew:"لو حساب جديد",acWaSend:"ابعتلي الكود على واتساب",acWaCode:p=>"اكتب الكود اللي وصلك على واتساب على "+p,acWaVerify:"تأكيد",acWaChange:"غيّر الرقم",acWaFail:"مقدرناش نبعت الكود دلوقتي. جرّب الإيميل أو جوجل.",acWaBadCode:"الكود غلط أو انتهى، جرّب تاني.",acBadPhone:"اكتب رقم موبايل مصري صحيح، زي 01xxxxxxxxx.",acPhoneNeed:"آخر خطوة: اكتب رقم موبايلك عشان نبعتلك تقارير ابنك على واتساب.",acNeedEmail:"اكتب الإيميل الأول.",acErr:"حصلت مشكلة، جرّب تاني.",acResetSent:"✓ بعتنالك إيميل فيه رابط تغيير كلمة السر.",acHello:n=>"أهلاً"+(n?" "+n:"")+" 👋",
-  acKidsLead:"اختار الطفل اللي هيلعب، أو ضيف طفل جديد.",adBtn:"🛠 لوحة الإدارة",acOut:"خروج",acAge:a=>a+" سنين",acPlay:"العب",acAdd:"ضيف طفل",acKidName:"اسم الطفل",acKidAge:"السن",acAddGo:"ضيف",acKidNeed:"اكتب اسم الطفل واختار سنّه.",
+  acKidFather:"اسم الأب",acKidsLead:"اختار الطفل اللي هيلعب، أو ضيف طفل جديد.",adBtn:"🛠 لوحة الإدارة",acOut:"خروج",acAge:a=>a+" سنين",acPlay:"العب",acAdd:"ضيف طفل",acKidName:"اسم الطفل",acKidAge:"السن",acAddGo:"ضيف",acKidNeed:"اكتب اسم الطفل واختار سنّه.",
   acNoNet:"مقدرناش نوصل للسيرفر. اتأكد من النت.",acBadEmail:"الإيميل مش مكتوب صح.",acBadPass:"كلمة السر لازم 6 حروف على الأقل.",acNeedName:"اكتب اسمك.",acNeedOk:"لازم توافق على سياسة الخصوصية.",acExists:"الإيميل ده عنده حساب. ادخل من «دخول».",
   acCheckMail:"✓ الحساب اتعمل! افتح الإيميل ودوس على رابط التأكيد، وبعدين ادخل.",acNotConfirmed:"لسه مأكدتش الإيميل. افتح الرسالة اللي بعتناها ودوس على الرابط.",acWrong:"الإيميل أو كلمة السر غلط.",
   privBody:"سياسة الخصوصية: بنحفظ اسم ولي الأمر وإيميله ورقمه، واسم الطفل الأول وسنّه وتقدّمه في الرحلة بس. البيانات دي بيشوفها ولي الأمر ومدربين Robo Egypt، ومش بنبيعها ولا بنشاركها مع حد، ومفيش إعلانات ولا شات. تقدر تطلب مسح حسابك في أي وقت من خلال التواصل معانا.",
@@ -1200,7 +1229,7 @@ const T={
   newBlock:b=>"🆕 New block: "+b,aboutBtn:"🏠 Home",acctBtn:"👤 My account",acTitle:"Parent account",acLead:"Sign up once, add your children, and each child's progress is saved and continues on any device.",acLogin:"Log in",acReg:"New account",acGoogle:"Continue with Google",acOr:"or with email",
   acName:"Parent name",acPhone:"Mobile number (WhatsApp)",acEmail:"Email",acPass:"Password (6+ characters)",acConsent:"I agree that my children use the platform, and to the",privT:"privacy policy",acRegGo:"Create account",acLoginGo:"Log in",acForgot:"Forgot password?",
   acGuest:"Try without an account (progress stays on this device only)",acWa:"WhatsApp",acWaLead:"We'll send a 6-digit code to your WhatsApp. A new number gets an account right away.",acWaNew:"if new",acWaSend:"Send me the code on WhatsApp",acWaCode:p=>"Type the code we sent on WhatsApp to "+p,acWaVerify:"Confirm",acWaChange:"Change number",acWaFail:"We couldn't send the code right now. Try email or Google.",acWaBadCode:"Wrong or expired code, try again.",acBadPhone:"Type a valid Egyptian mobile number, like 01xxxxxxxxx.",acPhoneNeed:"Last step: add your mobile number so we can send your child's reports on WhatsApp.",acNeedEmail:"Type your email first.",acErr:"Something went wrong, try again.",acResetSent:"✓ We emailed you a link to reset your password.",acHello:n=>"Hello"+(n?" "+n:"")+" 👋",
-  acKidsLead:"Pick the child who's playing, or add a new one.",adBtn:"🛠 Admin panel",acOut:"Log out",acAge:a=>a+" years",acPlay:"Play",acAdd:"Add a child",acKidName:"Child's name",acKidAge:"Age",acAddGo:"Add",acKidNeed:"Type the child's name and pick an age.",
+  acKidFather:"Father's name",acKidsLead:"Pick the child who's playing, or add a new one.",adBtn:"🛠 Admin panel",acOut:"Log out",acAge:a=>a+" years",acPlay:"Play",acAdd:"Add a child",acKidName:"Child's name",acKidAge:"Age",acAddGo:"Add",acKidNeed:"Type the child's name and pick an age.",
   acNoNet:"Couldn't reach the server. Check the internet.",acBadEmail:"That email doesn't look right.",acBadPass:"The password needs at least 6 characters.",acNeedName:"Type your name.",acNeedOk:"Please accept the privacy policy.",acExists:"This email already has an account. Use “Log in”.",
   acCheckMail:"✓ Account created! Open your email and click the confirmation link, then log in.",acNotConfirmed:"Your email isn't confirmed yet. Open our message and click the link.",acWrong:"Wrong email or password.",
   privBody:"Privacy policy: we store only the parent's name, email and phone, and each child's first name, age and journey progress. Only the parent and Robo Egypt trainers see it. We never sell or share it, and there are no ads or chat. You can ask us to delete your account at any time.",
@@ -1268,7 +1297,7 @@ Object.assign(T.en,{allCourses:"All courses",contT:"Continue where you left off"
 
 Object.assign(T.ar,{gLv:n=>"مستوى "+n,gRanks:["🌱 مبتدئ","🔧 مستكشف","💡 مبرمج","🚀 مخترع","🏆 أسطورة"],gToNext:(x,n)=>"فاضلك "+x+" نقطة وتوصل مستوى "+n,
   gLevelUp:(n,r)=>"طلعت مستوى "+n+"! "+r,gLessonDone:"خلّصت الدرس! +٢٠ نقطة و +١٠ 🪙",gBadgeNew:n=>"🏅 شارة جديدة: "+n+" (+١٥ 🪙)",
-  gCoins:"عملات",ptsWord:"نقطة",circOpen:"↗ افتح المحاكي في صفحة لوحده",freeTask:"🎮 اصنع ألعابك وقصصك مع Robo Block",freeRan:"✨ اشتغل! كمّل زوّد أفكار، ومتنساش تحفظ 💾",freeSave:"💾 حفظ",freeMine:"📁 مشاريعي",freeNew:"📄 جديد",freeSaved:"💾 اتحفظ المشروع",freeName:"مشروعي",freeEmpty:"لسه مفيش مشاريع",freeOpen:"افتح",lockWorldWhy:"الكورس ده مقفول: خلّص الكورس اللي قبله الأول، أو اعمل «اختبر وتخطّى»",lockLevelWhy:"التحدي ده مقفول: حل التحدي اللي قبله الأول",specName:{games:"أساسيات برمجة الألعاب والقصص",robo:"أساسيات الروبوتكس"},specIcon:{games:"🎮",robo:"🤖"},
+  gCoins:"عملات",ptsWord:"نقطة",circFail:"المعمل مفتحش هنا 😕 جرّب تاني، أو افتحه في صفحة لوحده من اللينك اللي تحت.",circRetry:"🔄 جرّب تاني",circFull:"⛶ كبّر المعمل",circSmall:"✕ صغّر",circAsk:"📋 اظهر المطلوب",circDone:"✅ تمت المهمة",circDoneOk:"🎉 تمت المهمة! دوس هنا",circNotYet:"لسه شوية 💪",circTurn:"لف التليفون بالعرض عشان المعمل يكبر 📱↔️",circOpen:"↗ افتح المحاكي في صفحة لوحده",freeTask:"🎮 اصنع ألعابك وقصصك مع Robo Block",freeRan:"✨ اشتغل! كمّل زوّد أفكار، ومتنساش تحفظ 💾",freeSave:"💾 حفظ",freeMine:"📁 مشاريعي",freeNew:"📄 جديد",freeSaved:"💾 اتحفظ المشروع",freeName:"مشروعي",freeEmpty:"لسه مفيش مشاريع",freeOpen:"افتح",lockWorldWhy:"الكورس ده مقفول: خلّص الكورس اللي قبله الأول، أو اعمل «اختبر وتخطّى»",lockLevelWhy:"التحدي ده مقفول: حل التحدي اللي قبله الأول",specName:{games:"أساسيات برمجة الألعاب والقصص",robo:"أساسيات الروبوتكس"},specIcon:{games:"🎮",robo:"🤖"},
   specSub:{kids:{games:"ماوس، وبلوكات بالصور، وسكرتش: الطفل يعمل ألعابه وقصصه بنفسه",robo:"أنواع الروبوتات، ودوائر كهربية، وتصميم ثلاثي الأبعاد، وأردوينو بالبلوكات، وذكاء اصطناعي"},
     teens:{games:"سكرتش من الأساس للألعاب الكاملة، وبعدين بايثون حقيقي",robo:"دوائر كهربية، وتصميم ثلاثي الأبعاد، وأردوينو بالبلوكات وبالكود، وذكاء اصطناعي"}},
   specPick:"اختار التخصص",specLead:"لكل سن تخصصين. دوس على التخصص عشان تشوف كورساته.",specOpen:"افتح التخصص ←",specBack:"كل التخصصات",specCourses:(a,b)=>a+" كورس، "+b+" منهم جاهز",
@@ -1284,7 +1313,7 @@ Object.assign(T.ar,{gLv:n=>"مستوى "+n,gRanks:["🌱 مبتدئ","🔧 مس�
   adLessons:"🎬 الدروس",adLessonsHelp:"لكل درس: لينك فيديو (YouTube أو Cloudflare Stream) ولينك PDF. لو سبت الفيديو فاضي، الطالب هيشوف الشرح المتحرك اللي جوه الموقع.",adVideo:"فيديو",adPdf:"PDF"});
 Object.assign(T.en,{gLv:n=>"Level "+n,gRanks:["🌱 Beginner","🔧 Explorer","💡 Coder","🚀 Inventor","🏆 Legend"],gToNext:(x,n)=>x+" points to level "+n,
   gLevelUp:(n,r)=>"Level "+n+"! "+r,gLessonDone:"Lesson complete! +20 points and +10 🪙",gBadgeNew:n=>"🏅 New badge: "+n+" (+15 🪙)",
-  gCoins:"Coins",ptsWord:"points",circOpen:"↗ Open the simulator in its own page",freeTask:"🎮 Make your own games and stories with Robo Block",freeRan:"✨ It works! Keep adding ideas, and don't forget to save 💾",freeSave:"💾 Save",freeMine:"📁 My projects",freeNew:"📄 New",freeSaved:"💾 Project saved",freeName:"My project",freeEmpty:"No projects yet",freeOpen:"Open",lockWorldWhy:"This course is locked: finish the course before it first, or take the skip test",lockLevelWhy:"This challenge is locked: solve the one before it first",specName:{games:"Game & Story Programming Basics",robo:"Robotics Basics"},specIcon:{games:"🎮",robo:"🤖"},
+  gCoins:"Coins",ptsWord:"points",circFail:"The lab did not open here 😕 Try again, or open it in its own page with the link below.",circRetry:"🔄 Try again",circFull:"⛶ Full screen",circSmall:"✕ Exit",circAsk:"📋 Show the task",circDone:"✅ Task done",circDoneOk:"🎉 Done! Tap here",circNotYet:"Not yet 💪",circTurn:"Turn your phone sideways for a bigger lab 📱↔️",circOpen:"↗ Open the simulator in its own page",freeTask:"🎮 Make your own games and stories with Robo Block",freeRan:"✨ It works! Keep adding ideas, and don't forget to save 💾",freeSave:"💾 Save",freeMine:"📁 My projects",freeNew:"📄 New",freeSaved:"💾 Project saved",freeName:"My project",freeEmpty:"No projects yet",freeOpen:"Open",lockWorldWhy:"This course is locked: finish the course before it first, or take the skip test",lockLevelWhy:"This challenge is locked: solve the one before it first",specName:{games:"Game & Story Programming Basics",robo:"Robotics Basics"},specIcon:{games:"🎮",robo:"🤖"},
   specSub:{kids:{games:"Mouse skills, picture blocks and Scratch: kids build their own games and stories",robo:"Robot types, electric circuits, 3D design, Arduino blocks and AI"},
     teens:{games:"Scratch from basics to full games, then real Python",robo:"Electric circuits, 3D design, Arduino with blocks and code, and AI"}},
   specPick:"Pick a specialization",specLead:"Every age has two specializations. Tap one to see its courses.",specOpen:"Open →",specBack:"All specializations",specCourses:(a,b)=>a+" courses, "+b+" ready",
@@ -1403,7 +1432,10 @@ const trackForAge=a=>a<=7?"k":a<=9?"j":a<=11?"t":"s";
 let lang="ar";try{const s=localStorage.getItem("bibo-lang");if(s==="en"||s==="ar")lang=s}catch(e){}
 let prog={v:2,solved:{arrows:[],ar:[],en:[]},bonus:{arrows:[],ar:[],en:[]},points:0,all:false,name:""};
 try{const p=JSON.parse(localStorage.getItem("bibo-progress2")||"null");if(p&&p.v===2)prog=Object.assign(prog,p)}catch(e){}
-const fixSolved=()=>{prog.solved=prog.solved||{};prog.bonus=prog.bonus||{};["mouse","snap","order","sjrpics","circ1","circ2","d3a","d3b","ardk","ardj","ardb","ardt","ard","ai1","ai2","free","arrows","ar","en","sk2","sk6","sk7","sk8","sk9","sk10","sk11","sk12","sk13","sk14","sk15","py","py2","pyg","pyai","ard2","web"].forEach(m=>{prog.solved[m]=prog.solved[m]||[];prog.bonus[m]=prog.bonus[m]||[]})};fixSolved();
+// circ1 grew from 7 to 11 levels (13 Nov 2026): move what a child already solved to the same circuits' new places, once
+const CIRC1_MOVE=[0,2,2,4,8,9,10];
+function moveCirc1(){if(prog.circ1v>=2)return;["solved","bonus"].forEach(f=>{const o=(prog[f]||{}).circ1;if(o&&o.length){const n=[];o.forEach((v,i)=>{const j=CIRC1_MOVE[i];if(j!=null&&v)n[j]=Math.max(n[j]||0,v)});prog[f].circ1=Array.from(n,x=>x||0)}});prog.circ1v=2}
+const fixSolved=()=>{prog.solved=prog.solved||{};prog.bonus=prog.bonus||{};["mouse","snap","order","sjrpics","circ1","circ2","d3a","d3b","ardk","ardj","ardb","ardt","ard","ai1","ai2","free","arrows","ar","en","sk2","sk6","sk7","sk8","sk9","sk10","sk11","sk12","sk13","sk14","sk15","py","py2","pyg","pyai","ard2","web"].forEach(m=>{prog.solved[m]=prog.solved[m]||[];prog.bonus[m]=prog.bonus[m]||[]});moveCirc1()};fixSolved();
 function saveProgLocal(){try{localStorage.setItem("bibo-progress2",JSON.stringify(prog))}catch(e){}}
 function saveProg(){saveProgLocal();if(typeof cloudPush==="function")cloudPush()}
 let mode="arrows",L=0,running=false,robot,ws,view="home",wipeArmed=false;
@@ -1599,13 +1631,13 @@ Object.assign(T.en,{ctGo:"Start the test",ctLater:"Not now",ctTitle:n=>"Entry te
 try{if(!localStorage.getItem("bibo-kid"))ensurePlace(false)}catch(e){}
 const specPlay=side=>tracksOfAge()[side].filter(m=>WORLD_META[m]&&WORLD_META[m].play);
 const loggedKid=()=>!!(typeof sbUser!=="undefined"&&sbUser&&cloudKid);
-const needLogin=m=>!prog.all&&!loggedKid()&&specPlay(specOf(m)).indexOf(m)>0;
+const needLogin=m=>!prog.all&&!staffOpen()&&!loggedKid()&&specPlay(specOf(m)).indexOf(m)>0;
 /* ---------- PAID CONTENT (phase 4, approved by Youssef 10 Nov 2026): the first world of each side is free; the rest needs an
    active subscription for this child (or an academy class). The server applies the same rule before it records points
    (award_xp + kid_has_access), so locked worlds can't earn points, board places or certificates. Tests, Hour of Code and
    the city entry test open levels with force and stay free. ---------- */
 let kidAccess={id:null,paid:false};
-const needPay=m=>!prog.all&&loggedKid()&&!(kidAccess.id===cloudKid&&kidAccess.paid)&&specPlay(specOf(m)).indexOf(m)>0;
+const needPay=m=>!prog.all&&!staffOpen()&&loggedKid()&&!(kidAccess.id===cloudKid&&kidAccess.paid)&&specPlay(specOf(m)).indexOf(m)>0;
 const gated=m=>needLogin(m)||needPay(m);
 function gateNudge(m){if(needLogin(m))loginNudge();else payNudge()}
 async function loadAccess(k){kidAccess={id:k.id,paid:!!k.class_id};if(!sb)return;if(kidAccess.paid){loadLessons();startPickSoon();return}
@@ -1659,7 +1691,10 @@ const track=()=>tracksOfAge()[prog.side==="robo"?"robo":"games"];
 const playable=()=>specPlay("games").concat(specPlay("robo"));
 const PLACE=m=>/^sk/.test(m)||MINI[m]?null:PLACEMENT[m==="arrows"?"arrows":"turn"];
 let placing=null;
-const worldOpen=m=>{if(!WORLD_META[m]||!WORLD_META[m].play)return false;if(prog.all)return true;if(prog.allowed&&!prog.allowed.includes(m))return false;const P=specPlay(specOf(m)),i=P.indexOf(m);return i===0||(i>0&&(solvedAll(P[i-1])||!!(prog.mastered||{})[P[i-1]]))};
+// admins and trainers find every world and level open on any device, to try them (Youssef, 13 Nov 2026)
+// admin, trainer and secretary: every world and level open, no login or plan lock (Youssef, 13–14 Nov 2026)
+function staffOpen(){try{return !!sbProfile&&["admin","trainer","secretary"].includes(sbProfile.role)}catch(e){return false}}
+const worldOpen=m=>{if(!WORLD_META[m]||!WORLD_META[m].play)return false;if(prog.all||staffOpen())return true;if(prog.allowed&&!prog.allowed.includes(m))return false;const P=specPlay(specOf(m)),i=P.indexOf(m);return i===0||(i>0&&(solvedAll(P[i-1])||!!(prog.mastered||{})[P[i-1]]))};
 const wName=m=>(WORLD_META[m].play&&t().worlds[m])||t().soonWorlds[m];
 // every level has a short code the books print next to each lesson (S7-4 = Scratch chapter 7, level 4)
 const WCODE={pyg:"PY3",pyai:"PYA",ard2:"R4",ardj:"R5",ardt:"R6",sjrpics:"J",web:"W",mouse:"K1",snap:"K2",order:"K3",circ1:"C1",circ2:"C2",d3a:"D1",d3b:"D2",ardk:"R1",ardb:"R2",ard:"R3",ai1:"I1",ai2:"I2",arrows:"A",ar:"B",en:"E",sk2:"S5",sk6:"S6",sk7:"S7",sk8:"S8",sk9:"S9",sk10:"S10",sk11:"S11",sk12:"S12",sk13:"S13",sk14:"S14",sk15:"S15",py:"PY",py2:"PY2"};
@@ -1667,7 +1702,7 @@ const lvCode=(m,i)=>(WCODE[m]||m)+"-"+(i+1);
 function openByCode(raw){const m0=String(raw||"").trim().toUpperCase().replace(/\s+/g,"").match(/^([A-Z]+\d*)-?(\d+)$/);if(!m0)return "codeBad";
   const w=Object.keys(WCODE).find(k=>WCODE[k]===m0[1]),i=+m0[2]-1;if(!w||!WORLD_META[w]||!WORLD_META[w].play||i<0||i>=levelsOf(w).length)return "codeBad";
   if(!levelOpen(w,i))return "codeLocked";openLevel(w,i);return ""}
-const levelOpen=(m,i)=>worldOpen(m)&&(prog.all||i===0||!!prog.solved[m][i-1]||i<=((prog.skip||{})[m]??-2)+1||fastOpen(m,i));
+const levelOpen=(m,i)=>worldOpen(m)&&(prog.all||staffOpen()||i===0||!!prog.solved[m][i-1]||i<=((prog.skip||{})[m]??-2)+1||fastOpen(m,i));
 // mastery = stars earned (+1 per level skipped by the placement test) out of all stars in the games track
 function mastery(){fixSolved();let got=0,all=0;playable().forEach(m=>{const n=levelsOf(m).length,sk=((prog.skip||{})[m]??-1)+1;all+=n*2;
   got+=levelsOf(m).reduce((a,_,i)=>a+((prog.solved[m]||[])[i]||(i<sk?1:0)),0)});const p=all?got/all:0;return p<.25?0:p<.6?1:p<.9?2:3}
@@ -1917,7 +1952,7 @@ function sbLoad(){if(sbReady)return sbReady;
    .then(()=>{sb=window.supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});return sb});
   sbReady.catch(()=>{sbReady=null});return sbReady}
 function freshProg(keepAll){const P={v:2,solved:{},bonus:{},points:0,all:!!keepAll,name:"",age:0,track:"",side:"games",skip:{},mastered:{},placed:{}};ALLW.forEach(m=>{P.solved[m]=[];P.bonus[m]=[]});return P}
-const isStaff=()=>!!sbProfile&&(sbProfile.role==="admin"||sbProfile.role==="trainer");
+const isStaff=()=>!!sbProfile&&["admin","trainer","secretary"].includes(sbProfile.role);
 const isAdmin=()=>!!sbProfile&&sbProfile.role==="admin";
 async function sbInit(){try{await sbLoad()}catch(e){return}
   sb.auth.onAuthStateChange((ev,session)=>{const was=!!sbUser;sbUser=session?session.user:null;
@@ -1994,13 +2029,15 @@ function renderAcct(){const c=t(),el=$("acct");
      '<div class="kact">'+(isStaff()?'<button class="btn lprim" id="toAdmin">'+esc(c.adBtn)+'</button>':"")+'<button class="chip ghost" id="outBtn">'+esc(c.acOut)+'</button></div></div>'+
     '<div class="kgrid">'+kids.map(k=>'<div class="kwrap"><button class="kcard" data-kid="'+k.id+'"><span class="kav" aria-hidden="true">'+esc((k.name||"?").slice(0,1))+'</span><b>'+esc(k.name)+'</b><small>'+esc(c.acAge(num(k.age)))+'</small><span class="kgo">'+esc(c.acPlay)+' ←</span></button>'+
       (k.class_id?'<span class="kcls">'+esc(c.kClass(kidCls[k.class_id]||""))+'</span>':'<form class="kjoin" data-join="'+k.id+'" novalidate><input maxlength="8" dir="ltr" autocomplete="off" placeholder="'+esc(c.kJoin)+'" aria-label="'+esc(c.kJoin)+' – '+esc(k.name)+'"><button class="chip ghost" type="submit">'+esc(c.kJoinGo)+'</button><span class="amsg" role="alert"></span></form>')+'</div>').join("")+
-     '<form class="kcard kadd" id="kAdd" novalidate><b>'+esc(c.acAdd)+'</b><input id="kName" maxlength="28" placeholder="'+esc(c.acKidName)+'" required><select id="kAge" aria-label="'+esc(c.acKidAge)+'"><option value="">'+esc(c.acKidAge)+'</option>'+[5,6,7,8,9,10,11,12,13,14,15].map(a=>'<option value="'+a+'"'+(landAge===a?" selected":"")+'>'+num(a)+'</option>').join("")+'</select><button class="btn lprim" type="submit">+ '+esc(c.acAddGo)+'</button><span class="amsg" id="kMsg" role="alert"></span></form></div></div>';
+     '<form class="kcard kadd" id="kAdd" novalidate><b>'+esc(c.acAdd)+'</b><input id="kName" maxlength="28" placeholder="'+esc(c.acKidName)+'" required><input id="kFather" maxlength="40" placeholder="'+esc(c.acKidFather)+'" aria-label="'+esc(c.acKidFather)+'" value="'+esc(((sbProfile&&sbProfile.full_name)||"").split(" ")[0])+'"><select id="kAge" aria-label="'+esc(c.acKidAge)+'"><option value="">'+esc(c.acKidAge)+'</option>'+[5,6,7,8,9,10,11,12,13,14,15].map(a=>'<option value="'+a+'"'+(landAge===a?" selected":"")+'>'+num(a)+'</option>').join("")+'</select><button class="btn lprim" type="submit">+ '+esc(c.acAddGo)+'</button><span class="amsg" id="kMsg" role="alert"></span></form></div></div>';
   el.querySelectorAll("[data-kid]").forEach(b=>b.onclick=async()=>{const k=kids.find(x=>x.id===b.dataset.kid);b.disabled=true;const had=await pullKid(k);placing=null;show(had?"home":"plan");if(had)renderHome()});
   el.querySelectorAll("form[data-join]").forEach(f=>f.onsubmit=async e=>{e.preventDefault();const code=f.querySelector("input").value.trim().toUpperCase();if(!code)return;
     const {data,error}=await sb.rpc("join_class",{p_student:f.dataset.join,p_code:code});if(error||!data){f.querySelector(".amsg").textContent=error&&/too many/.test(error.message||"")?c.kJoinMany:c.kJoinBad;return}
     await loadMe();if(cloudKid===f.dataset.join){const k=kids.find(x=>x.id===cloudKid);if(k)await pullKid(k,true)}renderAcct()});
   $("kAdd").onsubmit=async e=>{e.preventDefault();const nm=$("kName").value.trim().slice(0,28),ag=+$("kAge").value;if(!nm||!ag){$("kMsg").textContent=c.acKidNeed;return}
-    const {data,error}=await sb.from("students").insert({parent_id:sbUser.id,name:nm,age:ag}).select().single();if(error){$("kMsg").textContent=c.acErr;return}kids.push(data);landAge=null;renderAcct()};
+    const fa=$("kFather").value.trim().replace(/\s+/g," ").slice(0,40);
+    let {data,error}=await sb.from("students").insert(Object.assign({parent_id:sbUser.id,name:nm,age:ag},fa?{father_name:fa}:{})).select().single();
+    if(error&&fa)({data,error}=await sb.from("students").insert({parent_id:sbUser.id,name:nm,age:ag}).select().single());if(error){$("kMsg").textContent=c.acErr;return}kids.push(data);landAge=null;renderAcct()};
   $("outBtn").onclick=async()=>{await sb.auth.signOut();sbUser=null;sbProfile=null;kids=[];cloudKid=null;try{localStorage.removeItem("bibo-kid")}catch(e){}prog=freshProg(false);saveProgLocal();hudAcct();applyText();show("acct")};
   if($("toAdmin"))$("toAdmin").onclick=()=>{adm=null;show("admin")}}
 // Egyptian mobile → 01xxxxxxxxx (stored) ; +201xxxxxxxxx (for WhatsApp)
@@ -2045,13 +2082,15 @@ let gridCls="",gridW="sk2";
 function kidStats(k){const P=(adm.pg[k.id]||{}).data||{};let done=0,all=0;const per=[];
   ALLW.forEach(m=>{if(!WORLD_META[m]||!WORLD_META[m].play)return;const n=levelsOf(m).length,s=((P.solved||{})[m]||[]).filter(Boolean).length;all+=n;done+=s;if(s)per.push([m,s,n])});
   return {done,all,per,points:P.points||0,pct:all?Math.round(done*100/all):0,when:(adm.pg[k.id]||{}).updated_at}}
+// «Youssef Ahmed», not «Youssef»: the father's name tells same-named children apart (Youssef, 13 Nov 2026)
+const kidFull=k=>(k.name||"")+(k.father_name?" "+k.father_name:"");
 async function renderAdmin(){const c=t(),el=$("admin");if(!isStaff()){el.innerHTML='<p class="sub">'+esc(c.adNo)+'</p>';return}
   if(!adm){el.innerHTML='<p class="sub">'+esc(c.adLoading)+'</p>';await admLoad()}
   const teachRow='<label class="adteach"><input type="checkbox" id="adTeach"'+(prog.all?" checked":"")+'> '+esc(c.adTeach)+'</label>';
-  const tabs=[["students",c.adStudents],["grid",c.adGrid],["lessons",c.adLessons],["classes",c.adClasses],["report",c.adReport],["content",c.adContent]];
+  const tabs=[["students",c.adStudents],["grid",c.adGrid],["lessons",c.adLessons],["classes",c.adClasses],["report",c.adReport],["content",c.adContent]].filter(x=>sbProfile.role==="admin"||["students","grid","report"].concat(sbProfile.role==="secretary"?["classes"]:[]).includes(x[0]));
   let body="";const date=d=>d?new Date(d).toLocaleDateString(lang==="ar"?"ar-EG":"en-GB",{day:"numeric",month:"short"}):"—";
   if(adminTab==="students"){body='<div class="atable" role="region" aria-label="'+esc(c.adStudents)+'" tabindex="0"><table><thead><tr><th>'+esc(c.adKid)+'</th><th>'+esc(c.adAge)+'</th><th>'+esc(c.adParent)+'</th><th>'+esc(c.adClass)+'</th><th>'+esc(c.adPts)+'</th><th>'+esc(c.adProg)+'</th><th>'+esc(c.adLast)+'</th><th></th></tr></thead><tbody>'+
-    (adm.st.length?adm.st.map(k=>{const p=adm.pr[k.parent_id]||{},s=kidStats(k);return '<tr><td><b>'+esc(k.name)+'</b></td><td>'+num(k.age)+'</td><td>'+esc(p.full_name||"")+(p.email&&!/@phone\.roboegypt\.com$/.test(p.email)?'<br><small dir="ltr">'+esc(p.email)+'</small>':'')+(p.phone?'<br><small dir="ltr">'+esc(p.phone)+'</small>':'')+'</td>'+
+    (adm.st.length?adm.st.map(k=>{const p=adm.pr[k.parent_id]||{},s=kidStats(k);return '<tr><td><b>'+esc(kidFull(k))+'</b></td><td>'+num(k.age)+'</td><td>'+esc(p.full_name||"")+(p.email&&!/@phone\.roboegypt\.com$/.test(p.email)?'<br><small dir="ltr">'+esc(p.email)+'</small>':'')+(p.phone?'<br><small dir="ltr">'+esc(p.phone)+'</small>':'')+'</td>'+
       '<td><select data-cls="'+k.id+'"><option value="">—</option>'+adm.cl.map(cl=>'<option value="'+cl.id+'"'+(cl.id===k.class_id?" selected":"")+'>'+esc(cl.name)+'</option>').join("")+'</select></td>'+
       '<td>'+num(s.points)+'</td><td><div class="bar" title="'+s.done+'/'+s.all+'"><span style="width:'+s.pct+'%"></span></div><small>'+num(s.pct)+'%</small></td><td>'+date(s.when)+'</td><td><button class="chip ghost" data-rep="'+k.id+'">'+esc(c.adReport)+'</button></td></tr>'}).join(""):'<tr><td colspan="8">'+esc(c.adEmpty)+'</td></tr>')+'</tbody></table></div>'}
   if(adminTab==="grid"){const W=ALLW.filter(m=>WORLD_META[m]&&WORLD_META[m].play);if(!W.includes(gridW))gridW=W[0];if(gridCls&&!adm.cl.some(x=>x.id===gridCls))gridCls="";
@@ -2061,7 +2100,7 @@ async function renderAdmin(){const c=t(),el=$("admin");if(!isStaff()){el.innerHT
       (list.length?'<div class="atable pgrid" role="region" tabindex="0" aria-label="'+esc(c.adGrid)+'" style="--wc:'+wColor(gridW)+'"><table><thead><tr><th rowspan="2" class="gname">'+esc(c.adKid)+'</th>'+ls.map((x,j)=>'<th colspan="'+x.idx.length+'" class="lg">'+esc(lessonName(x,j+1))+'</th>').join("")+'<th rowspan="2">'+esc(c.adTotal)+'</th></tr><tr>'+
         LV0.map((_,i)=>{const k=lvKind(gridW,i);return '<th class="ln">'+(k==="proj"?"🏆":k==="ex"?"👀":k==="fix"?"🔧":num(i+1))+'</th>'}).join("")+'</tr></thead><tbody>'+
         list.map(k=>{const S=((((adm.pg[k.id]||{}).data||{}).solved)||{})[gridW]||[],d=LV0.filter((_,i)=>S[i]).length;
-          return '<tr><td class="gname"><button class="linkb" data-rep="'+k.id+'">'+esc(k.name)+'</button></td>'+LV0.map((_,i)=>'<td class="gc g'+(S[i]||0)+'" title="'+esc(k.name)+' · '+esc(t().level(num(i+1)))+'">'+(S[i]?"★".repeat(S[i]):"")+'</td>').join("")+'<td><b>'+num(d)+' / '+num(LV0.length)+'</b></td></tr>'}).join("")+'</tbody></table></div>'
+          return '<tr><td class="gname"><button class="linkb" data-rep="'+k.id+'">'+esc(kidFull(k))+'</button></td>'+LV0.map((_,i)=>'<td class="gc g'+(S[i]||0)+'" title="'+esc(kidFull(k))+' · '+esc(t().level(num(i+1)))+'">'+(S[i]?"★".repeat(S[i]):"")+'</td>').join("")+'<td><b>'+num(d)+' / '+num(LV0.length)+'</b></td></tr>'}).join("")+'</tbody></table></div>'
       :'<p class="sub">'+esc(c.adGridEmpty)+'</p>')}
   if(adminTab==="lessons"){const W=ALLW.filter(m=>WORLD_META[m]&&WORLD_META[m].play);if(!W.includes(gridW))gridW=W[0];
     body='<p class="sub">'+esc(c.adLessonsHelp)+'</p><div class="gctl"><label class="sub">'+esc(c.adWorld)+' <select id="lW">'+W.map(m=>'<option value="'+m+'"'+(m===gridW?" selected":"")+'>'+esc(wName(m)[0])+'</option>').join("")+'</select></label></div>'+
@@ -2073,7 +2112,7 @@ async function renderAdmin(){const c=t(),el=$("admin");if(!isStaff()){el.innerHT
       '<div class="ccrow"><small>'+esc(c.adCode)+'</small><b class="ccode" dir="ltr">'+esc(cl.code||"—")+'</b>'+(cl.code?'<button class="chip ghost" type="button" data-copy="'+esc(cl.code)+'">'+esc(c.adCopy)+'</button>':'')+'</div><p class="sub small">'+esc(c.adCodeHelp)+'</p>'+
       '<p class="sub">'+esc(c.adWorldsL)+'</p><div class="wchk">'+W.map(m=>'<label><input type="checkbox" data-clw="'+cl.id+'" value="'+m+'"'+(!cl.worlds_open||!cl.worlds_open.length||cl.worlds_open.includes(m)?" checked":"")+'> '+esc(wName(m)[0])+'</label>').join("")+'</div></div>').join("")}
   if(adminTab==="report"){const k=adm.st.find(x=>x.id===repKid)||adm.st[0];
-    body=adm.st.length?'<label class="sub">'+esc(c.adPick)+' <select id="repSel">'+adm.st.map(x=>'<option value="'+x.id+'"'+(x===k?" selected":"")+'>'+esc(x.name)+'</option>').join("")+'</select></label>'+reportHTML(k):'<p class="sub">'+esc(c.adEmpty)+'</p>'}
+    body=adm.st.length?'<label class="sub">'+esc(c.adPick)+' <select id="repSel">'+adm.st.map(x=>'<option value="'+x.id+'"'+(x===k?" selected":"")+'>'+esc(kidFull(x))+'</option>').join("")+'</select></label>'+reportHTML(k):'<p class="sub">'+esc(c.adEmpty)+'</p>'}
   if(adminTab==="content"){const o=LANDING_OVR,L0=LANDING;body='<form class="aform" id="ctForm">'+
     [["ar","heroT"],["ar","heroP"],["en","heroT"],["en","heroP"]].map(([lg,k])=>'<label>'+esc(c.adField[k])+' ('+lg.toUpperCase()+')'+(k==="heroP"?'<textarea data-ct="'+lg+'.'+k+'" rows="3" dir="'+(lg==="ar"?"rtl":"ltr")+'">'+esc((o[lg]||{})[k]||L0[lg][k])+'</textarea>':'<input data-ct="'+lg+'.'+k+'" dir="'+(lg==="ar"?"rtl":"ltr")+'" value="'+esc((o[lg]||{})[k]||L0[lg][k])+'">')+'</label>').join("")+
     '<label>'+esc(c.adField.phone)+'<input data-cc="phone" dir="ltr" value="'+esc(CONTACT.phone)+'"></label><label>'+esc(c.adField.addrAr)+'<input data-cc="addrAr" value="'+esc(CONTACT.addrAr)+'"></label><label>'+esc(c.adField.addrEn)+'<input data-cc="addrEn" dir="ltr" value="'+esc(CONTACT.addrEn)+'"></label><label>'+esc(c.adField.facebook)+'<input data-cc="facebook" dir="ltr" value="'+esc(CONTACT.facebook)+'" placeholder="https://facebook.com/..."></label>'+
@@ -2373,7 +2412,7 @@ Object.assign(T.en,{stNext:"Next",stSkip:"Skip",stGo:"Let's go!",stEnd:"To Robo 
    and every project opens with a mission card that ties it to its chapter. A chapter plays the first time a child opens
    any of its projects; after that only that project's mission card shows, once. Keys are world:level of the project. ---------- */
 const CHAP={
-  k:[["snap:11","mouse:8"],["sjrpics:9","sjrpics:10"],["circ1:6"],["d3a:5"]],
+  k:[["snap:11","mouse:8"],["sjrpics:9","sjrpics:10"],["circ1:10"],["d3a:5"]],
   j:[["sk2:10","sk2:11"],["sk6:12","sk6:13","sk8:13"],["sk7:4","sk7:12","sk8:6","sk8:7"],["ardk:8","ardj:13","ai1:3"]],
   t:[["sk9:6","sk9:9","sk9:11","sk10:9"],["sk11:6","sk11:7","sk11:8","circ2:8"],["sk12:4","sk12:6","sk12:7","sk13:8","sk13:9"],["sk14:2","sk14:7","sk15:4","ardb:8","ardt:12","d3b:4","ai2:4"]],
   s:[["py:1","py:4","py:11","py:15","py:22"],["py2:6","py2:12","py2:17","py2:22"],["pyg:10","web:4","web:10","web:16"],["ard:8","ard2:7","pyai:10"]]};
@@ -2405,7 +2444,7 @@ T.ar.pstory={
   "mouse:8":"الجنينة لسه رمادي! امسك الماوس وارسم لوحة بألوان حلوة ترجّع لها البهجة 🎨",
   "sjrpics:9":"ألّف حكاية من خيالك بروبو جونيور، عشان مكتبة المدينة يبقى فيها حكاية جديدة مش متلخبطة 📖",
   "sjrpics:10":"النهارده عيد ميلاد صاحب روبو، وشوشرة بوّظ كل الكروت 🎂 اعمل كارت يفرّحه.",
-  "circ1:6":"جدّو مستني ضيوف والجرس ساكت 🔔 وصّل دايرة جرس الباب عشان يسمعهم.",
+  "circ1:10":"جدّو مستني ضيوف والجرس ساكت 🔔 وصّل دايرة جرس الباب عشان يسمعهم.",
   "d3a:5":"صمّم جسم روبو الجديد بالأشكال، عشان يرجع قوي ويكمّل المغامرة 🤖",
   "sk2:10":"روبو لسه نايم وهيتأخر! برمجه يصحى ويتمطّع ويقوم يتحرك 😴",
   "sk2:11":"عشان المدينة تصحى، روبو والدب عاملين سباق الصبح 🏁 برمج السباق ويلا نشوف مين يكسب!",
@@ -2477,7 +2516,7 @@ T.en.pstory={
   "mouse:8":"The garden is still grey! Grab the mouse and paint a picture with happy colours 🎨",
   "sjrpics:9":"Make up a story with Robo Junior, so the town library gets a new story that isn't mixed up 📖",
   "sjrpics:10":"It's Robo's friend's birthday, and Shawshara ruined all the cards 🎂 Make a card to cheer him up.",
-  "circ1:6":"Grandpa is expecting guests and the bell is silent 🔔 Wire the doorbell circuit so he can hear them.",
+  "circ1:10":"Grandpa is expecting guests and the bell is silent 🔔 Wire the doorbell circuit so he can hear them.",
   "d3a:5":"Design Robo's new body with shapes, so he's strong again and can carry on 🤖",
   "sk2:10":"Robo is still asleep and he'll be late! Program him to wake up, stretch and get moving 😴",
   "sk2:11":"To wake the town, Robo and the bear are having a morning race 🏁 Program the race and see who wins!",
@@ -2850,12 +2889,17 @@ MINI.circ1=[
   {id:"2",k:"tap",pics:["😢","🤖","😄"],target:"🤖",t:TX("مين ما بيحسش؟","Who has no feelings?"),say:TX("الإنسان بيفرح وبيزعل. مين فيهم ما بيحسش بالمشاعر؟","People feel happy and sad. Which one has no feelings?")},
   {id:"2",k:"seq",frames:["🧊","💡","💻"],t:TX("عشان تعمل روبوت","To build a robot"),say:TX("صمّم الجسم 🧊، وبعدين وصّل الدوائر 💡، وبعدين برمجه 💻","Design the body 🧊, wire the circuits 💡, then program it 💻")},
   {id:"3",k:"circ",task:"c0",t:TX("مثال محلول: لمبة ومفتاح","Solved example: LED and switch"),say:TX("الدايرة جاهزة. شغّلها وتتبّع الطريق من + لـ −","The circuit is ready. Run it and follow the path from + to −")},
-  {id:"3",k:"circ",task:"c1",t:TX("نوّر اللمبة","Light the LED"),say:TX("التيار بيطلع من + البطارية ويرجع لـ −. وصّل سلكين ونوّر اللمبة","Current leaves + and comes back to −. Connect two wires and light the LED")},
-  {id:"3",k:"circ",task:"c2",t:TX("المقاومة بتحمي اللمبة","The resistor protects the LED"),say:TX("من غير مقاومة اللمبة بتتحرق! ضيف مقاومة","Without a resistor the LED burns! Add a resistor")},
-  {id:"3",k:"circ",task:"c3",t:TX("مفتاح للمبة","A switch for the LED"),say:TX("المفتاح بيفتح ويقفل الطريق قدام التيار","A switch opens and closes the path for the current")},
-  {id:"3",k:"circ",task:"cF",t:TX("🔧 صلّح الـ 3 أخطاء: الدايرة","🔧 Fix the 3 errors: the circuit"),say:TX("الدايرة فيها 3 أخطاء مستخبية. دوّر عليهم وصلّحهم","The circuit has 3 hidden mistakes. Find them and fix them")},
-  {id:"4",k:"circ",task:"c4",t:TX("الملتميتر","The multimeter"),say:TX("الملتميتر بيقيس الجهد بالفولت. قيس البطارية","The multimeter measures voltage in volts. Measure the battery")},
-  {id:"P",k:"circ",task:"c5",t:TX("مشروع: جرس الباب","Project: a doorbell"),say:TX("اعمل جرس يرن لما تضغط على الزرار","Build a bell that rings when you press the button")}];
+  // Youssef, 13 Nov 2026: the parts are already on the table and the child wires them (💡 ساعدني shows the wiring); one new idea a level
+  {id:"3",k:"circ",task:"k1",t:TX("لمبة من غير مقاومة","An LED with no resistor"),say:TX("جرّب توصّل اللمبة بالبطارية على طول… هيحصل إيه؟","Wire the LED straight to the battery… what happens?")},
+  {id:"3",k:"circ",task:"k2",t:TX("المقاومة بتحمي اللمبة","The resistor protects the LED"),say:TX("ضيف المقاومة في الطريق، واللمبة تنوّر من غير ما تتحرق","Put the resistor in the path and the LED lights without burning")},
+  {id:"3",k:"circ",task:"k3",t:TX("زرار للمبة","A button for the LED"),say:TX("الزرار بيوصّل الطريق بس وإنت ضاغط عليه","A button closes the path only while you press it")},
+  {id:"4",k:"circ",task:"c3",t:TX("مفتاح للمبة","A switch for the LED"),say:TX("المفتاح بيفضل مقفول أو مفتوح لحد ما تغيّره","A switch stays on or off until you change it")},
+  {id:"4",k:"circ",task:"k5",t:TX("المقاومة المتغيرة","The potentiometer"),say:TX("لف المقاومة المتغيرة والنور يقوى ويضعف، زي زرار الصوت","Turn the potentiometer and the light gets brighter or dimmer")},
+  {id:"4",k:"circ",task:"k6",t:TX("زرار وجرس","A button and a buzzer"),say:TX("اضغط الزرار والجرس يرن","Press the button and the buzzer rings")},
+  {id:"4",k:"circ",task:"k7",t:TX("مروحة بمفتاح","A fan with a switch"),say:TX("الموتور بيلف لما الكهربا تعدّي فيه","The motor spins when current flows through it")},
+  {id:"4",k:"circ",task:"cF",t:TX("🔧 صلّح الـ 3 أخطاء: الدايرة","🔧 Fix the 3 errors: the circuit"),say:TX("الدايرة فيها 3 أخطاء مستخبية. دوّر عليهم وصلّحهم","The circuit has 3 hidden mistakes. Find them and fix them")},
+  {id:"5",k:"circ",task:"c4",t:TX("الملتميتر","The multimeter"),say:TX("الملتميتر بيقيس الجهد بالفولت. قيس البطارية","The multimeter measures voltage in volts. Measure the battery")},
+  {id:"P",k:"circ",task:"c5",t:TX("مشروع: جرس الباب","Project: a doorbell"),say:TX("جرس يرن ولمبة تنوّر لما تضغط على الزرار","A bell rings and a light shines when you press the button")}];
 // Electric circuits for 10–17: robots and how they're built, then voltage/current/Ohm's law, series vs parallel, the potentiometer
 MINI.circ2=[
   {id:"1",k:"drag",items:["🦾","🚁","🛰️","🩺"],targets:[["🏭","🦾"],["📦","🚁"],["🪐","🛰️"],["🏥","🩺"]],t:TX("أنواع الروبوتات","Types of robots"),say:TX("روبوتات صناعية، ودرون توصيل، وروبوتات فضاء، وروبوتات طبية. وصّل كل واحد بمكانه","Industrial arms, delivery drones, space rovers and medical robots. Match each one to its place")},
@@ -3044,7 +3088,7 @@ function openMini(m,i){const lv=MINI[m][i],c=t();show("mini");
   $("miniBack").textContent=c.miniBack;$("miniBack").onclick=()=>{if(hoc){hocExit();return}utest=null;show("home");renderHome()};
   $("miniSay").textContent=tl(lv.say);$("miniMsg").innerHTML="";$("mini").querySelectorAll(".robo-art").forEach(paintRobo);
   const st=$("miniStage");st.className="ministage k-"+lv.k;st.innerHTML="";if(miniWs){miniWs.dispose();miniWs=null}
-  ({tap:miniTap,pop:miniPop,drag:miniDrag,seq:miniSeq,tile:miniTile,snap:miniSnap,pic:miniPic,circ:miniCirc,lab:miniCirc})[lv.k](st,lv)}
+  ({tap:miniTap,pop:miniPop,drag:miniDrag,seq:miniSeq,tile:miniTile,snap:miniSnap,pic:miniPic,circ:miniCirc,lab:miniCirc})[lv.k](st,lv);jTourSoon()}
 function miniSay(txt,kind){$("miniMsg").className="minimsg "+(kind||"");$("miniMsg").textContent=txt}
 function miniWin(){const m=mode,i=L,before=(prog.solved[m]||[])[i]||0,c=t();prog.solved[m][i]=2;gain(before?0:10,before?0:2);if(!before)award("level",m+":"+i);
   if(BOSS_OF[m]){renderLvDots();bossWin(BOSS_OF[m]);return}
@@ -3091,8 +3135,30 @@ function miniPic(st,lv){const a=PIC_ART[lv.art],n=lv.n,h=300/n;let left=n;
     it.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();const sl=st.querySelector('.pslot[data-k="'+it.dataset.k+'"]');if(sl)place(it,sl)}})})}
 /* circuit lessons run the real simulator (lab/circuits.html) inside the lesson and report back when the circuit works */
 function miniCirc(st,lv){const u=(lv.tool==="3d"?"/lab/3d.html":lv.tool==="ard"?"/lab/arduino.html":lv.tool==="ai"?"/lab/ai.html":lv.tool==="jr"?"/lab/junior.html":lv.tool==="web"?"/lab/web.html":"/lab/circuits.html")+"?task="+lv.task+"&embed=1";
-  st.innerHTML='<iframe class="circframe" src="'+u+'" title="'+esc(tl(lv.t))+'"></iframe><a class="circopen" href="'+u.replace("&embed=1","")+'" target="_blank" rel="noopener">'+esc(t().circOpen)+'</a>'}
-addEventListener("message",e=>{const d=e.data;if(!d||(d.type!=="robo-circ"&&d.type!=="robo-task")||e.origin!==location.origin||view!=="mini")return;const lv=(MINI[mode]||[])[L];if(lv&&(lv.k==="circ"||lv.k==="lab")&&lv.task===d.task&&d.ok)miniWin()});
+  st.innerHTML='<div class="circfail" hidden><b>'+esc(t().circFail)+'</b><button class="btn lprim" type="button">'+esc(t().circRetry)+'</button></div><iframe class="circframe" src="'+u+'" title="'+esc(tl(lv.t))+'"></iframe><div class="circbar"><button class="btn lprim circfull" type="button">'+esc(t().circFull)+'</button><button class="btn ghostb circask" type="button" aria-expanded="false">'+esc(t().circAsk)+'</button><button class="btn circdone" type="button">'+esc(t().circDone)+'</button><p class="circtask" hidden></p><a class="circopen" href="'+u.replace("&embed=1","")+'" target="_blank" rel="noopener">'+esc(t().circOpen)+'</a></div>';
+  // the lab can take the whole screen (Youssef, 13 Nov 2026: on a phone the journey's top bar left it a small window)
+  // full screen on a phone turns sideways, with «اظهر المطلوب» and «تمت المهمة» on top (Youssef, 13 Nov 2026)
+  st.prepend(st.querySelector(".circbar"));   // the buttons above the lab, so «كبّر المعمل» is seen without scrolling
+  delete st.dataset.done;const tk=st.querySelector(".circtask"),ask=st.querySelector(".circask");tk.textContent=tl(lv.say);
+  const showTask=on=>{tk.hidden=!on;ask.setAttribute("aria-expanded",on)};
+  st.querySelector(".circfull").onclick=()=>circFull(st,!st.classList.contains("full"));
+  ask.onclick=()=>showTask(tk.hidden);
+  st.querySelector(".circdone").onclick=()=>{if(st.dataset.done){circFull(st,false);return}tk.textContent=t().circNotYet+" "+tl(lv.say);showTask(true);sfx("bump")};
+  // Chrome shows only a grey sad page when a frame fails (Youssef, 13 Nov 2026, Robo CAD on a laptop): the frame is ours,
+  // so a failed one is the one whose document we cannot read or that came back empty. Retry once by itself, then ask.
+  const fr=st.querySelector(".circframe"),fail=st.querySelector(".circfail");let tries=0;
+  const bad=()=>{try{const d=fr.contentDocument;return !d||!d.body||!d.body.childElementCount}catch(_){return true}};
+  fr.addEventListener("load",()=>{if(!bad()){fail.hidden=true;fr.hidden=false;return}if(tries++<1){fr.src=u+"&r="+Date.now();return}fail.hidden=false;fr.hidden=true});
+  fail.querySelector("button").onclick=()=>{fail.hidden=true;fr.hidden=false;tries=0;fr.src=u+"&r="+Date.now()}}
+function circFull(st,on){const b=st.querySelector(".circfull");st.classList.toggle("full",on);document.documentElement.classList.toggle("labfull",on);if(b)b.textContent=on?t().circSmall:t().circFull;
+  const tk=st.querySelector(".circtask");if(tk&&!on)tk.hidden=true;
+  const phone=matchMedia("(pointer:coarse)").matches&&Math.min(screen.width,screen.height)<700;
+  try{if(on&&st.requestFullscreen&&!document.fullscreenElement)st.requestFullscreen().then(()=>{if(phone&&screen.orientation&&screen.orientation.lock)return screen.orientation.lock("landscape")}).catch(()=>{});
+    else if(!on){if(screen.orientation&&screen.orientation.unlock)try{screen.orientation.unlock()}catch(_){}if(document.fullscreenElement)document.exitFullscreen().catch(()=>{})}}catch(_){}
+  if(on&&phone&&!document.fullscreenEnabled)toast(t().circTurn)}
+document.addEventListener("fullscreenchange",()=>{const st=document.querySelector(".ministage.full");if(st&&!document.fullscreenElement)circFull(st,false)});
+addEventListener("keydown",e=>{const st=document.querySelector(".ministage.full");if(st&&e.key==="Escape")circFull(st,false)});
+addEventListener("message",e=>{const d=e.data;if(!d||(d.type!=="robo-circ"&&d.type!=="robo-task")||e.origin!==location.origin||view!=="mini")return;const lv=(MINI[mode]||[])[L];if(lv&&(lv.k==="circ"||lv.k==="lab")&&lv.task===d.task&&d.ok){const st=$("miniStage");if(st.dataset.done)return;st.dataset.done="1";const dn=st.querySelector(".circdone");if(dn){dn.classList.add("ready");dn.textContent=t().circDoneOk}miniWin()}});
 function miniTap(st,lv){st.innerHTML=shuf(lv.pics).map(p=>'<button class="mpic" data-p="'+p+'" aria-label="'+p+'">'+p+'</button>').join("");
   st.querySelectorAll(".mpic").forEach(b=>b.onclick=()=>{if(b.dataset.p===lv.target){b.classList.add("good");st.querySelectorAll(".mpic").forEach(x=>x.disabled=true);miniWin()}else{b.classList.remove("shake");void b.offsetWidth;b.classList.add("shake");sfx("bump");miniSay(t().miniWrong,"no")}})}
 function miniPop(st,lv){let left=lv.n;const hues=[0,40,120,200,280,320];
@@ -3249,12 +3315,13 @@ function sprStart(){const a=actors.find(x=>x.id===selSpr)||actors[0];if(a.id==="
 function renderSprInfo(){const P=$("sprInfo");if(!P)return;const on=isFree()&&!!sk&&!running;P.hidden=!isFree()||!sk;if(P.hidden){P.innerHTML="";return}
   const a=actors.find(x=>x.id===selSpr)||actors[0];
   // big tiles for small hands (Youssef picked design «أ», 12 Nov 2026): name and show/hide, place, size with − and +, direction with a dial and quick buttons
-  P.innerHTML='<div class="sihead"><input data-f="name" dir="auto" maxlength="24" aria-label="اسم الشخصية"><span class="eye"><button data-show="1" aria-label="ظاهر" title="ظاهر">👁</button><button data-show="0" aria-label="مستخبي" title="مستخبي">🚫</button></span></div>'+
+  // two rows (Youssef, 14 Nov 2026: «bigger show/hide, two lines not three»): name + show/hide, then place, size, direction
+  P.innerHTML='<div class="sihead"><input data-f="name" dir="auto" maxlength="24" aria-label="اسم الشخصية"><span class="eye"><button data-show="1" aria-label="ظاهر" title="ظاهر">👁 ظاهر</button><button data-show="0" aria-label="مستخبي" title="مستخبي">🚫 مستخبي</button></span></div>'+
     '<div class="sitile"><b>📍 المكان</b><div class="sirow"><label><span dir="ltr">x</span><input data-f="x" type="number" inputmode="numeric" step="10"></label><label><span dir="ltr">y</span><input data-f="y" type="number" inputmode="numeric" step="10"></label></div></div>'+
     '<div class="sitile"><b>📏 الحجم</b><div class="sirow"><button class="sib" data-step="size,-10" aria-label="صغّر">−</button><input data-f="size" type="number" inputmode="numeric" min="5" max="400" step="10" aria-label="الحجم"><button class="sib" data-step="size,10" aria-label="كبّر">+</button></div></div>'+
-    '<div class="sitile wide"><svg class="sidial" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="28"/><line x1="32" y1="32" x2="58" y2="32"/><circle class="tip" cx="58" cy="32" r="5"/><circle class="mid" cx="32" cy="32" r="4"/></svg>'+
-      '<div class="sidir"><b>🧭 الاتجاه</b><input data-f="dir" type="number" inputmode="numeric" min="-180" max="360" step="15" aria-label="الاتجاه"></div>'+
-      '<div class="siq"><button class="sib" data-dir="90">يمين</button><button class="sib" data-dir="-90">شمال</button><button class="sib" data-dir="0">فوق</button><button class="sib" data-dir="180">تحت</button></div></div>';
+    '<div class="sitile sidirt"><b>🧭 الاتجاه <svg class="sidial" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="28"/><line x1="32" y1="32" x2="58" y2="32"/><circle class="tip" cx="58" cy="32" r="5"/><circle class="mid" cx="32" cy="32" r="4"/></svg></b>'+
+      '<div class="sirow"><input data-f="dir" type="number" inputmode="numeric" min="-180" max="360" step="15" aria-label="الاتجاه">'+
+      '<span class="siq"><button class="sib" data-dir="90" title="يمين" aria-label="يمين">→</button><button class="sib" data-dir="-90" title="شمال" aria-label="شمال">←</button><button class="sib" data-dir="0" title="فوق" aria-label="فوق">↑</button><button class="sib" data-dir="180" title="تحت" aria-label="تحت">↓</button></span></div></div>';
   P.querySelector('[data-f="name"]').value=sprName(a);
   P.querySelectorAll("input").forEach(inp=>inp.onchange=()=>{if(running)return;const f=inp.dataset.f,st=sprStart();
     if(f==="name"){const v=inp.value.trim();if(v){a.name=[v,v]}renderSprBar();freeSave(false);return}
@@ -3774,6 +3841,7 @@ function openLevel(m,i,force){if(m!=="free")freeUrl(false);else setTimeout(()=>f
   renderLvDots();
   const key=m+":"+i;prog.seen=prog.seen||{};
   if(!placing&&freshBlocks().length&&!prog.seen[key]){prog.seen[key]=1;saveProg();openIntro()}
+  jTourSoon();
 }
 /* ---------- new-block explanation page ---------- */
 function freshBlocks(){if(placing)return [];if(isSk())return SKL()[L].fresh||[];
@@ -4124,6 +4192,196 @@ function ttsDevice(txt,voice,lng){const N=ttsNative();if(N){const ar=lng==="ar"|
   if(P){u.pitch=P[4];u.rate=P[5]}else u.rate=.95;
   speechSynthesis.cancel();speechSynthesis.speak(u)}
 try{ttsLoad();speechSynthesis.addEventListener("voiceschanged",ttsLoad)}catch(e){}
+/* ---------- first-time tours: the same engine as legacy/src/lab/tour.js (copied in here because the journey is one page;
+   keep the two in step). Below it: which tour each kind of level gets. ---------- */
+const RT=(()=>{
+
+const SB_URL = 'https://irbqvybvvjdusgjsvbfj.supabase.co', SB_KEY = 'sb_publishable_G_ZqJflgJhUy3n4RyLejsw_veL9PO2b';
+const store = { get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
+const AR = s => String(s).replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[d]);
+
+// the little ones: the journey's city (shared localStorage, same site) is Explorers (e) or Inventors (j)
+function youngKid() {
+  try { const p = JSON.parse(store.get('bibo-progress2') || '{}'); return p.city === 'e' || p.city === 'j'; } catch (e) { return false; }
+}
+
+let au = null, azOff = false;
+async function say(text, lang = 'ar') {
+  stopVoice(); const t = String(text || '').replace(/[«»]/g, '').replace(/\s+/g, ' ').trim(); if (!t) return;
+  if (!azOff && navigator.onLine && t.length <= 200) {
+    try {
+      const r = await fetch(SB_URL + '/functions/v1/tts', { method: 'POST', headers: { 'Content-Type': 'application/json', apikey: SB_KEY }, body: JSON.stringify({ text: t, voice: 'guide', lang }) });
+      if (r.status === 503 || r.status === 403) azOff = true;
+      else if (r.ok) { const { url } = await r.json(); if (url) { au = new Audio(url); await au.play(); return; } }
+    } catch (e) {}
+  }
+  try { const u = new SpeechSynthesisUtterance(t); u.lang = lang === 'en' ? 'en-US' : 'ar-EG'; u.rate = .95; speechSynthesis.cancel(); speechSynthesis.speak(u); } catch (e) {}
+}
+function stopVoice() { try { if (au) au.pause(); } catch (e) {} try { speechSynthesis.cancel(); } catch (e) {} }
+
+let css = false;
+function addCss() {
+  if (css) return; css = true; const s = document.createElement('style'); s.textContent = `
+.rtour{position:fixed;inset:0;z-index:2147483000;pointer-events:none;font-family:var(--f-body,Cairo,system-ui,sans-serif)}
+.rtour .rtB{position:fixed;background:rgba(14,12,40,.62);pointer-events:auto;transition:all .25s ease}
+.rtour .rtHole{position:fixed;border-radius:14px;box-shadow:0 0 0 3px #FFD23F,0 0 0 9px rgba(255,210,63,.35),0 0 26px 8px rgba(255,210,63,.45);pointer-events:none;transition:all .25s ease}
+.rtour .rtHole.tap{animation:rtPulse 1.2s ease-in-out infinite}
+@keyframes rtPulse{50%{box-shadow:0 0 0 3px #FFD23F,0 0 0 16px rgba(255,210,63,.18),0 0 34px 12px rgba(255,210,63,.55)}}
+.rtour .rtHand{position:fixed;font-size:34px;line-height:1;pointer-events:none;animation:rtTap 1s ease-in-out infinite;filter:drop-shadow(0 3px 4px rgba(0,0,0,.35))}
+@keyframes rtTap{50%{transform:translate(-4px,-8px) scale(.92)}}
+.rtour .rtCard{direction:rtl;position:fixed;pointer-events:auto;width:min(340px,calc(100vw - 24px));background:#fff;color:#1d1b3a;border-radius:18px;padding:14px 14px 12px;box-shadow:0 18px 40px -12px rgba(10,10,40,.55);display:grid;grid-template-columns:auto 1fr;gap:4px 12px;transition:top .25s ease,left .25s ease}
+.rtour .rtBot{grid-row:span 2;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#7B5CFF,#1E7BFF);display:grid;place-items:center;font-size:30px}
+.rtour .rtTxt{font-size:16px;line-height:1.6;font-weight:600;margin:0}
+.rtour .rtTxt b{color:#5B3DF5}
+.rtour .rtFoot{grid-column:1/-1;display:flex;align-items:center;gap:8px;margin-top:8px}
+.rtour .rtN{font-size:12.5px;color:#8a88a8;margin-inline-end:auto}
+.rtour button{all:unset;cursor:pointer;font-weight:800;font-size:14px;border-radius:12px;padding:8px 14px}
+.rtour .rtNext{background:linear-gradient(135deg,#7B5CFF,#5B3DF5);color:#fff}
+.rtour .rtSkip{color:#8a88a8}.rtour .rtSkip:hover{color:#1d1b3a}
+.rtour .rtVo{padding:8px 10px;background:#F1EEFF}
+.rtour .rtWait{font-size:13px;font-weight:800;color:#E07A00}
+@media (prefers-reduced-motion:reduce){.rtour .rtHole.tap,.rtour .rtHand{animation:none}}`;
+  document.head.appendChild(s);
+}
+
+const vis = el => { if (!el || !el.isConnected) return false; const r = el.getBoundingClientRect(); return r.width > 2 && r.height > 2 && getComputedStyle(el).visibility !== 'hidden'; };
+const find = q => { if (!q) return null; if (typeof q === 'function') { try { return q(); } catch (e) { return null; } } const all = [...document.querySelectorAll(q)]; return all.find(vis) || null; };
+
+let active = null;
+const tourActive = () => !!active;
+
+/** tour({ id, steps:[{ el, say, tap?, until?, pad? }], voice?, force?, onEnd? })
+ *  el: a CSS selector or a function returning the element (no element = a card in the middle)
+ *  tap: wait until the child taps the lit part. until: a function; the step moves on when it returns true. */
+function tour(o) {
+  const key = 'robo-tour:' + o.id;
+  if (active || (!o.force && store.get(key))) return false;
+  addCss();
+  const steps = o.steps.slice(), voice = o.voice ?? youngKid(), en = o.lang === 'en';
+  const W8 = en ? { next: 'Next →', done: "Let's go ✓", skip: 'Skip', of: ' of ', you: '👆 Your turn', hear: 'Listen' } : { next: 'التالي ←', done: 'يلا نبدأ ✓', skip: 'تخطّي', of: ' من ', you: '👆 جرّب إنت', hear: 'اسمع' };
+  const num = en ? String : AR;
+  const root = document.createElement('div'); root.className = 'rtour'; root.setAttribute('role', 'dialog'); root.setAttribute('aria-live', 'polite');
+  const B = [0, 1, 2, 3].map(() => { const d = document.createElement('div'); d.className = 'rtB'; root.appendChild(d); return d; });
+  const hole = document.createElement('div'); hole.className = 'rtHole'; root.appendChild(hole);
+  const hand = document.createElement('div'); hand.className = 'rtHand'; hand.textContent = '👆'; root.appendChild(hand);
+  const card = document.createElement('div'); card.className = 'rtCard';
+  card.style.direction = en ? 'ltr' : 'rtl';
+  card.innerHTML = '<div class="rtBot" aria-hidden="true">🤖</div><p class="rtTxt"></p><span></span><div class="rtFoot"><span class="rtN"></span><button class="rtVo" title="' + W8.hear + '">🔊</button><button class="rtSkip">' + W8.skip + '</button><button class="rtNext"></button><span class="rtWait" hidden>' + W8.you + '</span></div>';
+  root.appendChild(card); document.body.appendChild(root);
+  const $t = card.querySelector('.rtTxt'), $n = card.querySelector('.rtN'), $next = card.querySelector('.rtNext'), $wait = card.querySelector('.rtWait');
+  let i = -1, el = null, raf = 0, poll = 0, tapH = null, lastBox = '';
+  active = { end };
+
+  function place() {
+    const W = innerWidth, H = innerHeight;
+    let r = el && vis(el) ? el.getBoundingClientRect() : null;
+    const p = steps[i] && steps[i].pad != null ? steps[i].pad : 6;
+    const x0 = r ? Math.max(0, r.left - p) : W / 2, y0 = r ? Math.max(0, r.top - p) : H / 2, x1 = r ? Math.min(W, r.right + p) : W / 2, y1 = r ? Math.min(H, r.bottom + p) : H / 2;
+    const k = [x0, y0, x1, y1].map(Math.round).join(',');
+    if (k !== lastBox) {
+      lastBox = k;
+      Object.assign(B[0].style, { left: 0, top: 0, width: W + 'px', height: y0 + 'px' });
+      Object.assign(B[1].style, { left: 0, top: y1 + 'px', width: W + 'px', height: Math.max(0, H - y1) + 'px' });
+      Object.assign(B[2].style, { left: 0, top: y0 + 'px', width: x0 + 'px', height: (y1 - y0) + 'px' });
+      Object.assign(B[3].style, { left: x1 + 'px', top: y0 + 'px', width: Math.max(0, W - x1) + 'px', height: (y1 - y0) + 'px' });
+      Object.assign(hole.style, { left: x0 + 'px', top: y0 + 'px', width: (x1 - x0) + 'px', height: (y1 - y0) + 'px', display: r ? '' : 'none' });
+      const tap = !!(r && steps[i] && (steps[i].tap || steps[i].until));
+      hand.style.display = tap ? '' : 'none'; hole.classList.toggle('tap', tap); hole.style.pointerEvents = tap ? 'none' : 'auto';   // only a «try it» step lets the tap through
+      if (tap) { hand.style.left = Math.min(W - 40, (x0 + x1) / 2 - 6) + 'px'; hand.style.top = Math.min(H - 44, y1 - 14) + 'px'; }
+      // the card goes below the lit part, else above, else at the side, never on top of it
+      const cw = card.offsetWidth || 340, ch = card.offsetHeight || 140, m = 14;
+      let cx, cy;
+      if (!r) { cx = (W - cw) / 2; cy = (H - ch) / 2; }
+      else if (H - y1 > ch + m + 30) { cy = y1 + m + (tap ? 30 : 0); cx = (x0 + x1) / 2 - cw / 2; }
+      else if (y0 > ch + m) { cy = y0 - ch - m; cx = (x0 + x1) / 2 - cw / 2; }
+      else if (x0 > cw + m) { cx = x0 - cw - m; cy = (y0 + y1) / 2 - ch / 2; }
+      else if (W - x1 > cw + m) { cx = x1 + m; cy = (y0 + y1) / 2 - ch / 2; }
+      else { cx = (W - cw) / 2; cy = H - ch - m; }
+      card.style.left = Math.max(8, Math.min(W - cw - 8, cx)) + 'px'; card.style.top = Math.max(8, Math.min(H - ch - 8, cy)) + 'px';
+    }
+    raf = requestAnimationFrame(place);
+  }
+  function clearWait() { clearInterval(poll); poll = 0; if (tapH) { ['click', 'pointerup', 'pointerdown'].forEach(ev => document.removeEventListener(ev, tapH, true)); tapH = null; } }
+  function go(n) {
+    clearWait(); i = n; if (i >= steps.length) return end(true);
+    const s = steps[i]; el = find(s.el);
+    if (s.el && !el && s.optional) return go(i + 1);             // a part that isn't on this screen: skip it
+    if (el) { const r = el.getBoundingClientRect(); if (r.bottom > innerHeight || r.top < 0) try { el.scrollIntoView({ block: 'center' }); } catch (e) {} }
+    $t.innerHTML = s.say; $n.textContent = num(i + 1) + W8.of + num(steps.length); lastBox = '';
+    const waits = !!(el && (s.tap || s.until));
+    $next.hidden = waits; $wait.hidden = !waits;
+    $next.textContent = i === steps.length - 1 ? W8.done : W8.next;
+    if (s.tap && el) {
+      tapH = e => { if (el.contains(e.target) || e.target === el) { clearWait(); setTimeout(() => go(i + 1), s.delay ?? 450); } };
+      // pointerup too: some buttons start working on the press and get disabled before a «click» ever fires
+      (s.tapOn ? [s.tapOn] : ['pointerup', 'click']).forEach(ev => document.addEventListener(ev, tapH, true));
+    }
+    if (s.until) poll = setInterval(() => { let ok = false; try { ok = s.until(); } catch (e) {} if (ok) { clearWait(); setTimeout(() => go(i + 1), s.delay ?? 450); } }, 200);
+    if (voice) say(s.say.replace(/<[^>]+>/g, ''), o.lang);
+    if (!waits) setTimeout(() => $next.focus({ preventScroll: true }), 50);
+  }
+  function end(done) {
+    clearWait(); cancelAnimationFrame(raf); stopVoice(); removeEventListener('keydown', onKey, true);
+    root.remove(); active = null; if (done || o.markSkip !== false) store.set(key, '1'); if (o.onEnd) o.onEnd(!!done);
+  }
+  const onKey = e => { if (e.key === 'Escape') { e.preventDefault(); end(false); } else if ((e.key === 'Enter' || e.key === 'ArrowLeft') && !$next.hidden && document.activeElement !== $next) { e.preventDefault(); go(i + 1); } };
+  addEventListener('keydown', onKey, true);
+  $next.onclick = () => go(i + 1);
+  card.querySelector('.rtSkip').onclick = () => end(false);
+  card.querySelector('.rtVo').onclick = () => say(steps[i].say.replace(/<[^>]+>/g, ''), o.lang);
+  go(0); raf = requestAnimationFrame(place);
+  return true;
+}
+function endTour() { if (active) active.end(false); }
+
+/** a small «🧭 الجولة» button that replays the tour (put it in the lab's top bar) */
+function tourButton(host, start) {
+  if (!host) return; const b = document.createElement('button'); b.type = 'button'; b.className = 'btn ghost small tourBtn'; b.textContent = '🧭 الجولة'; b.title = 'اتفرّج على شرح الشاشة دي تاني';
+  b.onclick = () => start(true); host.appendChild(b); return b;
+}
+
+return {tour,endTour,tourActive};})();
+/* the first level of each KIND (Youssef, 13 Nov 2026: «the first example of each kind: the child gets to know the screen,
+   where to tap, and what is asked»). Kinds: arrows / turn (the maze), sk (Robo Block), py (Python), and each mini game.
+   Once per kind per device («robo-tour:j-<kind>»). Robo reads it aloud in Explorers and Inventors (not when the sound is off). */
+const JT_S=(el,say,more)=>Object.assign({el,say},more||{}),JT_T=(el,say,more)=>JT_S(el,say,Object.assign({tap:true},more||{})),JT_O={optional:true};
+const JT_MINI={tap:["دوس على <b>الصور الصح</b> اللي روبو طلبها.","Tap the <b>right pictures</b> Robo asked for."],
+  pop:["دوس على <b>البالونات</b> عشان تفرقعها 🎈","Tap the <b>balloons</b> to pop them 🎈"],
+  drag:["<b>اسحب</b> كل حاجة وحطها في مكانها الصح.","<b>Drag</b> each thing to its right place."],
+  seq:["رتّب الصور <b>بالترتيب الصح</b>: إيه اللي بيحصل الأول؟","Put the pictures <b>in order</b>: what happens first?"],
+  tile:["ركّب <b>قطع الصورة</b> لحد ما الصورة تكمل.","Put the <b>picture pieces</b> together."],
+  snap:["ركّب <b>البلوكات</b> زي اللي فوق بالظبط.","Snap the <b>blocks</b> just like the ones on top."],
+  pic:["اعمل اللي روبو طلبه على <b>الصورة</b>.","Do what Robo asked on the <b>picture</b>."]};
+function jTourKind(){if(MINI[mode]){const k=(MINI[mode][L]||{}).k;return JT_MINI[k]?"mini-"+k:null}
+  return small()?"arrows":isPy()?"py":isSk()?"sk":mode==="turn"?"turn":null}
+function jTourSteps(kind){const A=x=>x[lang==="ar"?0:1],ex=(prog.solved[mode]||[])[L]?false:L===0;
+  if(kind.startsWith("mini-"))return [JT_S("#miniSay",A(["ده <b>المطلوب</b>: روبو بيقولك تعمل إيه.","This is the <b>task</b>: Robo tells you what to do."])),
+    JT_S("#miniStage",A(JT_MINI[kind.slice(5)])),JT_S("#miniDots",A(["ودي <b>المستويات</b>: كل ما تخلّص واحد، النقطة تنوّر.","These are the <b>levels</b>: each one lights up when you finish it."]),JT_O)];
+  if(kind==="py")return [JT_S("#taskBar",A(["ده <b>المطلوب</b> في المستوى ده. اقراه الأول.","This is your <b>task</b>. Read it first."]),JT_O),
+    JT_S("#pyEd",A(["ده <b>المحرر</b>: اكتب كود بايثون هنا.","This is the <b>editor</b>: write Python here."])),
+    JT_T("#runBtn",A(["دوس <b>شغّل</b> عشان الكود يشتغل.","Tap <b>Run</b> to run your code."])),
+    JT_S("#pyOut",A(["وهنا بتظهر <b>النتيجة</b>.","Your <b>result</b> shows here."]),JT_O),
+    JT_S("#solBtn",A(["لو اتلخبطت، <b>المساعدة</b> هنا.","Stuck? <b>Help</b> is here."]),JT_O)];
+  if(kind==="sk")return [JT_S(null,A(["أهلاً في <b>روبو بلوك</b>! تعالى أوريك الشاشة.","Welcome to <b>Robo Block</b>! Let me show you around."])),
+    JT_S("#taskBar",A(["ده <b>المطلوب</b> في المستوى ده. اقراه الأول.","This is your <b>task</b>. Read it first."]),JT_O),
+    JT_S("#cv",A(["ده <b>المسرح</b>: الشخصيات بتتحرك هنا.","This is the <b>stage</b>: your characters move here."])),
+    JT_S(".blocklyToolboxDiv",A(["دي <b>ألوان البلوكات</b>: كل لون مجموعة. دوس على لون تشوف بلوكاته.","These are the <b>block colors</b>: tap one to see its blocks."]),JT_O),
+    JT_S("#blockly",A(["هنا بتركّب الكود: اسحب البلوك وحطه تحت <b>🚩 لما العلم يتداس</b>.","Build your code here: drag blocks under <b>🚩 when flag clicked</b>."])),
+    JT_T("#runBtn",A([ex?"المثال ده محلول. دوس <b>شغّل</b> وشوف بيعمل إيه!":"دوس <b>شغّل</b> وشوف!",ex?"This example is solved. Tap <b>Run</b> and watch!":"Tap <b>Run</b> and watch!"])),
+    JT_S("#solBtn",A(["لو اتلخبطت، <b>المساعدة</b> هنا.","Stuck? <b>Help</b> is here."]),JT_O)];
+  return [JT_S("#stage",A(["ده <b>الملعب</b>. روبو لازم يوصل للجوهرة 💎","This is the <b>board</b>. Get Robo to the gem 💎"])),
+    JT_S(".blocklyFlyout, .blocklyToolboxDiv",A([kind==="arrows"?"دي <b>الأسهم</b>. اسحب سهم وركّبه تحت 🚩.":"دي <b>البلوكات</b>: امشي ولف. اسحب بلوك وركّبه تحت 🚩.",kind==="arrows"?"These are the <b>arrows</b>. Drag one under 🚩.":"These are the <b>blocks</b>: move and turn. Drag one under 🚩."]),JT_O),
+    JT_S("#blockly",A(["هنا بتركّب الكود. البلوكات لازم تبقى <b>لازقة</b> في بعض.","Build your code here. Blocks must <b>snap</b> together."])),
+    JT_T("#runBtn",A([ex?"المثال ده محلول. دوس <b>شغّل</b> وشوف روبو بيمشي!":"دوس <b>شغّل</b> وشوف روبو بيمشي!",ex?"This example is solved. Tap <b>Run</b> and watch Robo!":"Tap <b>Run</b> and watch Robo go!"])),
+    JT_S("#solBtn",A(["لو اتلخبطت، <b>المساعدة</b> هنا.","Stuck? <b>Help</b> is here."]),JT_O)]}
+let jtT=0;
+function jTourSoon(force){clearTimeout(jtT);let n=0;const k0=mode+":"+L;
+  const go=()=>{if(mode+":"+L!==k0||placing||running)return;
+    const busy=!$("intro").hidden||!$("gm").hidden||RT.tourActive()||(view!=="play"&&view!=="mini");
+    if(busy){if(++n<40)jtT=setTimeout(go,500);return}
+    const kind=jTourKind();if(!kind)return;
+    RT.tour({id:"j-"+kind,steps:jTourSteps(kind),lang,force,voice:!muted&&(prog.city==="e"||prog.city==="j")})};
+  jtT=setTimeout(go,force?0:900)}
 
 // in a block's sound menu, pointing at a sound plays it (the same rule as the library)
 document.addEventListener("mouseover",e=>{const it=e.target.closest&&e.target.closest(".blocklyDropDownDiv .blocklyMenuItem,.blocklyDropDownDiv [role=option]");if(!it||muted)return;

@@ -12,21 +12,23 @@
 <meta property="og:title" content="Robo Maker: محاكي أردوينو وروبوتات للأطفال">
 <meta property="og:description" content="وصّل بنفسك أردوينو أونو بالحساسات والمواتير والشاشات، وبرمجه بالبلوكات أو بالكود وشوفه بيشتغل في المتصفح. من Robo Egypt.">
 <meta property="og:url" content="https://roboegypt.com/lab/arduino">
-<meta property="og:image" content="https://roboegypt.com/assets/og/lab-arduino.jpg">
+<meta property="og:image" content="https://roboegypt.com/assets/og/v2/lab-arduino.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Robo Maker (Robo Maker)", "alternateName": "Robo Maker", "url": "https://roboegypt.com/lab/arduino", "description": "وصّل بنفسك أردوينو أونو بالحساسات والمواتير والشاشات، وبرمجه بالبلوكات أو بالكود وشوفه بيشتغل في المتصفح. من Robo Egypt.", "applicationCategory": "EducationalApplication", "operatingSystem": "Web browser, Windows", "inLanguage": "ar", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EGP"}, "image": "https://roboegypt.com/assets/og/lab-arduino.jpg", "audience": {"@type": "EducationalAudience", "educationalRole": "student", "audienceType": "أطفال وتينز", "suggestedMinAge": 9, "suggestedMaxAge": 17}, "provider": {"@type": "EducationalOrganization", "name": "Robo Egypt", "url": "https://roboegypt.com"}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Robo Maker (Robo Maker)", "alternateName": "Robo Maker", "url": "https://roboegypt.com/lab/arduino", "description": "وصّل بنفسك أردوينو أونو بالحساسات والمواتير والشاشات، وبرمجه بالبلوكات أو بالكود وشوفه بيشتغل في المتصفح. من Robo Egypt.", "applicationCategory": "EducationalApplication", "operatingSystem": "Web browser, Windows", "inLanguage": "ar", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EGP"}, "image": "https://roboegypt.com/assets/og/v2/lab-arduino.jpg", "audience": {"@type": "EducationalAudience", "educationalRole": "student", "audienceType": "أطفال وتينز", "suggestedMinAge": 9, "suggestedMaxAge": 17}, "provider": {"@type": "EducationalOrganization", "name": "Robo Egypt", "url": "https://roboegypt.com"}}</script>
 <meta name="theme-color" content="#1B2350">
 <link rel="icon" type="image/png" href="/assets/favicon.png">
 <link rel="preload" as="image" href="/lab/parts/uno.webp">
-  <script type="module" crossorigin src="/assets/arduino-DZ8Bh_ba.js"></script>
-  <link rel="modulepreload" crossorigin href="/assets/lab-Ck2xiEv5.js">
+<script src="/site-bar.js" defer></script>
+  <script type="module" crossorigin src="/assets/arduino-B2DXiadb.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/lab-tours-DMzJh-H9.js">
   <link rel="modulepreload" crossorigin href="/assets/index-D-kCwvry.js">
   <link rel="modulepreload" crossorigin href="/assets/gest-CNYwtreM.js">
   <link rel="modulepreload" crossorigin href="/assets/acorn-DkYm1ITT.js">
-  <link rel="stylesheet" crossorigin href="/assets/lab-GmRgLkqh.css">
-  <link rel="stylesheet" crossorigin href="/assets/arduino-ReRXI9x4.css">
+  <link rel="modulepreload" crossorigin href="/assets/task-peek-5dTstnx6.js">
+  <link rel="stylesheet" crossorigin href="/assets/lab-tours-GmRgLkqh.css">
+  <link rel="stylesheet" crossorigin href="/assets/arduino-1lFFCQ9T.css">
 </head>
 <body>
 <header class="top">
@@ -80,9 +82,11 @@
         </div>
         <button class="clr trTog" id="trTog" title="اعرض الترجمة العربي جنب الإنجليزي أو اخفيها">🌐 ترجمة</button><button class="clr" id="closeCode" aria-label="اقفل الكود">✕</button>
       </div>
+      <div class="syncBar" id="syncBlocks" hidden>✍️ إنت كاتب كود بإيدك في «كود C++»، والبلوكات مش بتتغيّر من الكتابة. اللي بيشتغل هو التبويب المفتوح. <button class="btn ghost small" data-go="code">⌨ روح للكود</button></div>
       <div class="ed" id="blocksPane"><div id="blockly"></div></div>
       <div class="ed" id="codePane" hidden>
         <div class="codeHead"><span>الكود ده بيشتغل هنا، وتقدر تنسخه للـ Arduino IDE</span><button class="btn ghost small" id="fromBlocks">⤵ هات كود البلوكات</button></div>
+        <div class="syncBar" id="syncCode" hidden>🧩 البلوكات اتغيّرت بعد ما كتبت الكود. <button class="btn small" id="syncNow">⤵ حدّث الكود من البلوكات</button><small>تعديلاتك المكتوبة هتتمسح</small></div>
         <div id="editor" dir="ltr"></div>
       </div>
       <div class="genBox" id="genBox"><div class="gh"><b>Arduino C++ code <small>· الكود اللي البلوكات بتعمله</small></b><button class="clr" id="genToggle">▾ اخفي</button></div><pre id="gen" dir="ltr"></pre></div>
