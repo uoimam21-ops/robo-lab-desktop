@@ -1,6 +1,6 @@
 // Smoke test of an INSTALLED «رحلة روبو» (Robo Journey) app (run in CI on Windows after the silent install).
 // Usage: node tests/smoke.mjs "<path to Robo Journey.exe>" <label>
-// Checks, with the internet blocked: the app opens on the journey, the labs page, every lab opens, Python runs, Robo Block loads,
+// Checks, with the internet blocked: the app opens on its home (two cards), the labs page, every lab opens, Python runs, Robo Block loads,
 // the Arduino toolchain compiles (upload to a missing port must fail at the upload step), and the USB-driver check works.
 import { _electron } from 'playwright';
 import { mkdirSync } from 'node:fs';
@@ -28,13 +28,14 @@ await w.waitForLoadState('load'); await w.waitForTimeout(1500);
 
 console.log('[' + label + '] ' + JSON.stringify(await w.evaluate(() => window.roboDesktop.info())));
 ok(await w.evaluate(() => fetch('https://roboegypt.com/', { mode: 'no-cors' }).then(() => false, () => true)), 'internet is blocked for this test');
-ok(await w.evaluate(() => location.pathname === '/journey' && !!document.getElementById('landing')), 'the app opens on the journey');
-ok(await w.evaluate(() => { const b = document.getElementById('labBtn'); return !!b && !b.hidden && /روبو لاب/.test(b.textContent); }), 'the journey menu has «روبو لاب»');
+// the app opens on its home: two cards (Robo Journey, Robo Lab) under a bar that always stays on top (spec 16 Nov 2026)
+ok(await w.evaluate(() => location.pathname === '/home' && !!document.querySelector('.card.journey') && !!document.querySelector('.card.lab') && !!document.getElementById('tabL')), 'the app opens on its home with the two cards');
+// the first-time tours would cover the buttons this test presses
+await w.evaluate(() => { for (const k of ['3d', 'junior', 'arduino', 'circuits', 'code', 'python', 'web', 'ai']) localStorage.setItem('robo-tour:lab-' + k, '1'); });
 await w.screenshot({ path: shots + '/home.png' });
-await w.evaluate(() => document.getElementById('labBtn').click());
-// a slow machine is still opening the labs page here: wait for it instead of reading the old page
-await w.waitForURL(/\/lab\//, { timeout: 20000 }).catch(() => {}); await w.waitForSelector('.card', { timeout: 20000 }).catch(() => {}); await w.waitForTimeout(500);
-ok((await w.$$('.card')).length === 9 && !!(await w.$('a.back[href="/journey.html"]')), 'the labs page («روبو لاب») shows the 9 labs and a way back to the journey');
+await w.evaluate(() => document.querySelector('.card.lab').click());
+await w.waitForTimeout(2500);
+ok(await w.evaluate(() => { const f = document.getElementById('view'); return !!f && /\/lab\//.test(f.contentWindow.location.pathname) && f.contentDocument.querySelectorAll('.card').length === 9; }), 'the Robo Lab card opens the labs page (9 labs) under the bar');
 await w.screenshot({ path: shots + '/labs.png' });
 
 const drv = await w.evaluate(() => window.roboDesktop.arduino.driver());
@@ -55,6 +56,7 @@ await w.screenshot({ path: shots + '/roboblock.png' });
 // the Journey opens on its start screen; without internet its accounts can't load, the page must still work
 await w.goto('robo://lab/journey.html').catch(() => {}); await w.waitForTimeout(3000);
 ok(await w.evaluate(() => !!document.getElementById('landing') && !location.pathname.startsWith('/lab/roboblock')), 'the Journey opens');
+ok(await w.evaluate(() => { const b = document.getElementById('labBtn'); return !!b && !b.hidden && /روبو لاب/.test(b.textContent); }), 'the journey menu has «روبو لاب»');
 await w.goto('robo://lab/journey.html?go=login').catch(() => {}); await w.waitForTimeout(1500);
 ok(await w.evaluate(() => !!document.getElementById('aForm') && !document.getElementById('gBtn')), 'Journey sign-in: e-mail form, no Google button in the app');
 
