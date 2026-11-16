@@ -5879,7 +5879,7 @@ const SK_CATS=[["mo","Motion"],["lo","Looks"],["so","Sound"],["ev","Events"],["c
 function skCatSetup(){const tb=ws&&ws.getToolbox&&ws.getToolbox();if(!tb)return;
   document.querySelectorAll("#blockly .blocklyTreeRow").forEach(r=>{const c=r.style.borderLeftColor||r.style.borderRightColor||"#4C97FF";r.style.setProperty("--cc",c)});
   // phones: the block drawer closes after you pick a block so the code area stays visible
-  const narrow=($("blockly").clientWidth||999)<620,fl=tb.getFlyout&&tb.getFlyout();if(fl)fl.autoClose=narrow;
+  const narrow=($("blockly").clientWidth||innerWidth)<620||innerWidth<820,fl=tb.getFlyout&&tb.getFlyout();if(fl)fl.autoClose=narrow;   // (a hidden editor measured 0 → «wide», and on a phone the drawer then covered the code; Youssef, 16 Nov 2026)
   // open the category of the block the child is learning now, and mark it "new"
   const lv=SKL()[L],cats=SK_CATS.filter(([k])=>lv.blocks.some(b=>SK_BLOCKS[b]&&SK_BLOCKS[b].cat===k)).map(c=>c[0]);
   const fr=(lv.fresh||[]).map(b=>SK_BLOCKS[b]&&SK_BLOCKS[b].cat).filter(Boolean),focus=fr.length?cats.indexOf(fr[fr.length-1]):-1;
