@@ -1,16 +1,16 @@
-// «روبو لاب»: the labs page of the «رحلة روبو» app (the app opens on the journey; this page is in its menu). Same labs as
+// «روبو لاب»: the labs page (16 Nov 2026: the same new 3D icons and Robo Lab logo as roboegypt.com/lab/) of the «رحلة روبو» app (the app opens on the journey; this page is in its menu). Same labs as
 // roboegypt.com/lab/ (lib/site.ts → LABS). Robo Block opens its own page.
 // Links end in .html: the Android app serves files as they are (no pretty paths).
 const LABS = [
-  ['/lab/junior.html', 'junior', 'روبو جونيور', 'من ٥ سنين: برمجة بالصور والأيقونات، وحرّك الشخصيات واعمل قصة.', '#E06A00'],
-  ['/lab/roboblock.html?go=free', 'block', 'روبو بلوك', 'اسحب البلوكات واعمل ألعاب وقصص وأنيميشن بشخصية روبو.', '#6E33E0'],
-  ['/lab/ai.html', 'ai', 'مختبر الذكاء الاصطناعي', 'درّب الكمبيوتر يفرّق بين الرسومات والصور والجمل، واعمل شات بوت.', '#7A2FE0'],
-  ['/lab/circuits.html', 'robo-circuits', 'Robo Circuits', 'بطاريات ولمبات ومقاومات ومكثفات وترانزستور. شوف التيار وهو بيجري.', '#C2410C'],
-  ['/lab/arduino.html', 'robo-maker', 'Robo Maker', 'الأردوينو والروبوتات: وصّل وبرمج بالبلوكات أو بالكود.', '#0B8A60'],
-  ['/lab/3d.html', 'cad', 'روبو كاد', 'صمّم أشكال 3D بالملّي، وصدّر ملف STL للطباعة.', '#1E5BD8'],
-  ['/lab/web.html', 'web', 'روبو ويب', 'صمّم مواقع بـ HTML و CSS و JavaScript.', '#1A8A34'],
-  ['/lab/python.html', 'python', 'روبو بايثون', 'اكتب كود Python واعمل برامج وألعاب.', '#2557C9'],
-  ['/lab/code.html', 'robo-code', 'روبو كود', 'Python و JavaScript و HTML/CSS و SQL و Lua في مكان واحد.', '#0F766E'],
+  ['/lab/junior.html', 'v2/junior', 'روبو جونيور', 'من ٥ سنين: برمجة بالصور والأيقونات، وحرّك الشخصيات واعمل قصة.', '#E06A00'],
+  ['/lab/roboblock.html?go=free', 'v2/block', 'روبو بلوك', 'اسحب البلوكات واعمل ألعاب وقصص وأنيميشن بشخصية روبو.', '#6E33E0'],
+  ['/lab/ai.html', 'v2/ai', 'مختبر الذكاء الاصطناعي', 'درّب الكمبيوتر يفرّق بين الرسومات والصور والجمل، واعمل شات بوت.', '#7A2FE0'],
+  ['/lab/circuits.html', 'v2/circuits', 'روبو سيركتس', 'بطاريات ولمبات ومقاومات ومكثفات وترانزستور. شوف التيار وهو بيجري.', '#C2410C'],
+  ['/lab/arduino.html', 'v2/maker', 'روبو ميكر', 'الأردوينو والروبوتات: وصّل وبرمج بالبلوكات أو بالكود.', '#0B8A60'],
+  ['/lab/3d.html', 'v2/cad', 'روبو كاد', 'صمّم أشكال 3D بالملّي، وصدّر ملف STL للطباعة.', '#1E5BD8'],
+  ['/lab/web.html', 'v2/web', 'روبو ويب', 'صمّم مواقع بـ HTML و CSS و JavaScript.', '#1A8A34'],
+  ['/lab/python.html', 'v2/python', 'روبو بايثون', 'اكتب كود Python واعمل برامج وألعاب.', '#2557C9'],
+  ['/lab/code.html', 'v2/code', 'روبو كود', 'Python و JavaScript و HTML/CSS و SQL و Lua في مكان واحد.', '#0F766E'],
 ];
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 document.getElementById('labs').innerHTML = LABS.map(([href, img, name, desc, c, net]) =>
