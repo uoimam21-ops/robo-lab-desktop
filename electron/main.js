@@ -54,7 +54,8 @@ const MIME = {
 // URL path → file on disk (or null). Pretty paths from the site keep working: /lab/roboblock, /journey, /lab/ …
 function fileFor(pathname) {
   let p = decodeURIComponent(pathname);
-  if (p === '/' || p === '/lab' || p === '/lab/' || p === '/index.html' || p === '/lab/index.html') return path.join(LAUNCHER, 'index.html');
+  if (p === '/' || p === '/home' || p === '/index.html') return path.join(LAUNCHER, 'home.html');   // the app's home: two cards + a bar that stays
+  if (p === '/lab' || p === '/lab/' || p === '/lab/index.html') return path.join(LAUNCHER, 'index.html');
   if (p.startsWith('/launcher/')) return safe(LAUNCHER, p.slice('/launcher'.length));
   if (p === '/journey' || p === '/journey.html' || p === '/lab/roboblock') p = '/lab/roboblock.html';
   if (p.startsWith('/vendor/fonts/css2')) p = '/vendor/fonts/fonts.css';
@@ -126,19 +127,19 @@ function createWindow() {
     icon: path.join(__dirname, '..', 'build', 'icon.png'),
     backgroundColor: '#F6F8FE',
     autoHideMenuBar: true,
-    webPreferences: { preload: path.join(__dirname, 'preload.js'), contextIsolation: true, nodeIntegration: false, sandbox: true, spellcheck: false },
+    webPreferences: { preload: path.join(__dirname, 'preload.js'), contextIsolation: true, nodeIntegration: false, sandbox: true, spellcheck: false, nodeIntegrationInSubFrames: true },   // the preload also runs in the frame under the home bar (Arduino upload)
   });
   route(win.webContents);
   win.webContents.on('did-create-window', (w) => route(w.webContents));
-  win.loadURL(ORIGIN + '/journey');   // the app opens on the journey; the labs are in its menu (and at /lab/)
+  win.loadURL(ORIGIN + '/home');   // the app opens on its home: Robo Journey and Robo Lab (16 Nov 2026), with a bar that stays on top
 }
 
 // F11 full screen, Ctrl+R reload, Ctrl +/- zoom: handy on the academy's lab PCs
 function menu() {
   Menu.setApplicationMenu(Menu.buildFromTemplate([
     { label: 'رحلة روبو', submenu: [
-      { label: 'الرحلة', accelerator: 'Alt+Home', click: () => win && win.loadURL(ORIGIN + '/journey') },
-      { label: 'روبو لاب: كل المختبرات', accelerator: 'Alt+L', click: () => win && win.loadURL(ORIGIN + '/lab/') },
+      { label: 'الرحلة', accelerator: 'Alt+Home', click: () => win && win.loadURL(ORIGIN + '/home#journey') },
+      { label: 'روبو لاب: كل المختبرات', accelerator: 'Alt+L', click: () => win && win.loadURL(ORIGIN + '/home#lab') },
       { role: 'reload', label: 'إعادة تحميل' }, { role: 'togglefullscreen', label: 'ملء الشاشة' },
       { label: 'تسريع الرسوميات (كارت الشاشة)', type: 'checkbox', checked: gpuOn, click: (it) => { settings.gpu = it.checked; saveSettings(); app.relaunch(); app.exit(0); } },
       { role: 'zoomIn', label: 'تكبير' }, { role: 'zoomOut', label: 'تصغير' }, { role: 'resetZoom', label: 'الحجم العادي' },
