@@ -1,4 +1,4 @@
-import"./lab-tours-DMzJh-H9.js";import{P as rt,n as G,w as st,j as A,u as at,r as ct,k as it,l as lt,m as dt,o as ut}from"./index-D-kCwvry.js";import{s as pt}from"./split-DJAd-vnY.js";import{j as mt,c as ft,h as ht}from"./index-9y3Z7dt_.js";import{p as bt}from"./acorn-DkYm1ITT.js";import{t as gt}from"./task-peek-5dTstnx6.js";const yt=rt.highest(G.of([{key:"Mod-d",run:st,preventDefault:!0}])),o=e=>document.getElementById(e),xt="٠١٢٣٤٥٦٧٨٩",F=e=>String(e).replace(/\d/g,t=>xt[t]),b=[{n:"👋 صفحة عني",mode:"page",html:`<h1>أنا اسمي روبو 🤖</h1>
+import"./kbfix-4gRYHd6_.js";import{P as rt,n as G,w as st,j as A,u as at,r as ct,k as it,l as lt,m as dt,o as ut}from"./index-D-kCwvry.js";import{s as pt}from"./split-DJAd-vnY.js";import{j as mt,c as ft,h as ht}from"./index-9y3Z7dt_.js";import{p as bt}from"./acorn-DkYm1ITT.js";import{t as gt}from"./task-peek-5dTstnx6.js";const yt=rt.highest(G.of([{key:"Mod-d",run:st,preventDefault:!0}])),o=e=>document.getElementById(e),xt="٠١٢٣٤٥٦٧٨٩",F=e=>String(e).replace(/\d/g,t=>xt[t]),b=[{n:"👋 صفحة عني",mode:"page",html:`<h1>أنا اسمي روبو 🤖</h1>
 <p>عندي <b>10</b> سنين وبحب البرمجة والكورة.</p>
 <ul>
   <li>بحب الرسم 🎨</li>

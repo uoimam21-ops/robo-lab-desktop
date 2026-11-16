@@ -3986,7 +3986,7 @@ function applyText(){
   const u=UNLOCK[w]||{},fresh=L>0&&!prog.all&&!placing?Object.keys(u).filter(b=>u[b]===L):[];
   const label=b=>({bibo_east:"➡",bibo_up:"⬆",bibo_down:"⬇",bibo_west:"⬅",bibo_repeat:small()?"🔁":bt().bRepeat.replace(" %1",""),bibo_move:bt().bMove,bibo_left:bt().bLeft,bibo_right:bt().bRight})[b];
   $("expect").hidden=!isPy();if(isPy()){$("expectL").textContent=t().expectL;$("expectPre").textContent=SKL()[L].expect||""}
-  $("aboutBtn").textContent=t().aboutBtn;if(typeof pickMenu==="function")pickMenu();$("labBtn").textContent=lang==="ar"?"🧪 روبو لاب: كل المختبرات":"🧪 Robo Lab: all the labs";$("acctBtn").textContent=t().acctBtn;if(view==="acct")renderAcct();if(view==="admin")renderAdmin();if(view==="landing")renderLanding();
+  $("aboutBtn").textContent=t().aboutBtn;if(typeof pickMenu==="function")pickMenu();$("labBtn").innerHTML='<img src="/assets/brand/robo-lab-mark.webp" alt="" width="22" height="22" style="vertical-align:-6px;margin-inline-end:6px;border-radius:50%">'+(lang==="ar"?"روبو لاب: كل المختبرات":"Robo Lab: all the labs");$("acctBtn").textContent=t().acctBtn;if(view==="acct")renderAcct();if(view==="admin")renderAdmin();if(view==="landing")renderLanding();
   $("codeL").textContent=t().codeL;$("codeGo").textContent=t().codeGo;$("pinIn").placeholder=t().pinPh;$("pinSet").textContent=t().pinSetL;$("pinSet").hidden=!prog.all;$("pinIn").hidden=false;
   const task=isSk()&&SKL()[L].free?t().freeTask:isSk()?skt().hints[L]:t().hints[mode==="bar"?"bar":w][L];
   if(isSk()&&SKL()[L].free)$("lvGoal").textContent="🧱 روبو بلوك";
@@ -4260,19 +4260,20 @@ function youngKid() {
   try { const p = JSON.parse(store.get('bibo-progress2') || '{}'); return p.city === 'e' || p.city === 'j'; } catch (e) { return false; }
 }
 
-let au = null, azOff = false;
+let au = null, azOff = false, vgen = 0;
 async function say(text, lang = 'ar') {
-  stopVoice(); const t = String(text || '').replace(/[«»]/g, '').replace(/\s+/g, ' ').trim(); if (!t) return;
+  stopVoice(); const g = vgen, t = String(text || '').replace(/[«»]/g, '').replace(/\s+/g, ' ').trim(); if (!t) return;
   if (!azOff && navigator.onLine && t.length <= 200) {
     try {
       const r = await fetch(SB_URL + '/functions/v1/tts', { method: 'POST', headers: { 'Content-Type': 'application/json', apikey: SB_KEY }, body: JSON.stringify({ text: t, voice: 'guide', lang }) });
       if (r.status === 503 || r.status === 403) azOff = true;
-      else if (r.ok) { const { url } = await r.json(); if (url) { au = new Audio(url); await au.play(); return; } }
+      else if (r.ok) { const { url } = await r.json(); if (g !== vgen) return; if (url) { au = new Audio(url); await au.play(); return; } }
     } catch (e) {}
   }
+  if (g !== vgen) return;
   try { const u = new SpeechSynthesisUtterance(t); u.lang = lang === 'en' ? 'en-US' : 'ar-EG'; u.rate = .95; speechSynthesis.cancel(); speechSynthesis.speak(u); } catch (e) {}
 }
-function stopVoice() { try { if (au) au.pause(); } catch (e) {} try { speechSynthesis.cancel(); } catch (e) {} }
+function stopVoice() { vgen++; try { if (au) au.pause(); } catch (e) {} au = null; try { speechSynthesis.cancel(); } catch (e) {} }
 
 let css = false;
 function addCss() {
