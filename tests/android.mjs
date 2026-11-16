@@ -35,6 +35,12 @@ const shot = (n) => dev.screenshot({ path: shots + '/' + n + '.png' }).catch(() 
 
 await p.waitForLoadState('load'); await p.waitForTimeout(2000);
 ok(await p.evaluate(() => !!document.querySelector('.card.journey') && !!document.querySelector('.card.lab') && !!document.getElementById('tabL')), 'the app opens on its home with the two cards');
+// the cards open the journey and the labs inside the home's frame (Youssef's phone: the journey was blocked there)
+await p.evaluate(() => document.querySelector('.card.journey').click()); await p.waitForTimeout(6000);
+ok(await p.evaluate(() => { try { const f = document.getElementById('view'); return /\/journey\.html$/.test(f.contentWindow.location.pathname) && !!f.contentDocument.getElementById('landing'); } catch (e) { return false; } }), 'the Robo Journey card opens the journey under the bar');
+await shot('home-journey');
+await p.evaluate(() => { const f = document.getElementById('view'); f.contentWindow.location.href = '/'; }); await p.waitForTimeout(3000);
+ok(await p.evaluate(() => !document.getElementById('homeView').hidden && document.getElementById('view').hidden), 'the journey\'s «home» link shows the app home, not a second bar inside it');
 // the first-time tours would cover the buttons this test presses
 await p.evaluate(() => { for (const k of ['3d', 'junior', 'arduino', 'circuits', 'code', 'python', 'web', 'ai']) localStorage.setItem('robo-tour:lab-' + k, '1'); });
 await shot('home');
