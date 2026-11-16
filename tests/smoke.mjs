@@ -23,6 +23,9 @@ const app = await _electron.launch({ executablePath: exe, args: ['--proxy-server
 app.process().stderr.on('data', (d) => { const s = String(d); if (/error|crash|fatal|gpu/i.test(s)) process.stdout.write('  [app] ' + s.slice(0, 400)); });
 app.on('close', () => console.log('  [app closed]'));
 const w = await app.firstWindow();
+// screenshots are only for people reading the test results: on the Windows CI machine the new home (an iframe under a bar) can make
+// one hang, which must not fail the app's test
+const snap = (n) => w.screenshot({ path: shots + '/' + n + '.png', timeout: 10000 }).catch(() => console.log('  (no ' + n + ' screenshot)'));
 const errs = []; w.on('pageerror', (e) => errs.push(e.message));
 await w.waitForLoadState('load'); await w.waitForTimeout(1500);
 
@@ -32,11 +35,11 @@ ok(await w.evaluate(() => fetch('https://roboegypt.com/', { mode: 'no-cors' }).t
 ok(await w.evaluate(() => location.pathname === '/home' && !!document.querySelector('.card.journey') && !!document.querySelector('.card.lab') && !!document.getElementById('tabL')), 'the app opens on its home with the two cards');
 // the first-time tours would cover the buttons this test presses
 await w.evaluate(() => { for (const k of ['3d', 'junior', 'arduino', 'circuits', 'code', 'python', 'web', 'ai']) localStorage.setItem('robo-tour:lab-' + k, '1'); });
-await w.screenshot({ path: shots + '/home.png', timeout: 10000 }).catch(() => console.log('  (no home screenshot)'));
+await snap('home');
 await w.evaluate(() => document.querySelector('.card.lab').click());
 await w.waitForTimeout(2500);
 ok(await w.evaluate(() => { const f = document.getElementById('view'); return !!f && /\/lab\//.test(f.contentWindow.location.pathname) && f.contentDocument.querySelectorAll('.card').length === 9; }), 'the Robo Lab card opens the labs page (9 labs) under the bar');
-await w.screenshot({ path: shots + '/labs.png' });
+await snap('labs');
 
 const drv = await w.evaluate(() => window.roboDesktop.arduino.driver());
 if (process.platform === 'win32') ok(drv.needed === true && drv.available === true, 'CH340 driver bundled (installed on this machine: ' + drv.installed + ')');
@@ -51,7 +54,7 @@ for (const [path, name] of [['/lab/junior.html', 'Robo Junior'], ['/lab/ai.html'
 }
 await w.goto('robo://lab/lab/roboblock?go=free'); await w.waitForTimeout(4000);
 ok(await w.evaluate(() => typeof Blockly !== 'undefined' && !!document.querySelector('.blocklySvg')), 'Robo Block loads Blockly offline');
-await w.screenshot({ path: shots + '/roboblock.png' });
+await snap('roboblock');
 
 // the Journey opens on its start screen; without internet its accounts can't load, the page must still work
 await w.goto('robo://lab/journey.html').catch(() => {}); await w.waitForTimeout(3000);
@@ -64,7 +67,7 @@ await w.goto('robo://lab/lab/python.html'); await w.waitForTimeout(1500);
 await w.click('#runBtn');
 let py = false; for (let i = 0; i < 60 && !py; i++) { await w.waitForTimeout(1000); py = await w.evaluate(() => { const f = document.getElementById('inForm'); return !!f && !f.hidden; }); }
 ok(py, 'Python runs offline (waits for input())');
-await w.screenshot({ path: shots + '/python.png' });
+await snap('python');
 
 await w.goto('robo://lab/lab/arduino.html'); await w.waitForTimeout(2000);
 ok(await w.isVisible('#upBtn'), 'Robo Maker shows «upload to Arduino»');
