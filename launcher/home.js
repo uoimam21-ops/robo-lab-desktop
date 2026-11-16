@@ -23,6 +23,11 @@ function show(where, src) {
 document.querySelectorAll('[data-go]').forEach((el) => el.addEventListener('click', (e) => { e.preventDefault(); show(el.dataset.go); }));
 $('goHome').onclick = () => show('home');
 window.__roboHome = () => show('home');
+// «⛶ ملء الشاشة» in a lab (lab-tours.js, 16 Nov 2026): the lab is in this page's frame, so this page hides its bar and goes full screen
+window.__roboFull = (on) => {
+  document.body.classList.toggle('full', !!on);
+  try { if (on && !document.fullscreenElement) document.documentElement.requestFullscreen?.().catch(() => {}); else if (!on && document.fullscreenElement) document.exitFullscreen?.(); } catch (_) {}
+};
 
 // the bar follows what the child opens inside (a lab opened from the journey lights «روبو لاب», and the other way round)
 view.addEventListener('load', () => {
