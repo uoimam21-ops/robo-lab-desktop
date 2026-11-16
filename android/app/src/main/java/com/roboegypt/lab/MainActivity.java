@@ -29,6 +29,9 @@ public class MainActivity extends BridgeActivity {
             public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
                 WebResourceResponse res = super.shouldInterceptRequest(view, request);
                 Uri u = request.getUrl();
+                // Python's input() (Youssef, 16 Nov 2026): the WebView is never cross-origin isolated, so the Python worker waits for
+                // the answer with a synchronous request; this (background) thread holds it until the page hands the answer over
+                if ("localhost".equals(u.getHost()) && "/__robo_input__".equals(u.getPath())) return RoboInput.waitFor(u.getQueryParameter("id"));
                 if (res == null || !"localhost".equals(u.getHost())) return res;
                 String path = u.getPath() == null ? "/" : u.getPath();
                 Map<String, String> h = new HashMap<>();
@@ -56,6 +59,7 @@ public class MainActivity extends BridgeActivity {
         });
 
         ota.checkLater();
+        bridge.getWebView().addJavascriptInterface(new RoboInput(), "RoboInput");
 
         // Back button: go back a page (lab → home screen); on the home screen, leave the app
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {

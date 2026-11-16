@@ -83,6 +83,13 @@ if (!ran) {   // the emulator is sometimes very slow the first time: open the pa
 const noInput = !ran && await p.evaluate(() => { const b = document.getElementById('errBox'); return !!b && !b.hidden && /input\(\)/.test(b.textContent); }).catch(() => false);
 if (noInput) { ran = true; console.log('  ⚠ Python runs, but input() needs cross-origin isolation and this WebView has none'); }
 ok(ran, 'Python runs offline' + (iso ? ' (waits for input())' : ' (input() limited without isolation)'));
+// input() answers on Android too (16 Nov 2026: the app holds the worker's request until the page gives the answer, RoboInput.java)
+const asked = await p.evaluate(() => { const f = document.getElementById('inForm'); return !!f && !f.hidden; }).catch(() => false);
+if (asked) {
+  await p.evaluate(() => { document.getElementById('inField').value = 'Robo'; document.getElementById('inForm').requestSubmit(); });
+  let said = false; for (let i = 0; i < 30 && !said; i++) { await p.waitForTimeout(1000); said = await p.evaluate(() => /Hello\s+Robo/.test((document.querySelector('#out, .out, .console') || {}).textContent || '')).catch(() => false); }
+  ok(said, 'input() works: the answer reaches Python («Hello Robo»)');
+} else console.log('  ⚠ the example did not ask (input() not reached), so the answer was not tested');
 await shot('python-run');
 
 await go('/lab/roboblock.html?go=free', 5000);

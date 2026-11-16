@@ -37,7 +37,8 @@ view.addEventListener('load', () => {
     if (window.roboDesktop && !w.roboDesktop) w.roboDesktop = window.roboDesktop;   // Arduino upload etc. inside the frame (desktop)
     // Python and Robo Code need cross-origin isolation (input(), Stop), which a page inside this frame can't have: open them full
     // screen (the phone's Back button / the lab's logo come back here)
-    if (/^\/lab\/(python|code)\.html$/.test(p) && !w.crossOriginIsolated) { location.href = p + w.location.search; return; }
+    // (Android's WebView is never isolated, even full screen, and answers input() itself: stay under the bar there)
+    if (window.roboDesktop && /^\/lab\/(python|code)\.html$/.test(p) && !w.crossOriginIsolated) { location.href = p + w.location.search; return; }
     const inLab = p.startsWith('/lab/') && !/roboblock/.test(p);
     $('tabL').classList.toggle('on', inLab); $('tabJ').classList.toggle('on', !inLab);
     document.title = w.document.title || document.title;
