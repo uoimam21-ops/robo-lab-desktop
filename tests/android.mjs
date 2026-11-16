@@ -34,8 +34,9 @@ const go = async (path, wait = 2500) => {
 const shot = (n) => dev.screenshot({ path: shots + '/' + n + '.png' }).catch(() => {});
 
 await p.waitForLoadState('load'); await p.waitForTimeout(2000);
-ok(await p.evaluate(() => /\/journey\.html$/.test(location.pathname) && !!document.getElementById('landing')), 'the app opens on the journey');
-ok(await p.evaluate(() => { const b = document.getElementById('labBtn'); return !!b && !b.hidden; }), 'the journey menu has «روبو لاب»');
+ok(await p.evaluate(() => !!document.querySelector('.card.journey') && !!document.querySelector('.card.lab') && !!document.getElementById('tabL')), 'the app opens on its home with the two cards');
+// the first-time tours would cover the buttons this test presses
+await p.evaluate(() => { for (const k of ['3d', 'junior', 'arduino', 'circuits', 'code', 'python', 'web', 'ai']) localStorage.setItem('robo-tour:lab-' + k, '1'); });
 await shot('home');
 await go('/lab/index.html');
 ok((await p.$$('.card')).length === 9, 'the labs page («روبو لاب») shows the 9 labs');
@@ -82,6 +83,8 @@ await go('/lab/roboblock.html?go=free', 5000);
 ok(await p.evaluate(() => typeof Blockly !== 'undefined' && !!document.querySelector('.blocklySvg')), 'Robo Block loads Blockly offline');
 await shot('roboblock');
 
+await go('/journey.html', 3000);
+ok(await p.evaluate(() => { const b = document.getElementById('labBtn'); return !!b && !b.hidden; }), 'the journey menu has «روبو لاب»');
 await go('/journey.html?go=login', 3000);
 ok(await p.evaluate(() => !!document.getElementById('aForm') && !document.getElementById('gBtn')), 'Journey sign-in: e-mail form, no Google button');
 await shot('journey');

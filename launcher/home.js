@@ -1,0 +1,48 @@
+// The app's home and its bar (16 Nov 2026 spec, 3 «Windows & Android home»). Youssef: «when the app opens, two cards, Robo Journey and
+// Robo Lab, and they always stay on top»; «a disconnection message, with a button to Robo Lab that works offline» (shown 30 s).
+const $ = (id) => document.getElementById(id);
+const PAGES = { journey: '/journey.html', lab: '/lab/index.html' };
+const view = $('view');
+let cur = 'home', netT = 0;
+
+function show(where, src) {
+  if (where === 'journey' && !navigator.onLine) { netMessage(); return; }   // no half-working journey offline (spec: never open what can't work)
+  cur = where;
+  $('tabJ').classList.toggle('on', where === 'journey'); $('tabL').classList.toggle('on', where === 'lab');
+  if (where === 'home') { view.hidden = true; $('homeView').hidden = false; document.title = 'رحلة روبو | Robo Egypt'; if (location.hash) history.replaceState(null, '', location.pathname); return; }
+  $('homeView').hidden = true; view.hidden = false;
+  const want = src || PAGES[where];
+  try { if (view.contentWindow && view.contentWindow.location.pathname === want) { view.focus(); return; } } catch (_) {}
+  view.src = want; if (location.hash !== '#' + where) history.replaceState(null, '', '#' + where);
+}
+document.querySelectorAll('[data-go]').forEach((el) => el.addEventListener('click', (e) => { e.preventDefault(); show(el.dataset.go); }));
+$('goHome').onclick = () => show('home');
+
+// the bar follows what the child opens inside (a lab opened from the journey lights «روبو لاب», and the other way round)
+view.addEventListener('load', () => {
+  try {
+    const w = view.contentWindow, p = w.location.pathname;
+    if (window.roboDesktop && !w.roboDesktop) w.roboDesktop = window.roboDesktop;   // Arduino upload etc. inside the frame (desktop)
+    const inLab = p.startsWith('/lab/') && !/roboblock/.test(p);
+    $('tabL').classList.toggle('on', inLab); $('tabJ').classList.toggle('on', !inLab);
+    document.title = w.document.title || document.title;
+  } catch (_) { /* another site: leave it */ }
+});
+
+// offline: a message for 30 s with a button to Robo Lab, then only a small pill in the bar
+function netMessage() {
+  $('netMsg').hidden = false; clearTimeout(netT); netT = setTimeout(() => { $('netMsg').hidden = true; }, 30000);
+}
+function net() {
+  const off = !navigator.onLine;
+  $('offPill').hidden = !off; $('jNeed').hidden = !off; document.querySelector('.card.journey').classList.toggle('dim', off);
+  if (off) netMessage(); else { $('netMsg').hidden = true; clearTimeout(netT); }
+}
+$('netLab').onclick = () => { $('netMsg').hidden = true; show('lab'); };
+$('netX').onclick = () => { $('netMsg').hidden = true; clearTimeout(netT); };
+$('offPill').onclick = netMessage;
+addEventListener('online', net); addEventListener('offline', net); net();
+
+// open where the address says (#journey / #lab), else the two cards
+const h = location.hash.slice(1); if (PAGES[h]) show(h); else show('home');
+if (window.roboDesktop) window.roboDesktop.info().then((i) => { $('ver').textContent = 'v' + i.version; }).catch(() => {});

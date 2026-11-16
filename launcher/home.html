@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>رحلة روبو | Robo Egypt</title>
+<link rel="stylesheet" href="/vendor/fonts/fonts.css">
+<link rel="stylesheet" href="/launcher/home.css">
+</head>
+<body>
+<!-- the app's home (16 Nov 2026 spec, 3): two cards, Robo Journey and Robo Lab, and a bar on top that always stays, so the child
+     can jump between them from anywhere. The journey and the labs open inside this page, under the bar. -->
+<header class="bar" role="navigation" aria-label="التنقل">
+  <button class="home" id="goHome" type="button" aria-label="الرئيسية" title="الرئيسية"><img src="/launcher/robo-icon.png" alt="" width="34" height="34"></button>
+  <button class="tab" id="tabJ" type="button" data-go="journey"><img src="/launcher/robo-journey-mark.webp" alt="" width="22" height="22"> رحلة روبو</button>
+  <button class="tab" id="tabL" type="button" data-go="lab"><img src="/launcher/robo-lab-mark.webp" alt="" width="22" height="22" style="border-radius:50%"> روبو لاب</button>
+  <span class="off" id="offPill" hidden title="مفيش إنترنت دلوقتي">📴 من غير نت</span>
+</header>
+<div class="netMsg" id="netMsg" role="alert" hidden>
+  <span>📴 <b>النت فصل.</b> رحلة روبو محتاجة نت علشان حسابك وتقدّمك. <b>روبو لاب</b> شغال على الجهاز ده من غير نت.</span>
+  <button class="btn" id="netLab" type="button"><img src="/launcher/robo-lab-mark.webp" alt="" width="20" height="20" style="border-radius:50%"> افتح روبو لاب</button>
+  <button class="x" id="netX" type="button" aria-label="اقفل">✕</button>
+</div>
+<main class="home" id="homeView">
+  <h1>أهلاً! تحب تبدأ منين؟</h1>
+  <div class="cards">
+    <a class="card journey" href="#journey" data-go="journey">
+      <img class="pic logo" src="/launcher/robo-journey-logo.webp" alt="رحلة روبو" width="220" height="184">
+      <b>رحلة روبو</b>
+      <small>رحلة ومدن ومستويات على حسب سنك: ألغاز وقصص ومشاريع، ونجوم وشهادات.</small>
+      <i class="need" id="jNeed" hidden>🌐 محتاجة نت</i>
+      <span class="go">ابدأ الرحلة ←</span>
+    </a>
+    <a class="card lab" href="#lab" data-go="lab">
+      <img class="pic logo" src="/launcher/robo-lab-logo.webp" alt="روبو لاب" width="180" height="175">
+      <b>روبو لاب</b>
+      <small>٩ مختبرات: بلوكات، وأردوينو، ودواير، و3D، وذكاء اصطناعي، وكود. شغالة على الجهاز ده من غير نت.</small>
+      <span class="go">افتح المختبرات ←</span>
+    </a>
+  </div>
+  <p class="foot">Robo Egypt · <span id="ver" dir="ltr"></span></p>
+</main>
+<iframe id="view" title="رحلة روبو" hidden allow="fullscreen; camera; microphone; serial; usb; clipboard-read; clipboard-write; autoplay; display-capture" allowfullscreen></iframe>
+<script src="/launcher/home.js"></script>
+</body>
+</html>

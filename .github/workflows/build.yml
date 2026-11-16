@@ -218,7 +218,6 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 50
     env:
-      ANDROID_VERSION_CODE: ${{ github.run_number }}
       HAS_KEY: ${{ secrets.ANDROID_KEYSTORE_B64 != '' }}
     steps:
       - uses: actions/checkout@v4
@@ -227,6 +226,10 @@ jobs:
         with: { node-version: 22, cache: npm }
       - uses: actions/setup-java@v4
         with: { distribution: temurin, java-version: 21 }
+      # Google Play needs a bigger versionCode on every upload. The run number isn't safe (the nightly release has its own,
+      # smaller counter, and Play already has 41), so it comes from the app version: 1.1.5 → 1001005
+      - name: versionCode from the app version
+        run: echo "ANDROID_VERSION_CODE=$(node -p "const [a,b,c]=require('./package.json').version.split('.').map(Number); a*1000000+b*1000+c")" >> "$GITHUB_ENV"
       - run: npm ci
       - run: npm run vendor
       - run: npm run mobile

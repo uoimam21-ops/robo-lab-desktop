@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+<!-- a coding block (Robo Block) that is a robot head: notch on top, tab under; antenna is a wire to an LED (Robo Maker / Circuits) -->
+<path d="M100 50V30" stroke="#1B2350" stroke-width="7" stroke-linecap="round"/><path d="M100 30q0-10 10-10h14" fill="none" stroke="#1B2350" stroke-width="6" stroke-linecap="round"/>
+<circle cx="132" cy="20" r="11" fill="#FFD23F"/><circle cx="132" cy="20" r="18" fill="#FFD23F" opacity=".3"/>
+<path d="M36 50h28l6 8h24l6-8h64a14 14 0 0 1 14 14v76a14 14 0 0 1-14 14h-64l-6 8h-24l-6-8H36a14 14 0 0 1-14-14V64a14 14 0 0 1 14-14z" fill="#4C97FF" stroke="#1B2350" stroke-width="8" stroke-linejoin="round"/>
+<rect x="40" y="70" width="120" height="58" rx="16" fill="#1B2350"/>
+<circle cx="76" cy="96" r="12" fill="#4CD3F0"/><circle cx="124" cy="96" r="12" fill="#4CD3F0"/><circle cx="72" cy="92" r="4" fill="#fff"/><circle cx="120" cy="92" r="4" fill="#fff"/>
+<text x="100" y="124" text-anchor="middle" font-family="monospace" font-weight="900" font-size="15" fill="#FF8A1F">&lt;/&gt;</text>
+<rect x="6" y="84" width="16" height="28" rx="6" fill="#FF8A1F" stroke="#1B2350" stroke-width="6"/><rect x="178" y="84" width="16" height="28" rx="6" fill="#FF8A1F" stroke="#1B2350" stroke-width="6"/>
+</svg>
