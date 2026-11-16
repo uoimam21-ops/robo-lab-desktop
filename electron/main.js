@@ -5,6 +5,7 @@ const path = require('path');
 const fs = require('fs');
 const arduino = require('./arduino');
 const updates = require('./updates');
+const ota = require('./ota');   // live updates of the journey and the labs (scripts/ota.mjs)
 // The app was called «Robo Lab» before (until v1.0.1). Its saved projects, progress and settings live in a folder named after the
 // app, so keep that folder when the name changes: nothing a child saved is lost after the update.
 app.setPath('userData', path.join(app.getPath('appData'), 'Robo Lab'));
@@ -13,6 +14,7 @@ const ROOT = path.join(__dirname, '..', 'www');
 const LAUNCHER = path.join(__dirname, '..', 'launcher');
 const SCHEME = 'robo', HOST = 'lab', ORIGIN = SCHEME + '://' + HOST;
 const SITE = 'https://roboegypt.com';
+ota.init(ROOT);
 
 /* Graphics (GPU): old PCs / old drivers can crash Chromium's GPU process, and then the app closes itself.
    - Electron 22 (the Windows 7 build): GPU off by default; «تسريع الرسوميات» in the menu turns it on for PCs that can.
@@ -59,6 +61,7 @@ function fileFor(pathname) {
   if (p.startsWith('/launcher/')) return safe(LAUNCHER, p.slice('/launcher'.length));
   if (p === '/journey' || p === '/journey.html' || p === '/lab/roboblock') p = '/lab/roboblock.html';
   if (p.startsWith('/vendor/fonts/css2')) p = '/vendor/fonts/fonts.css';
+  const o = ota.fileFor(p); if (o) return o;   // a newer copy downloaded by the live update
   let f = safe(ROOT, p);
   if (f && !path.extname(f) && fs.existsSync(f + '.html')) f += '.html';
   return f && fs.existsSync(f) && fs.statSync(f).isFile() ? f : null;
@@ -156,6 +159,6 @@ ipcMain.handle('robo:info', () => ({ version: app.getVersion(), electron: proces
 if (!app.requestSingleInstanceLock()) app.quit();
 else {
   app.on('second-instance', () => { if (win) { if (win.isMinimized()) win.restore(); win.focus(); } });
-  app.whenReady().then(() => { registerProtocol(); arduino.setup(); menu(); createWindow(); updates.checkForUpdates(win); });
+  app.whenReady().then(() => { registerProtocol(); arduino.setup(); menu(); createWindow(); updates.checkForUpdates(win); setTimeout(ota.check, 15000); setInterval(ota.check, 6 * 3600 * 1000); });
   app.on('window-all-closed', () => app.quit());
 }

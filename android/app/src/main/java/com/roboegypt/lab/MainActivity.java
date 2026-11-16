@@ -13,8 +13,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MainActivity extends BridgeActivity {
+    private OtaUpdater ota;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        // live updates of the journey and the labs (OtaUpdater): pick the set to use before the first page loads
+        ota = new OtaUpdater(this); ota.init();
         super.onCreate(savedInstanceState);
 
         // Same headers as the desktop app: the labs ask to be cross-origin isolated (Python's Stop button and input()
@@ -37,6 +41,8 @@ public class MainActivity extends BridgeActivity {
                     h.put("Cross-Origin-Opener-Policy", "same-origin");
                     h.put("Cross-Origin-Embedder-Policy", "credentialless");
                 }
+                WebResourceResponse newer = ota.respond(path, h);   // a newer copy downloaded by the live update
+                if (newer != null) { try { res.getData().close(); } catch (Exception ignored) {} return newer; }
                 res.setResponseHeaders(h);
                 return res;
             }
@@ -48,6 +54,8 @@ public class MainActivity extends BridgeActivity {
                 return true;
             }
         });
+
+        ota.checkLater();
 
         // Back button: go back a page (lab → home screen); on the home screen, leave the app
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
