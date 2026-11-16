@@ -57,7 +57,7 @@ await shot('python');
 await go('/lab/python.html');
 const iso = await p.evaluate(() => self.crossOriginIsolated);
 console.log('  cross-origin isolated: ' + iso);
-await p.click('#runBtn').catch(() => {});
+await p.waitForFunction(() => { const b = document.getElementById('runBtn'); return b && !b.disabled; }, null, { timeout: 150000 }).catch(() => {}); await p.evaluate(() => document.getElementById('runBtn').click()).catch(() => {});
 let ran = false;
 try {
   for (let i = 0; i < 180 && !ran; i++) {
@@ -70,7 +70,7 @@ try {
 }
 if (!ran) {   // the emulator is sometimes very slow the first time: open the page again once
   console.log('  ! Python didn\'t answer, trying the page once more');
-  await go('/lab/python.html', 4000); await p.click('#runBtn').catch(() => {});
+  await go('/lab/python.html', 4000); await p.waitForFunction(() => { const b = document.getElementById('runBtn'); return b && !b.disabled; }, null, { timeout: 150000 }).catch(() => {}); await p.evaluate(() => document.getElementById('runBtn').click()).catch(() => {});
   for (let i = 0; i < 120 && !ran; i++) { await p.waitForTimeout(1000); ran = await p.evaluate(() => { const f = document.getElementById('inForm'); const out = document.querySelector('#out, .out, .console'); return (!!f && !f.hidden) || (!!out && out.textContent.trim().length > 0); }).catch(() => false); }
 }
 // Python ran but stopped at input() because this WebView isn't cross-origin isolated (coi-sw.js): Python works, input() doesn't

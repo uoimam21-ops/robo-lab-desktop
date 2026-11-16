@@ -32,7 +32,7 @@ ok(await w.evaluate(() => fetch('https://roboegypt.com/', { mode: 'no-cors' }).t
 ok(await w.evaluate(() => location.pathname === '/home' && !!document.querySelector('.card.journey') && !!document.querySelector('.card.lab') && !!document.getElementById('tabL')), 'the app opens on its home with the two cards');
 // the first-time tours would cover the buttons this test presses
 await w.evaluate(() => { for (const k of ['3d', 'junior', 'arduino', 'circuits', 'code', 'python', 'web', 'ai']) localStorage.setItem('robo-tour:lab-' + k, '1'); });
-await w.screenshot({ path: shots + '/home.png' });
+await w.screenshot({ path: shots + '/home.png', timeout: 10000 }).catch(() => console.log('  (no home screenshot)'));
 await w.evaluate(() => document.querySelector('.card.lab').click());
 await w.waitForTimeout(2500);
 ok(await w.evaluate(() => { const f = document.getElementById('view'); return !!f && /\/lab\//.test(f.contentWindow.location.pathname) && f.contentDocument.querySelectorAll('.card').length === 9; }), 'the Robo Lab card opens the labs page (9 labs) under the bar');
