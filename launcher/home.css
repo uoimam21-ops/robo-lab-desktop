@@ -22,7 +22,7 @@ h1{font-size:clamp(22px,4vw,32px);margin:6px 0 18px;text-align:center}
 .card{position:relative;display:flex;flex-direction:column;gap:6px;padding:16px;border-radius:24px;background:#fff;border:2px solid var(--line);color:inherit;text-decoration:none;box-shadow:0 14px 34px -22px rgba(20,20,60,.45);transition:transform .15s,border-color .15s}
 .card:hover,.card:focus-visible{transform:translateY(-3px);border-color:var(--brand);outline:none}
 .card .pic{width:100%;height:auto;aspect-ratio:485/410;object-fit:contain;border-radius:16px;background:#F3F1FF}
-.card.lab .pic{background:linear-gradient(135deg,#EAF2FF,#F3F1FF);padding:12%}
+.card.lab .pic,.card.journey .pic{background:linear-gradient(135deg,#EAF2FF,#F3F1FF);padding:10%}
 .card b{font-size:22px}.card small{font-size:14px;line-height:1.6;color:#5B6478}
 .card .go{margin-top:6px;align-self:flex-start;padding:9px 16px;border-radius:12px;background:linear-gradient(135deg,#7B5CFF,#5B3DF5);color:#fff;font-weight:800}
 .card.lab .go{background:linear-gradient(135deg,#1E7BFF,#21B573)}
