@@ -4,8 +4,7 @@
 // (Youssef's phone, 16 Nov 2026, and the journey then failed to open in the inner frame). Hand it to the real home instead.
 if (window.top !== window) {
   try { window.top.__roboHome ? window.top.__roboHome() : window.top.location.replace('/'); } catch (_) { window.top.location.replace('/'); }
-  throw new Error('home inside the frame: handed to the top page');
-}
+} else (() => {
 const $ = (id) => document.getElementById(id);
 const PAGES = { journey: '/journey.html', lab: '/lab/index.html' };
 const view = $('view');
@@ -31,6 +30,9 @@ view.addEventListener('load', () => {
     const w = view.contentWindow, p = w.location.pathname;
     if (p === '/' || p === '/index.html' || p === '/home') { view.src = 'about:blank'; show('home'); return; }   // never the home inside itself
     if (window.roboDesktop && !w.roboDesktop) w.roboDesktop = window.roboDesktop;   // Arduino upload etc. inside the frame (desktop)
+    // Python and Robo Code need cross-origin isolation (input(), Stop), which a page inside this frame can't have: open them full
+    // screen (the phone's Back button / the lab's logo come back here)
+    if (/^\/lab\/(python|code)\.html$/.test(p) && !w.crossOriginIsolated) { location.href = p + w.location.search; return; }
     const inLab = p.startsWith('/lab/') && !/roboblock/.test(p);
     $('tabL').classList.toggle('on', inLab); $('tabJ').classList.toggle('on', !inLab);
     document.title = w.document.title || document.title;
@@ -54,3 +56,4 @@ addEventListener('online', net); addEventListener('offline', net); net();
 // open where the address says (#journey / #lab), else the two cards
 const h = location.hash.slice(1); if (PAGES[h]) show(h); else show('home');
 if (window.roboDesktop) window.roboDesktop.info().then((i) => { $('ver').textContent = 'v' + i.version; }).catch(() => {});
+})();
