@@ -34,6 +34,8 @@ jobs:
         with: { node-version: 20, cache: npm }
       - run: npm ci
       - run: npm run vendor
+      # the hashes of the website files inside this build: live updates only download what differs (scripts/ota.mjs)
+      - run: node scripts/ota.mjs base
       - run: node scripts/arduino.mjs
       - run: npx electron-builder --win --config build/modern.yml --publish never
       - run: npx electron-builder --win --config build/win7.yml --publish never
@@ -181,6 +183,8 @@ jobs:
         with: { node-version: 20, cache: npm }
       - run: npm ci
       - run: npm run vendor
+      # the hashes of the website files inside this build: live updates only download what differs (scripts/ota.mjs)
+      - run: node scripts/ota.mjs base
       - run: node scripts/arduino.mjs
       - run: npx electron-builder --mac --${{ matrix.arch }} --config build/mac.yml --publish never
       - name: test the Mac app
@@ -232,6 +236,8 @@ jobs:
         run: echo "ANDROID_VERSION_CODE=$(node -p "const [a,b,c]=require('./package.json').version.split('.').map(Number); a*1000000+b*1000+c")" >> "$GITHUB_ENV"
       - run: npm ci
       - run: npm run vendor
+      # the hashes of the website files inside this build: live updates only download what differs (scripts/ota.mjs)
+      - run: node scripts/ota.mjs base
       - run: npm run mobile
       - run: cd android && ./gradlew --no-daemon assembleDebug
       - name: upload key (from secrets)
@@ -297,3 +303,14 @@ jobs:
           token: ${{ secrets.RELEASES_TOKEN }}
           tag_name: ${{ env.REL_TAG }}
           files: out/Robo-Journey-android.apk
+      # live updates (16 Nov 2026): the website part of this tested build, for the apps already installed (Play, Store, Windows,
+      # Mac) to download without a new store version. On the public download repo's latest release: …/latest/download/ota.json
+      - if: env.REL_TAG != ''
+        run: node scripts/ota.mjs pack ota-out
+      - if: env.REL_TAG != ''
+        uses: softprops/action-gh-release@v2
+        with:
+          repository: uoimam21-ops/robo-lab-download
+          token: ${{ secrets.RELEASES_TOKEN }}
+          tag_name: ${{ env.REL_TAG }}
+          files: ota-out/*
