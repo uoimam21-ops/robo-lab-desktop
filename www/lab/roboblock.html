@@ -667,6 +667,8 @@ body.rb-free .playbar .freebar .fbh{flex:none;font-size:14px}body.rb-free .playb
 body.rb-free .playbar .freebar .chip{flex:none;height:34px;padding-inline:12px}
 @media (max-width:820px){body.rb-free .playbar .freebar{flex-wrap:wrap}body.rb-free .playbar .freebar .chip{flex:1 1 0}}
 body.rb-free .game{grid-template-columns:minmax(0,var(--stageW,min(520px,38vw))) minmax(0,1fr)}
+/* phones: one column like the levels (the rule above is more specific than the 820px one, so Robo Block was 3 squeezed columns on a phone; Youssef, 16 Nov 2026) */
+@media (max-width:820px){body.rb-free .game{grid-template-columns:minmax(0,1fr)}}
 /* like Scratch: the sprites, then the stage's backdrops in their own column on the right edge */
 body.rb-free .sprbd{display:grid;grid-template-columns:minmax(0,1fr) 112px;gap:8px;align-items:start;direction:ltr}
 body.rb-free .sprbd>*{direction:rtl}
@@ -1959,13 +1961,29 @@ function freshProg(keepAll){const P={v:2,solved:{},bonus:{},points:0,all:!!keepA
 const isStaff=()=>!!sbProfile&&["admin","trainer","secretary"].includes(sbProfile.role);
 const isAdmin=()=>!!sbProfile&&sbProfile.role==="admin";
 async function sbInit(){try{await sbLoad()}catch(e){return}
-  sb.auth.onAuthStateChange((ev,session)=>{const was=!!sbUser;sbUser=session?session.user:null;
+  sb.auth.onAuthStateChange((ev,session)=>{const was=!!sbUser;sbUser=session?session.user:null;if(ev==="PASSWORD_RECOVERY")setTimeout(newPassBox,0);
     if(sbUser&&!was){loadMe().then(()=>{if(view==="landing"&&/access_token|code=/.test(location.href+location.hash)){show("acct")}else if(view==="acct")renderAcct();hudAcct()})}
     if(!sbUser&&was){sbProfile=null;kids=[];hudAcct();if(view==="acct")renderAcct()}});
   const {data}=await sb.auth.getSession();sbUser=data&&data.session?data.session.user:null;
   loadContent();
   if(sbUser){await loadMe();if(cloudKid){const k=kids.find(x=>x.id===cloudKid);if(k)await pullKid(k,true);else{cloudKid=null;try{localStorage.removeItem("bibo-kid")}catch(e){}}}}
   hudAcct()}
+// «نسيت كلمة السر»: the e-mail link signs the parent in with a recovery session; ask for the new password right away
+// (Youssef, 16 Nov 2026: the link just opened the account, with nowhere to type a new password)
+function newPassBox(){if(document.getElementById("npBox"))return;const en=typeof lang!=="undefined"&&lang==="en";
+  const T=en?{h:"Choose a new password",p:"Type your new password (6 characters or more).",ph:"New password",ph2:"Type it again",ok:"Save the new password",bad:"The two passwords don't match, or it's shorter than 6.",done:"✓ Saved. Use the new password next time.",err:"Couldn't save it. Try again."}
+    :{h:"اختر كلمة سر جديدة",p:"اكتب كلمة السر الجديدة (6 حروف أو أكثر).",ph:"كلمة السر الجديدة",ph2:"اكتبها مرة أخرى",ok:"احفظ كلمة السر",bad:"الكلمتان غير متطابقتين، أو أقل من 6 حروف.",done:"✓ تم الحفظ. استخدم كلمة السر الجديدة في المرة القادمة.",err:"لم نتمكن من الحفظ. حاول مرة أخرى."};
+  const d=document.createElement("div");d.id="npBox";d.setAttribute("role","dialog");d.setAttribute("aria-modal","true");
+  d.style.cssText="position:fixed;inset:0;z-index:99999;background:rgba(15,23,42,.55);display:grid;place-items:center;padding:16px";
+  d.innerHTML='<form style="background:#fff;color:#0F172A;border-radius:20px;padding:22px;width:min(420px,100%);display:grid;gap:10px;box-shadow:0 20px 50px rgba(0,0,0,.25)"><h3 style="margin:0;font-size:20px">🔑 '+T.h+'</h3><p style="margin:0;color:#475569">'+T.p+'</p>'
+    +'<input type="password" autocomplete="new-password" required minlength="6" placeholder="'+T.ph+'" style="height:46px;border:1.5px solid #CBD5E1;border-radius:12px;padding:0 12px;font-size:16px">'
+    +'<input type="password" autocomplete="new-password" required minlength="6" placeholder="'+T.ph2+'" style="height:46px;border:1.5px solid #CBD5E1;border-radius:12px;padding:0 12px;font-size:16px">'
+    +'<p class="npm" style="margin:0;min-height:1.4em;font-weight:700"></p><button style="height:48px;border:0;border-radius:999px;background:#5B3DF5;color:#fff;font-weight:800;font-size:16px;cursor:pointer">'+T.ok+'</button></form>';
+  document.body.appendChild(d);const f=d.querySelector("form"),[a,b]=f.querySelectorAll("input"),m=f.querySelector(".npm");a.focus();
+  f.onsubmit=async e=>{e.preventDefault();if(a.value.length<6||a.value!==b.value){m.style.color="#B91C1C";m.textContent=T.bad;return}
+    f.querySelector("button").disabled=true;const {error}=await sb.auth.updateUser({password:a.value});
+    if(error){m.style.color="#B91C1C";m.textContent=T.err;f.querySelector("button").disabled=false;return}
+    m.style.color="#047857";m.textContent=T.done;setTimeout(()=>{d.remove();try{history.replaceState(null,"",location.pathname+location.search.replace(/[?&]code=[^&]*/,""))}catch(_){}} ,1600)}}
 async function loadMe(){const {data:p}=await sb.from("profiles").select("*").eq("id",sbUser.id).maybeSingle();sbProfile=p||{id:sbUser.id,role:"parent",full_name:"",email:sbUser.email};if(isAdmin())loadLessons();
   const {data:ks}=await sb.from("students").select("*").eq("parent_id",sbUser.id).order("created_at",{ascending:true});kids=ks||[];
   const ids=[...new Set(kids.map(k=>k.class_id).filter(Boolean))];kidCls={};if(ids.length){const {data:cs}=await sb.from("classes").select("id,name").in("id",ids);(cs||[]).forEach(x=>kidCls[x.id]=x.name)}}
@@ -2011,10 +2029,10 @@ function hudAcct(){$("acctBtn").hidden=!sbUser;$("acctBtn").textContent=t().acct
 /* account page */
 function renderAcct(){const c=t(),el=$("acct");
   if(!sbUser){el.innerHTML='<div class="ob-card acard">'+logoImg("mark",90)+'<h2>'+esc(c.acTitle)+'</h2><p class="sub">'+esc(c.acLead)+'</p>'+
-    '<div class="atabs" role="tablist"><button role="tab" data-at="login" aria-selected="'+(acctTab==="login")+'">'+esc(c.acLogin)+'</button><button role="tab" data-at="reg" aria-selected="'+(acctTab==="reg")+'">'+esc(c.acReg)+'</button><button role="tab" data-at="wa" aria-selected="'+(acctTab==="wa")+'">💬 '+esc(c.acWa)+'</button></div>'+
+    '<div class="atabs" role="tablist"><button role="tab" data-at="login" aria-selected="'+(acctTab==="login")+'">'+esc(c.acLogin)+'</button><button role="tab" data-at="reg" aria-selected="'+(acctTab==="reg")+'">'+esc(c.acReg)+'</button>'+(WA_ON?'<button role="tab" data-at="wa" aria-selected="'+(acctTab==="wa")+'">💬 '+esc(c.acWa)+'</button>':'')+'</div>'+
     '<button class="btn gbtn" id="gBtn" type="button"><svg viewBox="0 0 48 48" width="20" height="20" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.3 0-9.7-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.1-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>'+esc(c.acGoogle)+'</button>'+
     '<div class="or"><span>'+esc(c.acOr)+'</span></div>'+
-    (acctTab==="wa"?waFormHTML():
+    (acctTab==="wa"&&WA_ON?waFormHTML():
     '<form id="aForm" class="aform" novalidate>'+(acctTab==="reg"?'<label>'+esc(c.acName)+'<input id="aName" autocomplete="name" required></label><label>'+esc(c.acPhone)+'<input id="aPhone" type="tel" dir="ltr" autocomplete="tel" placeholder="01xxxxxxxxx" required></label>':"")+
     '<label>'+esc(c.acEmail)+'<input id="aEmail" type="email" dir="ltr" autocomplete="email" required></label><label>'+esc(c.acPass)+'<input id="aPass" type="password" dir="ltr" autocomplete="'+(acctTab==="reg"?"new-password":"current-password")+'" minlength="6" required></label>'+
     (acctTab==="reg"?'<label class="chk"><input type="checkbox" id="aOk"> <span>'+esc(c.acConsent)+' <a href="#" id="privLink">'+esc(c.privT)+'</a></span></label>':"")+
@@ -2047,6 +2065,9 @@ function renderAcct(){const c=t(),el=$("acct");
 // Egyptian mobile → 01xxxxxxxxx (stored) ; +201xxxxxxxxx (for WhatsApp)
 function egPhone(v){const d=String(v||"").replace(/[٠-٩]/g,x=>"٠١٢٣٤٥٦٧٨٩".indexOf(x)).replace(/\D/g,"").replace(/^0020|^20(?=1)/,"0").replace(/^(?=1[0125]\d{8}$)/,"0");return /^01[0125]\d{8}$/.test(d)?d:""}
 const intlPhone=p=>"+2"+p;let waStep=0,waPhone="",waName="";
+// the WhatsApp code needs an SMS/WhatsApp provider (Twilio) switched on in Supabase Auth; it isn't yet («Unsupported phone provider»),
+// so the tab stays hidden: mobile number + password works without it (Youssef, 16 Nov 2026)
+const WA_ON=false;
 function waFormHTML(){const c=t();return '<form id="waForm" class="aform" novalidate><p class="sub">'+esc(c.acWaLead)+'</p>'+
   (waStep===0?'<label>'+esc(c.acName)+' <small>('+esc(c.acWaNew)+')</small><input id="wName" autocomplete="name" value="'+esc(waName)+'"></label><label>'+esc(c.acPhone)+'<input id="wPhone" type="tel" dir="ltr" placeholder="01xxxxxxxxx" value="'+esc(waPhone)+'" required></label><label class="chk"><input type="checkbox" id="wOk"> <span>'+esc(c.acConsent)+' '+esc(c.privT)+'</span></label><button class="btn lprim" type="submit">💬 '+esc(c.acWaSend)+'</button>'
   :'<label>'+esc(c.acWaCode(waPhone))+'<input id="wCode" inputmode="numeric" maxlength="6" dir="ltr" autocomplete="one-time-code" required></label><button class="btn lprim" type="submit">'+esc(c.acWaVerify)+'</button><button class="linkb" type="button" id="wBack">'+esc(c.acWaChange)+'</button>')+
