@@ -1,5 +1,11 @@
 // The app's home and its bar (16 Nov 2026 spec, 3 «Windows & Android home»). Youssef: «when the app opens, two cards, Robo Journey and
 // Robo Lab, and they always stay on top»; «a disconnection message, with a button to Robo Lab that works offline» (shown 30 s).
+// the journey's «🏠 الرئيسية» goes to «/», which is this page: inside the frame that would put a second bar under the first
+// (Youssef's phone, 16 Nov 2026, and the journey then failed to open in the inner frame). Hand it to the real home instead.
+if (window.top !== window) {
+  try { window.top.__roboHome ? window.top.__roboHome() : window.top.location.replace('/'); } catch (_) { window.top.location.replace('/'); }
+  throw new Error('home inside the frame: handed to the top page');
+}
 const $ = (id) => document.getElementById(id);
 const PAGES = { journey: '/journey.html', lab: '/lab/index.html' };
 const view = $('view');
@@ -17,11 +23,13 @@ function show(where, src) {
 }
 document.querySelectorAll('[data-go]').forEach((el) => el.addEventListener('click', (e) => { e.preventDefault(); show(el.dataset.go); }));
 $('goHome').onclick = () => show('home');
+window.__roboHome = () => show('home');
 
 // the bar follows what the child opens inside (a lab opened from the journey lights «روبو لاب», and the other way round)
 view.addEventListener('load', () => {
   try {
     const w = view.contentWindow, p = w.location.pathname;
+    if (p === '/' || p === '/index.html' || p === '/home') { view.src = 'about:blank'; show('home'); return; }   // never the home inside itself
     if (window.roboDesktop && !w.roboDesktop) w.roboDesktop = window.roboDesktop;   // Arduino upload etc. inside the frame (desktop)
     const inLab = p.startsWith('/lab/') && !/roboblock/.test(p);
     $('tabL').classList.toggle('on', inLab); $('tabJ').classList.toggle('on', !inLab);
