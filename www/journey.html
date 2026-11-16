@@ -2062,7 +2062,11 @@ function waBind(){const c=t();if($("wBack"))$("wBack").onclick=()=>{waStep=0;acc
     waStep=0;acctMsg="";hudAcct();renderAcct()}}
 function aMsg(m,ok){acctMsg=m;const e=$("aMsg");if(e){e.textContent=m;e.classList.toggle("ok",!!ok)}}
 // inside the Robo Lab app (Windows/Mac/Android) the page isn't on roboegypt.com: Google sign-in can't come back to it, and e-mail links open the website
-const APP=!!window.roboDesktop||!!(window.Capacitor&&window.Capacitor.isNativePlatform&&window.Capacitor.isNativePlatform());
+// in the app the journey opens inside the home's frame (16 Nov 2026), and Capacitor / roboDesktop live on that home page, not in the
+// frame: without looking there the journey thought it was the website and showed «Google» sign-in, which Google blocks in apps
+const HOSTW=(()=>{try{return window.parent!==window&&window.parent.location.origin===location.origin?window.parent:window}catch(e){return window}})();
+const capOf=w=>{try{const C=w.Capacitor;return C&&C.isNativePlatform&&C.isNativePlatform()?C:null}catch(e){return null}};
+const APP=!!window.roboDesktop||!!HOSTW.roboDesktop||!!capOf(window)||!!capOf(HOSTW);
 const backUrl=()=>APP?"https://roboegypt.com/journey":location.origin+location.pathname;
 async function googleIn(){try{await sbLoad()}catch(e){aMsg(t().acNoNet);return}
   const {error}=await sb.auth.signInWithOAuth({provider:"google",options:{redirectTo:backUrl()}});if(error)aMsg(t().acErr)}
@@ -4218,7 +4222,7 @@ function ttsNoArabic(){if(ttsWarned)return;ttsWarned=true;
     :"🔇 This device has no Arabic voice. Add one in the device's text-to-speech settings.")}
 // inside the Android app the WebView has no speechSynthesis: use the phone's own speech engine (the app's TextToSpeech plugin),
 // which speaks Arabic when the phone has the Arabic voice data, and follows pitch and rate
-const ttsNative=()=>{const C=window.Capacitor;if(!C||!C.isNativePlatform||!C.isNativePlatform())return null;try{return (C.Plugins&&C.Plugins.TextToSpeech)||(C.registerPlugin&&C.registerPlugin("TextToSpeech"))||null}catch(e){return null}};
+const ttsNative=()=>{const C=capOf(window)||capOf(HOSTW);if(!C)return null;try{return (C.Plugins&&C.Plugins.TextToSpeech)||(C.registerPlugin&&C.registerPlugin("TextToSpeech"))||null}catch(e){return null}};
 let ttsNativeLangs=null;
 async function ttsSpeakNative(N,txt,ar,P){
   if(!ttsNativeLangs){try{ttsNativeLangs=((await N.getSupportedLanguages())||{}).languages||[]}catch(e){ttsNativeLangs=[]}}
