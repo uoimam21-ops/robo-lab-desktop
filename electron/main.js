@@ -72,7 +72,8 @@ function safe(base, rel) {
 function headersFor(pathname, mime) {
   const h = { 'Content-Type': mime, 'Cross-Origin-Resource-Policy': 'same-origin', 'Cache-Control': 'no-cache' };
   // pages and their workers both need the headers (a worker without them is blocked inside an isolated page)
-  if (!/^\/(lab\/roboblock|journey)/.test(pathname)) {
+  // the home (two cards + bar) is not isolated either: an isolated page can't hold the journey in its frame (16 Nov 2026)
+  if (!/^\/(lab\/roboblock|journey|launcher\/|home$|index\.html$|$)/.test(pathname)) {
     h['Cross-Origin-Opener-Policy'] = 'same-origin';
     h['Cross-Origin-Embedder-Policy'] = 'credentialless';   // same as the website's coi-sw.js
   }

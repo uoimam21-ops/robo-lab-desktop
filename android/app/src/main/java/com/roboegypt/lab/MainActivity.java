@@ -30,7 +30,10 @@ public class MainActivity extends BridgeActivity {
                 Map<String, String> h = new HashMap<>();
                 if (res.getResponseHeaders() != null) h.putAll(res.getResponseHeaders());
                 h.put("Cross-Origin-Resource-Policy", "same-origin");
-                if (!path.startsWith("/lab/roboblock") && !path.startsWith("/journey")) {
+                // the home (two cards + bar) is NOT isolated either: an isolated page can't hold the journey in its frame
+                // (net::ERR_BLOCKED_BY_RESPONSE on Youssef's phone, 16 Nov 2026). Python and Robo Code then open full screen.
+                boolean home = path.equals("/") || path.equals("/index.html") || path.startsWith("/launcher/");
+                if (!home && !path.startsWith("/lab/roboblock") && !path.startsWith("/journey")) {
                     h.put("Cross-Origin-Opener-Policy", "same-origin");
                     h.put("Cross-Origin-Embedder-Policy", "credentialless");
                 }
