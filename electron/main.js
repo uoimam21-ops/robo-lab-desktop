@@ -121,6 +121,15 @@ function route(contents) {
     return { action: 'deny' };
   });
   contents.on('will-navigate', (e, url) => { if (outside(url)) e.preventDefault(); });
+  // the journey and the labs live in the home page's frame: a website page opened there (the journey's «الرئيسية», or a sign-in
+  // link) loaded roboegypt.com inside the app, and Google refuses to sign in inside an app (403, Youssef 17 Nov 2026). So that
+  // frame never leaves the app: anything else opens in the browser. Only that frame: videos deeper inside a lab stay as they are.
+  // (will-frame-navigate is Electron 25+; the Windows 7 build relies on the journey's own fix.)
+  contents.on('will-frame-navigate', (e) => {
+    const f = e.frame;
+    if (e.isMainFrame || !f || !f.parent || f.parent.parent) return;
+    if (/^(https?:|mailto:|tel:)/.test(e.url) && !e.url.startsWith(ORIGIN)) { e.preventDefault(); shell.openExternal(e.url); }
+  });
 }
 
 let win = null;
