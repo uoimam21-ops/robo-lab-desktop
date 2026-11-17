@@ -20,12 +20,12 @@
 <meta name="theme-color" content="#1B2350">
 <link rel="icon" type="image/png" href="/assets/favicon.png">
 <script src="/site-bar.js" defer></script>
-  <script type="module" crossorigin src="/assets/d3-CGj-lMm4.js"></script>
+  <script type="module" crossorigin src="/assets/d3-DAmuiZRC.js"></script>
   <link rel="modulepreload" crossorigin href="/assets/kbfix-BD_lgBp6.js">
   <link rel="modulepreload" crossorigin href="/assets/split-DJAd-vnY.js">
   <link rel="modulepreload" crossorigin href="/assets/task-peek-5dTstnx6.js">
   <link rel="stylesheet" crossorigin href="/assets/kbfix-47rQ6fy0.css">
-  <link rel="stylesheet" crossorigin href="/assets/d3-BxZHSaKV.css">
+  <link rel="stylesheet" crossorigin href="/assets/d3-Dot0HX2c.css">
 </head>
 <body>
 <header class="top">
@@ -47,15 +47,16 @@
       <button class="btn ghost small" id="drawPen" title="حط نقط، وتطلع شكل بخطوط مستقيمة أو منحنية">🖊️ قلم</button>
     </div>
     <div class="txtrow" id="txtRow" hidden><select id="txtFont" aria-label="نوع الخط"></select><input id="txtIn" dir="auto" maxlength="24" placeholder="روبو Robo" aria-label="النص"><button class="btn run small" id="txtAdd" aria-label="ضيف النص">➕ نص</button></div>
+    <!-- the holes first in the list (Youssef, 16 Nov 2026) -->
+    <h2>فتحة</h2>
+    <p class="sub">حط الفتحة جوه الشكل، وهي بتخرّمه على طول</p>
+    <div class="sgrid" id="holeList"></div>
     <h2>الأشكال</h2>
     <p class="sub">دوس على شكل يتحط على السطح، أو اسحبه وحطه في المكان اللي انت عايزه. «نص» كمان: اسحبه، وبعدين اكتب الكلمة وغيّر شكلها.</p>
     <div class="sgrid" id="shapeList"></div>
     <h2>نماذج جاهزة</h2>
     <p class="sub">روبو وعربية وبيت… كل جزء بلونه، وتقدر تغيّره</p>
     <div class="sgrid" id="presetList"></div>
-    <h2>فتحة</h2>
-    <p class="sub">حط الفتحة جوه الشكل، وهي بتخرّمه على طول</p>
-    <div class="sgrid" id="holeList"></div>
   </aside>
 
   <section class="stagewrap" aria-label="مساحة التصميم">
@@ -127,7 +128,7 @@
           <label>حوالين Z<input type="number" id="rZ" step="15"></label>
         </div>
         <div class="row3"><button class="tb" data-mirror="0" title="مراية يمين وشمال">⇋ X</button><button class="tb" data-mirror="1" title="مراية فوق وتحت">⇅ Y</button><button class="tb" data-mirror="2" title="مراية قدام وورا">⤢ Z</button></div>
-        <small class="sub">الأسهم في الكيبورد بتحرّك الشكل، و Ctrl + ↑↓ بترفعه وتنزّله، و Shift بيخلّي الخطوة ١٠ أضعاف.</small>
+        <small class="sub">الأسهم في الكيبورد بتحرّك الشكل، و Shift + ↑↓ بترفعه وتنزّله، و Shift + ←→ خطوة ١٠ أضعاف.</small>
       </div>
       <div class="multi" id="multi" hidden></div>
       <div class="alignPop" id="alignPop" hidden></div>
@@ -154,8 +155,8 @@
       <tr><td><kbd>R</kbd></td><td>المقاس</td></tr>
       <tr><td><kbd>[</kbd> <kbd>]</kbd></td><td>لف الشكل ١٥° شمال أو يمين</td></tr>
       <tr><td><kbd>D</kbd></td><td>نزّل الشكل على السطح</td></tr>
-      <tr><td>الأسهم</td><td>حرّك الشكل خطوة (مع <kbd>Shift</kbd>: ١٠ خطوات)</td></tr>
-      <tr><td><kbd>Ctrl</kbd> + <kbd>↑</kbd> <kbd>↓</kbd></td><td>طلّع الشكل لفوق أو نزّله</td></tr>
+      <tr><td>الأسهم</td><td>حرّك الشكل خطوة (مع <kbd>Shift</kbd> + ←→: ١٠ خطوات)</td></tr>
+      <tr><td><kbd>Shift</kbd> (أو <kbd>Ctrl</kbd>) + <kbd>↑</kbd> <kbd>↓</kbd></td><td>طلّع الشكل لفوق أو نزّله</td></tr>
       <tr><td><kbd>Shift</kbd> مع التكبير</td><td>كبّر بنفس النسبة</td></tr>
       <tr><td><kbd>Ctrl</kbd> + <kbd>C</kbd></td><td>انسخ</td></tr>
       <tr><td><kbd>Ctrl</kbd> + <kbd>X</kbd></td><td>قص</td></tr>
