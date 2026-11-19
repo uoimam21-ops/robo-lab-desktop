@@ -1684,6 +1684,11 @@ const CITY_UNITS={
      robo:[["uCirc",["circ2"]],["uArdb",["ardb","ardt"]],["u3d",["d3b"]],["uAI",["ai2"]]]},
   s:{games:[["uPy",["py","py2","pyg"]],["uWeb",["web"]]],
      robo:[["uArd",["ard","ard2"]],["uAI",["pyai"]]]}};
+// «/journey.html?city=k»: the site sends staff straight into the city they pressed (Youssef, 19 Nov 2026: the admin who chose
+// the Explorers' city landed in the Engineers' city). Used once, after the staff account is known (openMode).
+let CITY_Q=(()=>{try{const k=new URLSearchParams(location.search).get("city");return ["k","j","t","s"].includes(k)?k:null}catch(e){return null}})();
+function applyCityQ(){if(!CITY_Q)return;const k=CITY_Q;CITY_Q=null;try{const u=new URL(location.href);u.searchParams.delete("city");history.replaceState(null,"",u.pathname+u.search+u.hash)}catch(e){}
+  prog.city=k;homeCourse=null;homeSpec=null;saveProgLocal();try{renderHud&&renderHud()}catch(e){}show("home");renderHome();window.scrollTo(0,0)}
 const CITY_KEYS=["k","j","t","s"],CITY_ICON={k:"🧭",j:"💡",t:"🏅",s:"🛠️"};
 const ageKey=k=>k==="k"||k==="j"?"kids":"teens";
 const unitsOf=(k,side)=>{const U=CITY_UNITS[k]||CITY_UNITS.j;return side?U[side]:U.games.concat(U.robo)};
@@ -2197,8 +2202,8 @@ function openMode(){kids=[];if(cloudKid){cloudKid=null;try{localStorage.removeIt
   if(!prog.all)prog.all=true;
   // admin, trainer, secretary: no «name and age» page (Youssef, 19 Nov 2026); the lab computer still asks each child for a name
   if(sbProfile&&sbProfile.role!=="lab"&&!prog.age){const a=12;prog.name=prog.name||String(sbProfile.full_name||"").split(" ")[0]||(lang==="ar"?"المدرب":"Coach");prog.age=a;prog.track=trackForAge(a);try{ensurePlace(false)}catch(e){}
-    saveProgLocal();applyText();if(view==="signup"||view==="acct"||view==="landing"){show("home");renderHome()}return}
-  saveProgLocal();applyText()}
+    saveProgLocal();applyText();if(view==="signup"||view==="acct"||view==="landing"){show("home");renderHome()}applyCityQ();return}
+  saveProgLocal();applyText();applyCityQ()}
 // lab computer: «طالب جديد» clears the last child and asks the next one for a name
 function labNext(){prog=freshProg(true);try{localStorage.removeItem("bibo-kid")}catch(e){}cloudKid=null;saveProgLocal();applyText();
   $("suName").value="";show("signup")}
