@@ -99,7 +99,8 @@ await shot('roboblock');
 await go('/journey.html', 3000);
 ok(await p.evaluate(() => { const b = document.getElementById('labBtn'); return !!b && !b.hidden; }), 'the journey menu has «روبو لاب»');
 await go('/journey.html?go=login', 3000);
-ok(await p.evaluate(() => !!document.getElementById('aForm') && !document.getElementById('gBtn')), 'Journey sign-in: e-mail form, no Google button');
+// since 18 Nov 2026 the Android app signs in with Google natively (Capacitor SocialLogin), so the Google button stays
+ok(await p.evaluate(() => !!document.getElementById('aForm') && !!document.getElementById('gBtn')), 'Journey sign-in: e-mail form and the native Google button');
 await shot('journey');
 
 await go('/lab/arduino.html');
