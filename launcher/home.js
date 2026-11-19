@@ -39,7 +39,7 @@ view.addEventListener('load', () => {
     // screen (the phone's Back button / the lab's logo come back here)
     // (Android's WebView is never isolated, even full screen, and answers input() itself: stay under the bar there)
     if (window.roboDesktop && /^\/lab\/(python|code)\.html$/.test(p) && !w.crossOriginIsolated) { location.href = p + w.location.search; return; }
-    const inLab = p.startsWith('/lab/') && !/roboblock/.test(p);
+    const inLab = p.startsWith('/lab/') && !/roboblock/.test(p);   // Robo Painter is a lab too
     $('tabL').classList.toggle('on', inLab); $('tabJ').classList.toggle('on', !inLab);
     document.title = w.document.title || document.title;
   } catch (_) { /* another site: leave it */ }
