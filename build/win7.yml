@@ -20,3 +20,5 @@ nsis:
   shortcutName: رحلة روبو
   installerLanguages: [ar_SA, en_US]
   language: "1025"
+  # offers the Arduino USB driver at the end of the install (build/installer.nsh)
+  include: build/installer.nsh
