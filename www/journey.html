@@ -706,7 +706,7 @@ body.rb-free .sprbd .bdstrip{display:block;max-height:340px;overflow-y:auto}body
 @media (min-width:821px){
 body.rb-free #taskBar{display:none}
 body.rb-free #play>.playbar{margin-bottom:8px!important}
-body.rb-free .game{height:calc(100dvh - var(--rbTop,200px) - 10px);min-height:430px;align-items:stretch}
+body.rb-free .game{height:calc(100dvh - var(--rbTop,200px) - 10px);min-height:300px;align-items:stretch}
 body.rb-free #work{height:100%}
 body.rb-free #blockly,body.rb-free .fpanel{height:auto!important;flex:1 1 0;min-height:0}
 body.rb-free #play>.trstrip{margin-top:12px;border:2px solid var(--line);border-radius:20px}
@@ -776,6 +776,10 @@ body.rb-free #bdStrip{grid-row:3/5;grid-column:1;contain:size;min-height:0;max-h
 .bdstrip .bdnew{font-size:22px}
 .paint{position:fixed;inset:0;z-index:2000;background:rgba(18,26,51,.55);display:grid;place-items:center;padding:10px}
 .paint[hidden]{display:none}
+/* «ملء الشاشة» in the painter (Youssef, 19 Nov 2026) */
+.paint.pnFull{position:fixed!important;inset:0!important;z-index:6000!important;padding:0!important;background:#1b2350!important;display:block!important}
+.paint.pnFull .pcard{width:100%!important;max-width:none!important;height:100%!important;max-height:none!important;border-radius:0!important;border:0!important}
+.paint.pnFull .pstage{max-height:none}.paint.pnFull #pnWrap{width:min(100%,calc((100vh - 200px) * var(--pnAR,1)))!important}
 /* Robo Painter (/lab/painter): the paint editor alone, as a Robo Lab tool, under the site's bar (Youssef, 19 Nov 2026) */
 body.rp-mode #wrap>*:not(header):not(#paint):not(#gm){display:none!important}
 body.rp-mode .paint{position:static;inset:auto;z-index:auto;background:none;padding:8px 0 16px;display:block}
@@ -1180,10 +1184,10 @@ html.booted #bootSplash{opacity:0;pointer-events:none}
   </div>
   <!-- new-block explanation page, shown before a level that adds blocks -->
   <div class="paint" id="paint" hidden><div class="pcard" role="dialog" aria-modal="true" aria-labelledby="pnT">
-    <div class="ptop"><b id="pnT">🎨 الرسام</b><button class="pb" id="pnUndo" title="تراجع">↶</button><button class="pb" id="pnRedo" title="إعادة">↷</button><button class="pb" id="pnFlipH" title="اقلب يمين وشمال">⇋</button><button class="pb" id="pnFlipV" title="اقلب فوق وتحت">⇅</button><button class="pb" id="pnClear" title="امسح الكل">🧹</button><button class="pb" id="pnZin" title="تكبير الرسمة">🔍+</button><button class="pb" id="pnZ0" title="الحجم العادي">١:١</button><button class="pb" id="pnZout" title="تصغير الرسمة">🔍−</button>
+    <div class="ptop"><b id="pnT">🎨 الرسام</b><button class="pb" id="pnUndo" title="تراجع">↶</button><button class="pb" id="pnRedo" title="إعادة">↷</button><button class="pb" id="pnFlipH" title="اقلب يمين وشمال">⇋</button><button class="pb" id="pnFlipV" title="اقلب فوق وتحت">⇅</button><button class="pb" id="pnClear" title="امسح الكل">🧹</button><button class="pb" id="pnZin" title="تكبير الرسمة">🔍+</button><button class="pb" id="pnZ0" title="الحجم العادي">١:١</button><button class="pb" id="pnZout" title="تصغير الرسمة">🔍−</button><button class="pb" id="pnFull" title="ملء الشاشة">⛶ ملء الشاشة</button>
       <label class="pb" title="حمّل صورة من الجهاز">📁 حمّل صورة<input type="file" id="pnFile" accept="image/*" hidden></label><span class="grow"></span><button class="pb" id="pnCancel">إلغاء</button><button class="btn next" id="pnSave">✅ تمام</button></div>
     <div class="pmain"><div class="ptools" id="pnTools"></div><div class="pstage"><div class="pwrap" id="pnWrap"><canvas id="pc" width="360" height="360"></canvas><canvas id="pcTmp" width="360" height="360"></canvas><div class="pnSelBar" id="pnSelBar" hidden><button class="pb" id="pnSelDup" title="نسخة من التحديد">⧉ نسخة</button><button class="pb" id="pnSelRot" title="لف التحديد">⟳ لف</button><button class="pb" id="pnSelBig" title="كبّر التحديد">🔍+ كبّر</button><button class="pb" id="pnSelSmall" title="صغّر التحديد">🔍− صغّر</button><button class="pb" id="pnSelDel" title="امسح التحديد">🗑 امسح التحديد</button></div></div></div></div>
-    <div class="pbot"><div class="psw" id="pnSw"></div><input type="color" id="pnColor" value="#5b3df5" aria-label="لون"><span class="phsv" id="pnHsv" dir="ltr"><label>اللون<input type="range" id="pnH" min="0" max="360" value="250"></label><label>التشبع<input type="range" id="pnS" min="0" max="100" value="75"></label><label>السطوع<input type="range" id="pnB" min="0" max="100" value="96"></label></span><label>المقاس <input type="range" id="pnSize" min="2" max="60" value="10"></label><label><input type="checkbox" id="pnFill" checked> الشكل مليان</label><label title="حدود حوالين الشكل"><input type="checkbox" id="pnStroke" checked> حدود <input type="color" id="pnOut" value="#1d2b4f" aria-label="لون الحدود"> <input type="number" id="pnOutW" min="1" max="30" value="4" aria-label="سُمك الحدود" style="width:52px"></label><label title="الشفافية: كلما قلّت ظهر ما خلف الشكل">الشفافية <input type="range" id="pnOp" min="5" max="100" value="100" style="width:90px"></label><label title="ظل خلف الشكل"><input type="checkbox" id="pnSh"> ظل</label><label title="تمويه: حواف الشكل تصبح ناعمة وغير واضحة">التمويه <input type="range" id="pnBl" min="0" max="20" value="0" style="width:80px"></label><label title="لون الشكل يتدرّج إلى لون ثانٍ">التدرّج <select id="pnGr"><option value="">بدون</option><option value="lin">خطّي ↔</option><option value="rad">دائري ◎</option></select> <input type="color" id="pnGr2" value="#ffc93c" aria-label="اللون الثاني للتدرّج"></label><button type="button" class="pb" id="pnPng" title="نزّل الرسمة صورة على جهازك">⬇ صورة</button><span class="playr" id="pnLay" hidden role="group" aria-label="الطبقات"><b>الطبقة</b><button type="button" data-l="fwd" title="طبقة واحدة للأمام">⬆️ للأمام</button><button type="button" data-l="bwd" title="طبقة واحدة للخلف">⬇️ للخلف</button><button type="button" data-l="front" title="أمام كل الأشكال">⏫ أمام الكل</button><button type="button" data-l="back" title="خلف كل الأشكال">⏬ خلف الكل</button><button type="button" data-l="copy" title="نسخة من الشكل (Ctrl+D)">⧉ نسخ</button><button type="button" data-l="group" title="اجمع الأشكال المختارة في شكل واحد (اختر أكثر من شكل بزر Shift أو بمربع)">🔗 اجمع</button><button type="button" data-l="ungroup" title="فك الأشكال المجمّعة">✂️ فك</button><button type="button" data-l="lock" title="اقفل الشكل حتى لا يتحرك ولا يتغير">🔒 قفل</button><button type="button" data-l="flipx" title="اقلب الشكل أفقيًا (مرآة)">⇋ أفقي</button><button type="button" data-l="flipy" title="اقلب الشكل رأسيًا">⇅ رأسي</button><button type="button" data-l="del" title="احذف الشكل (Delete)">🗑 حذف</button><button type="button" data-l="mask" title="قصّ الرسمة على الشكل: يبقى فقط ما تحت الشكل">🔲 قصّ على الشكل</button><button type="button" data-l="hole" title="فتحة: يُمسح ما تحت الشكل">🕳 فتحة</button></span><label id="pnTxtL" hidden>الكلمة <input type="text" id="pnTxt" dir="auto" maxlength="30" value="روبو"> <select id="pnFont" aria-label="نوع الخط"><option value="Baloo Bhaijaan 2" style="font-family:'Baloo Bhaijaan 2'">ع بالو · Baloo</option><option value="Cairo" style="font-family:'Cairo'">ع القاهرة · Cairo</option><option value="Lalezar" style="font-family:'Lalezar'">ع لاله‌زار · Lalezar</option><option value="Changa" style="font-family:'Changa'">ع تشانجا · Changa</option><option value="Reem Kufi" style="font-family:'Reem Kufi'">ع ريم كوفي · Reem Kufi</option><option value="El Messiri" style="font-family:'El Messiri'">ع المسيري · Messiri</option><option value="Marhey" style="font-family:'Marhey'">ع مرحي · Marhey</option><option value="Rakkas" style="font-family:'Rakkas'">ع رقّاص · Rakkas</option><option value="Aref Ruqaa" style="font-family:'Aref Ruqaa'">ع رقعة · Ruqaa</option><option value="Amiri" style="font-family:'Amiri'">ع أميري · Amiri</option><option value="Fredoka" style="font-family:'Fredoka'">🔤 Fredoka</option><option value="Bungee" style="font-family:'Bungee'">🔤 Bungee</option><option value="Bebas Neue" style="font-family:'Bebas Neue'">🔤 Bebas Neue</option><option value="Pacifico" style="font-family:'Pacifico'">🔤 Pacifico</option><option value="Lobster" style="font-family:'Lobster'">🔤 Lobster</option><option value="Permanent Marker" style="font-family:'Permanent Marker'">🔤 Permanent Marker</option><option value="Press Start 2P" style="font-family:'Press Start 2P'">🔤 Press Start 2P</option></select></label></div>
+    <div class="pbot"><div class="psw" id="pnSw"></div><input type="color" id="pnColor" value="#5b3df5" aria-label="لون"><span class="phsv" id="pnHsv" dir="ltr"><label>اللون<input type="range" id="pnH" min="0" max="360" value="250"></label><label>التشبع<input type="range" id="pnS" min="0" max="100" value="75"></label><label>السطوع<input type="range" id="pnB" min="0" max="100" value="96"></label></span><label>المقاس <input type="range" id="pnSize" min="2" max="60" value="10"></label><label><input type="checkbox" id="pnFill" checked> الشكل مليان</label><label title="حدود حوالين الشكل"><input type="checkbox" id="pnStroke" checked> حدود <input type="color" id="pnOut" value="#1d2b4f" aria-label="لون الحدود"> <input type="number" id="pnOutW" min="1" max="30" value="4" aria-label="سُمك الحدود" style="width:52px"></label><label title="الشفافية: كلما قلّت ظهر ما خلف الشكل">الشفافية <input type="range" id="pnOp" min="5" max="100" value="100" style="width:90px"></label><label title="ظل خلف الشكل"><input type="checkbox" id="pnSh"> ظل</label><label title="تمويه: حواف الشكل تصبح ناعمة وغير واضحة">التمويه <input type="range" id="pnBl" min="0" max="20" value="0" style="width:80px"></label><label title="لون واحد، أو لونان يتدرّجان">الألوان <select id="pnGr"><option value="">لون واحد</option><option value="lin">لونان: خطّي ↔</option><option value="rad">لونان: دائري ◎</option></select></label><span id="pnGrBox" hidden><label>١ <input type="color" id="pnGr1" value="#5b3df5" aria-label="اللون الأول"></label> <label>٢ <input type="color" id="pnGr2" value="#ffc93c" aria-label="اللون الثاني"></label></span><button type="button" class="pb" id="pnPng" title="نزّل الرسمة صورة على جهازك">⬇ صورة</button><span class="playr" id="pnLay" hidden role="group" aria-label="الطبقات"><b>الطبقة</b><button type="button" data-l="fwd" title="طبقة واحدة للأمام">⬆️ للأمام</button><button type="button" data-l="bwd" title="طبقة واحدة للخلف">⬇️ للخلف</button><button type="button" data-l="front" title="أمام كل الأشكال">⏫ أمام الكل</button><button type="button" data-l="back" title="خلف كل الأشكال">⏬ خلف الكل</button><button type="button" data-l="copy" title="نسخة من الشكل (Ctrl+D)">⧉ نسخ</button><button type="button" data-l="group" title="اجمع الأشكال المختارة في شكل واحد (اختر أكثر من شكل بزر Shift أو بمربع)">🔗 اجمع</button><button type="button" data-l="ungroup" title="فك الأشكال المجمّعة">✂️ فك</button><button type="button" data-l="lock" title="اقفل الشكل حتى لا يتحرك ولا يتغير">🔒 قفل</button><button type="button" data-l="flipx" title="اقلب الشكل أفقيًا (مرآة)">⇋ أفقي</button><button type="button" data-l="flipy" title="اقلب الشكل رأسيًا">⇅ رأسي</button><button type="button" data-l="del" title="احذف الشكل (Delete)">🗑 حذف</button><button type="button" data-l="mask" title="قصّ الطبقة التي تحت الشكل مباشرة: يبقى منها فقط ما تحت الشكل">🔲 قصّ على الشكل</button><button type="button" data-l="hole" title="فتحة في الطبقة التي تحت الشكل مباشرة">🕳 فتحة</button></span><label id="pnTxtL" hidden>الكلمة <input type="text" id="pnTxt" dir="auto" maxlength="30" value="روبو"> <select id="pnFont" aria-label="نوع الخط"><option value="Baloo Bhaijaan 2" style="font-family:'Baloo Bhaijaan 2'">ع بالو · Baloo</option><option value="Cairo" style="font-family:'Cairo'">ع القاهرة · Cairo</option><option value="Lalezar" style="font-family:'Lalezar'">ع لاله‌زار · Lalezar</option><option value="Changa" style="font-family:'Changa'">ع تشانجا · Changa</option><option value="Reem Kufi" style="font-family:'Reem Kufi'">ع ريم كوفي · Reem Kufi</option><option value="El Messiri" style="font-family:'El Messiri'">ع المسيري · Messiri</option><option value="Marhey" style="font-family:'Marhey'">ع مرحي · Marhey</option><option value="Rakkas" style="font-family:'Rakkas'">ع رقّاص · Rakkas</option><option value="Aref Ruqaa" style="font-family:'Aref Ruqaa'">ع رقعة · Ruqaa</option><option value="Amiri" style="font-family:'Amiri'">ع أميري · Amiri</option><option value="Fredoka" style="font-family:'Fredoka'">🔤 Fredoka</option><option value="Bungee" style="font-family:'Bungee'">🔤 Bungee</option><option value="Bebas Neue" style="font-family:'Bebas Neue'">🔤 Bebas Neue</option><option value="Pacifico" style="font-family:'Pacifico'">🔤 Pacifico</option><option value="Lobster" style="font-family:'Lobster'">🔤 Lobster</option><option value="Permanent Marker" style="font-family:'Permanent Marker'">🔤 Permanent Marker</option><option value="Press Start 2P" style="font-family:'Press Start 2P'">🔤 Press Start 2P</option></select></label></div>
   </div></div>
   <div class="pop" id="gm" hidden><div class="pop-card gm-card" id="gmCard" role="dialog" aria-modal="true"></div></div>
   <div class="pop" id="intro" hidden>
@@ -4379,7 +4383,10 @@ function freeLoad(p){FREE_LV.snds=(p&&p.snds||[]).map(x=>Object.assign({},x));SE
   $("frName").value=p&&p.name||t().freeName;resetRobot();renderSprBar();renderBdStrip();setFreeTab("code");setMsg("intro","")}
 // Robo Block always opens on a new project (Youssef, 12 Nov 2026); the last one is in «مشاريعي». The new project only joins
 // the list once the child does something in it (autosave below), so empty projects don't pile up.
-function openFree(){homeCourse=null;openLevel("free",0,true);freeUrl(true);const st=freeStore();st.cur=null;freePut(st);freeLoad(null);$("frName").value=t().freeName+" "+num(st.list.length+1)}
+// the page fits the screen, so it starts at the top with the site bar showing; Blockly taking the focus used to scroll it
+// down on short laptop screens and hide the bar (Youssef, 19 Nov 2026)
+function rbTop(){[60,400,1200].forEach(t=>setTimeout(()=>{if(isFree()&&scrollY>0&&scrollY<=240)scrollTo(0,0)},t))}
+function openFree(){homeCourse=null;openLevel("free",0,true);freeUrl(true);rbTop();const st=freeStore();st.cur=null;freePut(st);freeLoad(null);$("frName").value=t().freeName+" "+num(st.list.length+1)}
 // anything beyond the starting «when 🏁 clicked» counts as work
 function freeHasWork(){const st=freeStore();if(st.cur)return true;return !!(ws&&ws.getAllBlocks(false).length>1||actors.length>1||FREE_LV.bg||(FREE_LV.bds||[]).length||(FREE_LV.snds||[]).length||actors.some(a=>a.costumes&&a.costumes.length))}
 let freeAutoT=0;function freeAuto(){if(!isFree()||running)return;clearTimeout(freeAutoT);freeAutoT=setTimeout(()=>{if(isFree()&&!running&&freeHasWork())freeSave(false)},1500)}
@@ -4415,13 +4422,18 @@ const RP_PATH="/lab/painter",onRP=()=>location.pathname.replace(/\.html$/,"").re
 const rpStore=()=>{try{return JSON.parse(localStorage.getItem(RP_KEY))||{cur:null,list:[]}}catch(e){return {cur:null,list:[]}}};
 const rpPut=st=>{try{localStorage.setItem(RP_KEY,JSON.stringify(st));return true}catch(e){return false}};
 let rpName="رسمتي ١",rpT=0;
+/* the page size (Youssef, 19 Nov 2026): the drawing stays where it is, the page grows or shrinks around it */
+const RP_SIZES=[[640,480,"٦٤٠×٤٨٠"],[800,600,"٨٠٠×٦٠٠"],[1280,720,"١٢٨٠×٧٢٠ عرضي"],[1080,1080,"١٠٨٠×١٠٨٠ مربع"],[720,1280,"٧٢٠×١٢٨٠ طولي"],[1123,794,"A4 عرضي"],[794,1123,"A4 طولي"]];
+function pnResize(w,h){if(!PN||(PN.W===w&&PN.H===h))return;pnCommit();const old=document.createElement("canvas");old.width=PN.W;old.height=PN.H;old.getContext("2d").drawImage($("pc"),0,0);
+  const cv2=$("pc"),tmp=$("pcTmp");cv2.width=tmp.width=w;cv2.height=tmp.height=h;PN.W=w;PN.H=h;const x=PN.x=cv2.getContext("2d",{willReadFrequently:true});PN.t=tmp.getContext("2d");x.fillStyle="#fff";x.fillRect(0,0,w,h);x.drawImage(old,0,0);
+  $("pnWrap").style.width="min(100%,"+Math.round(Math.min(900,560*w/h))+"px)";$("paint").style.setProperty("--pnAR",w/h);pnRender();pnSnap(true);if(onRP())rpAuto()}
 function rpData(){const t=document.createElement("canvas");t.width=240;t.height=180;const g=t.getContext("2d");g.drawImage($("pc"),0,0,240,180);g.save();g.scale(240/PN.W,180/PN.H);PN.V.drawAll(g);g.restore();return {img:$("pc").toDataURL("image/png"),objs:PN.V.save(),thumb:t.toDataURL("image/jpeg",.8)}}
 function rpSave(show){if(!PN||!onRP())return;pnCommit();const st=rpStore();let p=st.list.find(x=>x.id===st.cur);if(!p){p={id:Date.now().toString(36)};st.list.unshift(p);st.cur=p.id}
-  rpName=($("rpName").value||"").trim()||"رسمتي";Object.assign(p,{name:rpName,t:Date.now()},rpData());
+  rpName=($("rpName").value||"").trim()||"رسمتي";Object.assign(p,{name:rpName,t:Date.now(),w:PN.W,h:PN.H},rpData());
   if(!rpPut(st)){toast("الذاكرة ممتلئة 😅 احذف بعض الرسومات القديمة من «رسوماتي»");return}if(show)toast("💾 تم الحفظ")}
 const rpAuto=()=>{clearTimeout(rpT);rpT=setTimeout(()=>{if(onRP()&&PN)rpSave(false)},1200)};
 function rpOpen(p){const st=rpStore();st.cur=p?p.id:null;rpPut(st);rpName=p?p.name:"رسمتي "+num(st.list.length+1);
-  openPaint({kind:"art",title:"🎨 روبو الرسام",src:p&&p.img||null,objs:p&&p.objs||null,onSave:()=>{},onOpen:()=>{$("rpName").value=rpName}})}
+  openPaint({kind:"art",title:"🎨 روبو الرسام",w:p&&p.w||640,h:p&&p.h||480,src:p&&p.img||null,objs:p&&p.objs||null,onSave:()=>{},onOpen:()=>{$("rpName").value=rpName;$("rpSize").value=PN.W+"x"+PN.H}})}
 function rpMine(){rpSave(false);const st=rpStore();
   gmOpen('<h2>🖼 رسوماتي</h2><div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:0 0 10px"><button class="btn next" data-rexp>⬇ احفظ على الجهاز</button><button class="btn ghost" data-rimp>⬆ افتح من الجهاز</button></div><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;text-align:start">'+
     (st.list.map(p=>'<div style="border:1.5px solid var(--line);border-radius:14px;padding:8px;display:flex;flex-direction:column;gap:6px"><img src="'+(p.thumb||p.img)+'" alt="" style="width:100%;aspect-ratio:4/3;object-fit:contain;background:#fff;border-radius:10px"><b dir="auto">'+esc(p.name)+'</b><div style="display:flex;gap:6px"><button class="btn lprim" data-ro="'+p.id+'" style="flex:1">افتح</button><button class="chip ghost" data-rd="'+p.id+'" aria-label="احذف">🗑</button></div></div>').join("")||'<p class="sub">لا توجد رسومات محفوظة بعد.</p>')+'</div>');
@@ -4434,8 +4446,8 @@ function rpImport(){const inp=document.createElement("input");inp.type="file";in
     if(!d||d.robo!=="robo-egypt"||!d.project){toast("هذا الملف ليس مشروعًا من روبو لاب");return}if(d.lab!=="painter"){toast("هذا الملف مشروع "+(LAB_AR[d.lab]||d.lab)+"، افتحه هناك");return}
     const p=Object.assign({},d.project,{id:Date.now().toString(36),t:Date.now()}),st=rpStore();st.list.unshift(p);st.cur=p.id;if(!rpPut(st)){toast("الذاكرة ممتلئة 😅 احذف بعض الرسومات القديمة أولًا");return}gmClose();rpOpen(p);toast("✅ تم فتح: "+(p.name||""))};r.readAsText(f)};inp.click()}
 function rpStart(){document.body.classList.add("rp-mode");document.title="روبو الرسام | Robo Egypt";
-  if(!$("rpBar")){const b=document.createElement("span");b.className="rpbar";b.id="rpBar";b.innerHTML='<input id="rpName" maxlength="40" dir="auto" aria-label="اسم الرسمة"><button class="pb" id="rpSave">💾 حفظ</button><button class="pb" id="rpMine">📂 رسوماتي</button><button class="pb" id="rpNew">📄 جديدة</button>';
-    $("pnT").after(b);$("rpSave").onclick=()=>rpSave(true);$("rpMine").onclick=rpMine;$("rpNew").onclick=()=>{rpSave(false);rpOpen(null)};$("rpName").oninput=rpAuto}
+  if(!$("rpBar")){const b=document.createElement("span");b.className="rpbar";b.id="rpBar";b.innerHTML='<input id="rpName" maxlength="40" dir="auto" aria-label="اسم الرسمة"><button class="pb" id="rpSave">💾 حفظ</button><button class="pb" id="rpMine">📂 رسوماتي</button><button class="pb" id="rpNew">📄 جديدة</button><label class="pb" title="مقاس الصفحة">📐 <select id="rpSize" aria-label="مقاس الصفحة">'+RP_SIZES.map(z=>'<option value="'+z[0]+'x'+z[1]+'">'+z[2]+'</option>').join("")+'</select></label>';
+    $("pnT").after(b);$("rpSave").onclick=()=>rpSave(true);$("rpMine").onclick=rpMine;$("rpNew").onclick=()=>{rpSave(false);rpOpen(null)};$("rpName").oninput=rpAuto;$("rpSize").onchange=()=>{const [w,h]=$("rpSize").value.split("x").map(Number);pnResize(w,h)}}
   const st=rpStore();rpOpen(st.list.find(x=>x.id===st.cur)||null)}
 addEventListener("pagehide",()=>{if(onRP()&&PN)rpSave(false)});
 $("frSave").onclick=()=>freeSave(true);$("frMine").onclick=freeMine;$("frNew").onclick=freeNew;
@@ -4576,14 +4588,18 @@ function makeShapes(accent){
   const path=(c,o)=>{const P=o.p;c.beginPath();if(o.k==="line"){const n=P.length,g=i=>P[Math.max(0,Math.min(n-1,i))];c.moveTo(P[0][0],P[0][1]);
       if(n===2){c.lineTo(P[1][0],P[1][1]);return}
       for(let i=0;i<n-1;i++){const a=g(i-1),b=g(i),d=g(i+1),e=g(i+2);c.bezierCurveTo(b[0]+(d[0]-a[0])/6,b[1]+(d[1]-a[1])/6,d[0]-(e[0]-b[0])/6,d[1]-(e[1]-b[1])/6,d[0],d[1])}return}
-    if(o.k==="poly"){c.moveTo(P[0][0],P[0][1]);for(let i=1;i<P.length;i++)c.lineTo(P[i][0],P[i][1]);c.closePath();return}
+    if(o.k==="poly"||o.k==="img"){c.moveTo(P[0][0],P[0][1]);for(let i=1;i<P.length;i++)c.lineTo(P[i][0],P[i][1]);c.closePath();return}
     const n=P.length,g=i=>P[(i+n)%n];c.moveTo(P[0][0],P[0][1]);   // closed smooth curve through the points
     for(let i=0;i<n;i++){const a=g(i-1),b=g(i),d=g(i+1),e=g(i+2);c.bezierCurveTo(b[0]+(d[0]-a[0])/6,b[1]+(d[1]-a[1])/6,d[0]-(e[0]-b[0])/6,d[1]-(e[1]-b[1])/6,d[0],d[1])}c.closePath()};
   /* see-through (o.a, 0–1) and a fill that blends two colours, in a line or from the centre (o.gr {t:"lin"|"rad", c}) (Youssef, 19 Nov 2026) */
   const fillOf=(c,o)=>{if(!o.gr)return o.f;const b=box(o),cx=(b.x0+b.x1)/2,cy=(b.y0+b.y1)/2;let g;
     if(o.gr.t==="rad")g=c.createRadialGradient(cx,cy,0,cx,cy,Math.max(1,Math.hypot(b.x1-b.x0,b.y1-b.y0)/2));else g=c.createLinearGradient(b.x0,cy,b.x1,cy);
     try{g.addColorStop(0,o.f);g.addColorStop(1,o.gr.c)}catch(e){return o.f}return g};
-  V.paint=(c,o)=>{c.save();if(o.a!=null)c.globalAlpha=o.a;if(o.bl)c.filter="blur("+o.bl+"px)";if(o.sh){c.shadowColor="rgba(20,24,60,.38)";c.shadowBlur=12;c.shadowOffsetX=6;c.shadowOffsetY=7}c.lineJoin="round";c.lineCap="round";path(c,o);if(o.f&&o.k!=="line"){c.fillStyle=fillOf(c,o);c.fill()}if(o.s&&o.w>0){c.strokeStyle=o.s;c.lineWidth=o.w;c.stroke()}c.restore()};
+  const lineGrad=(c,o)=>{if(!o.gr||o.k!=="line")return o.s;const b=box(o),cx=(b.x0+b.x1)/2,cy=(b.y0+b.y1)/2;let g;if(o.gr.t==="rad")g=c.createRadialGradient(cx,cy,0,cx,cy,Math.max(1,Math.hypot(b.x1-b.x0,b.y1-b.y0)/2));else g=c.createLinearGradient(b.x0,cy,b.x1,cy);try{g.addColorStop(0,o.s);g.addColorStop(1,o.gr.c)}catch(e){return o.s}return g};
+  V.paint=(c,o)=>{c.save();if(o.a!=null)c.globalAlpha=o.a;if(o.bl)c.filter="blur("+o.bl+"px)";if(o.sh){c.shadowColor="rgba(20,24,60,.38)";c.shadowBlur=12;c.shadowOffsetX=6;c.shadowOffsetY=7}
+    // a picture or a word: drawn on the box its 4 corners make, so moving, resizing, turning and flipping work like any shape
+    if(o.k==="img"){const im=pnImg(o.src);if(im&&im.complete&&im.naturalWidth){const P=o.p,w=im.naturalWidth,h=im.naturalHeight;c.transform((P[1][0]-P[0][0])/w,(P[1][1]-P[0][1])/w,(P[3][0]-P[0][0])/h,(P[3][1]-P[0][1])/h,P[0][0],P[0][1]);c.drawImage(im,0,0,w,h)}c.restore();return}
+    c.lineJoin="round";c.lineCap="round";path(c,o);if(o.f&&o.k!=="line"){c.fillStyle=fillOf(c,o);c.fill()}if(o.s&&o.w>0){c.strokeStyle=lineGrad(c,o);c.lineWidth=o.w;c.stroke()}c.restore()};
   V.drawAll=c=>V.objs.forEach(o=>V.paint(c,o));
   const box=o=>{const xs=o.p.map(q=>q[0]),ys=o.p.map(q=>q[1]),m=(o.s?o.w/2:0);return {x0:Math.min(...xs)-m,y0:Math.min(...ys)-m,x1:Math.max(...xs)+m,y1:Math.max(...ys)+m}};
   const corners=b=>[[b.x0,b.y0],[b.x1,b.y0],[b.x0,b.y1],[b.x1,b.y1]];
@@ -4605,7 +4621,7 @@ function makeShapes(accent){
     c.beginPath();c.moveTo(mx,b.y0);c.lineTo(mx,b.y0-KNOB+8);c.stroke();c.beginPath();c.arc(mx,b.y0-KNOB,8,0,7);c.fillStyle=accent;c.fill();
     c.fillStyle="#fff";c.font="bold 11px sans-serif";c.textAlign="center";c.textBaseline="middle";c.fillText("⟳",mx,b.y0-KNOB);c.restore()};
   V.render=(c,tool,W,H,extra)=>{c.clearRect(0,0,W,H);V.drawAll(c);if(extra)V.paint(c,extra);V.handles(c,tool)};
-  const onObj=(o,p,tight)=>{path(hc,o);hc.lineWidth=tight?Math.max(2,(o.s?o.w:0)+2):Math.max(12,(o.s?o.w:0)+10);return hc.isPointInStroke(p[0],p[1])||(o.k!=="line"&&o.f&&hc.isPointInPath(p[0],p[1]))};
+  const onObj=(o,p,tight)=>{path(hc,o);hc.lineWidth=tight?Math.max(2,(o.s?o.w:0)+2):Math.max(12,(o.s?o.w:0)+10);return hc.isPointInStroke(p[0],p[1])||(o.k!=="line"&&(o.f||o.k==="img")&&hc.isPointInPath(p[0],p[1]))};
   // the edge of a shape nearest to a point (index of its first corner), or -1 when the point is not on the outline
   const segAt=(o,p)=>{const P=o.p,n=P.length,closed=o.k!=="line";let best=-1,bd=Math.max(10,(o.w||0)/2+6);
     for(let i=0;i<(closed?n:n-1);i++){const a=P[i],b=P[(i+1)%n],dx=b[0]-a[0],dy=b[1]-a[1],L=dx*dx+dy*dy||1,t=Math.max(0,Math.min(1,((p[0]-a[0])*dx+(p[1]-a[1])*dy)/L)),d=Math.hypot(a[0]+t*dx-p[0],a[1]+t*dy-p[1]);if(d<bd){bd=d;best=i}}return best};
@@ -4659,7 +4675,7 @@ function makeShapes(accent){
       else if(k==="heart")for(let i=0;i<32;i++){const t=i*2*Math.PI/32,hx=16*Math.pow(Math.sin(t),3),hy=-(13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t));p.push([cx+rx*hx/16,y0+ry*2*(hy+12)/29])}
       else if(k==="flower")for(let i=0;i<40;i++){const t=-Math.PI/2+i*2*Math.PI/40,r=.55+.45*Math.abs(Math.cos(2.5*(t+Math.PI/2)));p.push([cx+rx*r*Math.cos(t),cy+ry*r*Math.sin(t)])}
       else for(let i=0;i<8;i++){const t=i*Math.PI/4;p.push([cx+rx*Math.cos(t),cy+ry*Math.sin(t)])}}
-    const o={k:k==="line"?"line":k==="ellipse"?"curve":"poly",p,f:k==="line"?null:st.f,s:k==="line"?(st.s||st.f):st.s,w:st.w};if(st.a!=null&&st.a<1)o.a=st.a;if(st.gr&&o.f)o.gr=st.gr;if(st.bl)o.bl=st.bl;if(st.sh)o.sh=1;return o};
+    const o={k:k==="line"?"line":k==="ellipse"?"curve":"poly",p,f:k==="line"?null:st.f,s:k==="line"?(st.s||st.f):st.s,w:st.w};if(st.a!=null&&st.a<1)o.a=st.a;if(st.gr&&(o.f||o.k==="line"))o.gr=st.gr;if(st.bl)o.bl=st.bl;if(st.sh)o.sh=1;return o};
   V.add=o=>{V.objs.push(o);V.sel=V.objs.length-1;V.ms=new Set([o])};
   V.onHandle=p=>{const o=V.objs[V.sel];if(!o)return false;const M=mem();if(M.some(x=>x.lock))return false;const b=boxM(M),mx=(b.x0+b.x1)/2;return Math.hypot(p[0]-mx,p[1]-(b.y0-KNOB))<=R+2||corners(b).concat(mids(b)).some(([x,y])=>Math.abs(p[0]-x)<=R&&Math.abs(p[1]-y)<=R)};
   V.dup=()=>{const M=mem();if(!M.length)return false;const gm={},out=M.map(o=>{const n=JSON.parse(JSON.stringify(o));n.p=o.p.map(q=>[q[0]+16,q[1]+16]);if(o.g)n.g=gm[o.g]||(gm[o.g]="g"+Math.random().toString(36).slice(2,8));delete n.lock;return n});
@@ -4695,6 +4711,16 @@ let PN=null;
 /* A drawn costume (SVG, like Robo's) opens as separate shapes, so «تحديد» picks the head, an eye, an arm… like Scratch
    (Youssef, 19 Nov 2026: selecting didn't work on Robo, he was one flat picture). Each shape's outline is sampled through
    the browser (any transform), circles and ellipses stay smooth curves; text and anything else stays in the picture underneath. */
+const PN_IMGS={};function pnImg(src){if(!src)return null;let im=PN_IMGS[src];if(!im){im=PN_IMGS[src]=new Image();im.onload=()=>{if(PN)pnRender()};im.src=src}return im}
+/* a word as a picture (kept with its text, font and colours so it can be edited later) (Youssef, 19 Nov 2026) */
+function pnTextPic(t,font,col,gr){const pf=PN_FONTS.find(f=>f[0]===font)||PN_FONTS[0],sz=72,c=document.createElement("canvas"),g=c.getContext("2d"),F=pf[2]+" "+sz+"px \""+pf[0]+"\", "+getComputedStyle(document.body).fontFamily;
+  g.font=F;const w=Math.max(10,Math.ceil(g.measureText(t).width)+16),h=Math.ceil(sz*1.5);c.width=w;c.height=h;g.font=F;g.textAlign="center";g.textBaseline="middle";g.direction=/[\u0600-\u06FF]/.test(t)?"rtl":"ltr";
+  let fs=col;if(gr){const gg=gr.t==="rad"?g.createRadialGradient(w/2,h/2,0,w/2,h/2,Math.hypot(w,h)/2):g.createLinearGradient(0,0,w,0);try{gg.addColorStop(0,col);gg.addColorStop(1,gr.c);fs=gg}catch(e){}}
+  g.fillStyle=fs;g.fillText(t,w/2,h/2);return {src:c.toDataURL("image/png"),w,h}}
+function pnTextObj(t,at){const r=pnTextPic(t,$("pnFont").value,PN.col,pnGrad()),k=(10+$("pnSize").value*2)/72,w=r.w*k,h=r.h*k,x0=at[0]-w/2,y0=at[1]-h/2;
+  const o={k:"img",src:r.src,iw:r.w,p:[[x0,y0],[x0+w,y0],[x0+w,y0+h],[x0,y0+h]],tx:{s:t,f:$("pnFont").value,c:PN.col,gr:pnGrad()}};const a=pnAlpha(),v=pnBlur();if(a<1)o.a=a;if(v)o.bl=v;if(pnShadow())o.sh=1;return o}
+function pnTextRedo(o){const T=o.tx,r=pnTextPic(T.s||" ",T.f,T.c,T.gr),P=o.p,ux=P[1][0]-P[0][0],uy=P[1][1]-P[0][1],k=(r.w/(o.iw||r.w));o.src=r.src;o.iw=r.w;
+  const nx=P[0][0]+ux*k,ny=P[0][1]+uy*k;o.p=[P[0],[nx,ny],[nx+P[3][0]-P[0][0],ny+P[3][1]-P[0][1]],P[3]]}
 function svgShapes(src,ox,oy,w,h){try{const m=/^data:image\/svg\+xml[^,]*,/.exec(src);if(!m)return null;let t=src.slice(m[0].length);t=/;base64/.test(m[0])?atob(t):decodeURIComponent(t);
   const box=document.createElement("div");box.style.cssText="position:fixed;left:-9999px;top:0;width:"+w+"px;height:"+h+"px;visibility:hidden;pointer-events:none";box.innerHTML=t;document.body.appendChild(box);
   const sv=box.querySelector("svg");if(!sv){box.remove();return null}sv.setAttribute("width",w);sv.setAttribute("height",h);
@@ -4721,8 +4747,8 @@ function svgShapes(src,ox,oy,w,h){try{const m=/^data:image\/svg\+xml[^,]*,/.exec
     out.push(o);used.push(e)});
   used.forEach(e=>e.remove());const left=sv.querySelector("text,image,use,foreignObject")?new XMLSerializer().serializeToString(sv):null;box.remove();
   return out.length?{objs:out,rest:left?"data:image/svg+xml;charset=utf-8,"+encodeURIComponent(left):null}:null}catch(e){return null}}
-function openPaint(opt){if(running)return;const art=opt.kind==="art",bd=opt.kind==="bd"||art,W=art?640:bd?480:360,H=art?480:360,cv2=$("pc"),tmp=$("pcTmp");
-  cv2.width=tmp.width=W;cv2.height=tmp.height=H;$("pnWrap").style.width="min(100%,"+(art?800:bd?640:440)+"px)";
+function openPaint(opt){if(running)return;const art=opt.kind==="art",bd=opt.kind==="bd"||art,W=art?(opt.w||640):bd?480:360,H=art?(opt.h||480):360,cv2=$("pc"),tmp=$("pcTmp");
+  cv2.width=tmp.width=W;cv2.height=tmp.height=H;$("pnWrap").style.width="min(100%,"+(art?Math.round(Math.min(900,560*W/H)):bd?640:440)+"px)";$("paint").style.setProperty("--pnAR",W/H);
   const x=cv2.getContext("2d",{willReadFrequently:true});x.clearRect(0,0,W,H);if(bd){x.fillStyle="#ffffff";x.fillRect(0,0,W,H)}
   PN={opt,bd,W,H,x,t:tmp.getContext("2d"),sel:null,mv:null,tool:"brush",col:$("pnColor").value,undo:[],redo:[],down:null,z:1,V:makeShapes("#5b3df5")};$("pnZ0").textContent="100%";$("pnWrap").style.maxWidth="";
   $("pnT").textContent=art?opt.title:bd?"🎨 ارسم الخلفية":opt.title||"🎨 ارسم الزي";
@@ -4738,12 +4764,13 @@ function openPaint(opt){if(running)return;const art=opt.kind==="art",bd=opt.kind
 // fonts for the text tool load only when a child opens the list
 function pnFontLoad(){if(!document.getElementById("kidFonts")){const l=document.createElement("link");l.id="kidFonts";l.rel="stylesheet";l.href="/vendor/fonts/css2?family=Baloo+Bhaijaan+2:wght@800&family=Cairo:wght@800&family=Lalezar:wght@400&family=Changa:wght@800&family=Reem+Kufi:wght@700&family=El+Messiri:wght@700&family=Marhey:wght@700&family=Rakkas:wght@400&family=Aref+Ruqaa:wght@700&family=Amiri:wght@700&family=Fredoka:wght@700&family=Bungee:wght@400&family=Bebas+Neue:wght@400&family=Pacifico:wght@400&family=Lobster:wght@400&family=Permanent+Marker:wght@400&family=Press+Start+2P:wght@400&display=swap";document.head.appendChild(l)}
   const f=PN_FONTS.find(f=>f[0]===$("pnFont").value)||PN_FONTS[0];$("pnTxt").style.fontFamily="'"+f[0]+"'";try{document.fonts.load(f[2]+" 40px \""+f[0]+"\"",$("pnTxt").value||"aب")}catch(e){}}
-$("pnFont").addEventListener("change",pnFontLoad);$("pnFont").addEventListener("focus",pnFontLoad,{once:true});
+$("pnFont").addEventListener("change",pnFontLoad);["pnTxt","pnFont"].forEach(id=>{$(id).addEventListener("input",()=>{if(PN&&pnRestyle("txt"))pnRender()});$(id).addEventListener("change",()=>{if(PN&&PN.V.cur()&&PN.V.cur().tx)pnSnap()})});$("pnFont").addEventListener("focus",pnFontLoad,{once:true});
 // the picked part can be moved, resized from any corner, turned with the round handle on top, and flipped
 function pnPaintSel(c,S){c.save();c.translate(S.x+S.w/2,S.y+S.h/2);c.rotate(S.r||0);c.scale(S.fx?-1:1,S.fy?-1:1);c.drawImage(S.c,-S.w/2,-S.h/2,S.w,S.h);c.restore()}
 function pnRender(extra){PN.V.render(PN.t,PN.tool==="reshape"?"reshape":pnShapeTool(PN.tool)?"obj":"",PN.W,PN.H,extra);pnLayUI()}
 // layer buttons show when a shape is picked; they move it in front of or behind the other shapes
-function pnLayUI(){const g=$("pnLay");if(!g)return;const at=PN&&PN.V.layerAt();g.hidden=!at;if(!at)return;   // shows with one shape too: copy, lock, and the layer steps
+function pnLayUI(){{const so=PN&&PN.V.cur(),tl=$("pnTxtL");if(tl&&PN){tl.hidden=!(PN.tool==="text"||(so&&so.tx));if(so&&so.tx&&PN.txo!==so){PN.txo=so;$("pnTxt").value=so.tx.s;$("pnFont").value=so.tx.f}if(!so||!so.tx)PN.txo=null}}
+  const g=$("pnLay");if(!g)return;const at=PN&&PN.V.layerAt();g.hidden=!at;if(!at)return;   // shows with one shape too: copy, lock, and the layer steps
   g.querySelectorAll("button").forEach(b=>{const l=b.dataset.l;
     if(l==="copy"||l==="mask"||l==="hole"){b.disabled=false;return}if(l==="flipx"||l==="flipy"||l==="del"){b.disabled=at.locked;return}if(l==="group"){b.disabled=!at.many||at.locked;return}if(l==="ungroup"){b.disabled=!at.grouped||at.locked;return}
     if(l==="lock"){b.textContent=at.locked?"🔓 افتح القفل":"🔒 قفل";b.classList.toggle("on",at.locked);return}
@@ -4753,10 +4780,12 @@ function pnFlat(){if(PN&&PN.V.flatten(PN.x))pnRender()}
 const PN_SHAPES=["line","rect","ellipse","tri","pent","heart","flower"];
 const pnShapeTool=t=>t==="obj"||t==="reshape"||PN_SHAPES.includes(t);
 const pnShadow=()=>$("pnSh").checked,pnBlur=()=>Math.max(0,Math.min(30,+$("pnBl").value||0)),pnAlpha=()=>Math.max(.05,Math.min(1,(+$("pnOp").value||100)/100)),pnGrad=()=>$("pnGr").value?{t:$("pnGr").value,c:$("pnGr2").value}:null;
-function pnStyle(k){const w=Math.max(1,+$("pnOutW").value||4),a=pnAlpha();if(k==="line")return {f:null,s:PN.col,w:+$("pnSize").value,a,bl:pnBlur(),sh:pnShadow()};
+function pnStyle(k){const w=Math.max(1,+$("pnOutW").value||4),a=pnAlpha();if(k==="line")return {f:null,s:PN.col,w:+$("pnSize").value,a,bl:pnBlur(),sh:pnShadow(),gr:pnGrad()};
   const f=$("pnFill").checked?PN.col:null,st=$("pnStroke").checked?$("pnOut").value:null;return {f,s:st||(f?null:PN.col),w,a,gr:pnGrad(),bl:pnBlur(),sh:pnShadow()}}
 // change the colours of the shape that is picked
 function pnRestyle(what){const L=PN&&PN.V.cur()?PN.V.mem():[];if(!L.length||!pnShapeTool(PN.tool))return false;L.forEach(o=>{if(o.lock)return;
+  if(o.k==="img"){if(o.tx&&(what==="col"||what==="gr"||what==="txt")){if(what==="col")o.tx.c=PN.col;if(what==="gr")o.tx.gr=pnGrad();if(what==="txt"){o.tx.s=$("pnTxt").value||" ";o.tx.f=$("pnFont").value}pnTextRedo(o);return}
+    if(what!=="op"&&what!=="bl"&&what!=="sh")return}
   if(what==="col"){if(o.k==="line")o.s=PN.col;else if($("pnFill").checked||!o.s)o.f=PN.col;else o.s=PN.col}
   if(what==="fill"&&o.k!=="line")o.f=$("pnFill").checked?PN.col:null;
   if(what==="stroke"&&o.k!=="line"){o.s=$("pnStroke").checked?$("pnOut").value:null;if(!o.s&&!o.f)o.f=PN.col}
@@ -4766,7 +4795,7 @@ function pnRestyle(what){const L=PN&&PN.V.cur()?PN.V.mem():[];if(!L.length||!pnS
   if(what==="sh"){if(pnShadow())o.sh=1;else delete o.sh}
   if(what==="bl"){const v=pnBlur();if(v)o.bl=v;else delete o.bl}
   if(what==="op"){const a=pnAlpha();if(a<1)o.a=a;else delete o.a}
-  if(what==="gr"&&o.k!=="line"){const g=pnGrad();if(g&&o.f)o.gr=g;else delete o.gr}});
+  if(what==="gr"&&o.k!=="img"){const g=pnGrad();if(g&&(o.f||o.k==="line"))o.gr=g;else delete o.gr}});
   pnRender();return true}
 function pnSelDraw(){const t=PN.t;pnRender();const S=PN.sel;if(!S)return;if(S.c)pnPaintSel(t,S);
   t.save();t.translate(S.x+S.w/2,S.y+S.h/2);t.rotate(S.r||0);t.setLineDash([6,4]);t.strokeStyle="#5b3df5";t.lineWidth=2;t.strokeRect(-S.w/2,-S.h/2,S.w,S.h);t.setLineDash([]);
@@ -4790,7 +4819,7 @@ addEventListener("keydown",e=>{if(PN&&!$("paint").hidden&&!PN.sel&&PN.V.cur()&&(
     if(/c/i.test(e.key)){PN.clip=JSON.stringify(PN.V.cur());return}e.preventDefault();if(/v/i.test(e.key)&&PN.clip){const o=JSON.parse(PN.clip);PN.V.add(Object.assign(o,{p:o.p.map(q=>[q[0]+16,q[1]+16])}));PN.clip=JSON.stringify(o)}else PN.V.dup();pnRender();pnSnap();return}
   if(PN&&!$("paint").hidden&&!PN.sel&&PN.V.cur()&&(e.key==="Delete"||e.key==="Backspace")&&!/INPUT|TEXTAREA/.test((e.target||{}).tagName||"")){e.preventDefault();PN.V.del();pnRender();pnSnap();return}
   if(!PN||$("paint").hidden||!PN.sel)return;if(e.key==="Delete"||e.key==="Backspace"){e.preventDefault();$("pnSelDel").click()}else if(e.key==="Escape"){pnCommit()}});
-function pnToolUI(){pnHsvSync();$("pnTools").querySelectorAll("[data-pt]").forEach(b=>b.classList.toggle("on",b.dataset.pt===PN.tool));$("pnTxtL").hidden=PN.tool!=="text";$("pnSw").querySelectorAll("[data-pc]").forEach(b=>b.classList.toggle("on",b.dataset.pc===PN.col))}
+function pnToolUI(){pnHsvSync();if($("pnGr1"))$("pnGr1").value=/^#[0-9a-f]{6}$/i.test(PN.col)?PN.col:"#000000";if($("pnGrBox"))$("pnGrBox").hidden=!$("pnGr").value;$("pnTools").querySelectorAll("[data-pt]").forEach(b=>b.classList.toggle("on",b.dataset.pt===PN.tool));{const so=PN.V&&PN.V.cur();$("pnTxtL").hidden=!(PN.tool==="text"||(so&&so.tx))}$("pnSw").querySelectorAll("[data-pc]").forEach(b=>b.classList.toggle("on",b.dataset.pc===PN.col))}
 function pnRestore(e){PN.x.putImageData(e.d,0,0);PN.V.load(e.o);pnRender()}
 function pnSnap(reset){if(!reset&&onRP())rpAuto();if(reset){PN.undo=[];PN.redo=[]}PN.undo.push({d:PN.x.getImageData(0,0,PN.W,PN.H),o:PN.V.save()});if(PN.undo.length>30)PN.undo.shift();if(!reset)PN.redo=[]}
 function pnPt(e){const r=$("pc").getBoundingClientRect();return [(e.clientX-r.left)/r.width*PN.W,(e.clientY-r.top)/r.height*PN.H]}
@@ -4817,10 +4846,10 @@ $("pc").addEventListener("pointerdown",e=>{if(!PN)return;const p=pnPt(e),x=PN.x;
     if(h==="sx"||h==="sy"){PN.mv={one:h};return}
     if(h==="rs"){const [lx,ly]=pnLocal(S,p);PN.mv={rs:1,d0:Math.hypot(lx,ly)||1,w0:S.w,h0:S.h};return}
     pnCommit();PN.down=p;PN.sel={x:p[0],y:p[1],w:0,h:0};return}
-  pnCommit();if(pnShapeTool(PN.tool)||PN.tool==="brush")PN.V.sel=-1;else pnFlat();
+  pnCommit();if(pnShapeTool(PN.tool)||PN.tool==="brush"||PN.tool==="text")PN.V.sel=-1;else pnFlat();
   if(PN.tool==="fill"){pnFlood(p[0],p[1]);pnSnap();return}
   if(PN.tool==="pick"){const d=x.getImageData(Math.floor(p[0]),Math.floor(p[1]),1,1).data;if(d[3]>10){PN.col="#"+[0,1,2].map(i=>d[i].toString(16).padStart(2,"0")).join("");$("pnColor").value=PN.col;PN.tool="brush";pnToolUI()}return}
-  if(PN.tool==="text"){const t=($("pnTxt").value||"").trim();if(!t)return;x.fillStyle=PN.col;const pf=PN_FONTS.find(f=>f[0]===$("pnFont").value)||PN_FONTS[0];x.font=pf[2]+" "+(10+$("pnSize").value*2)+"px \""+pf[0]+"\", "+getComputedStyle(document.body).fontFamily;x.textAlign="center";x.textBaseline="middle";x.direction=/[\u0600-\u06FF]/.test(t)?"rtl":"ltr";x.fillText(t,p[0],p[1]);x.direction="inherit";pnSnap();return}
+  if(PN.tool==="text"){const t=($("pnTxt").value||"").trim();if(!t)return;PN.V.add(pnTextObj(t,p));PN.tool="obj";pnToolUI();pnRender();pnSnap();return}
   PN.down=p;PN.last=p;if(PN.tool==="brush"){PN.pts=[p];pnRender({k:"line",p:[p,[p[0]+.5,p[1]+.5]],s:PN.col,w:+$("pnSize").value});return}
   if(PN.tool==="eraser"){x.save();if(PN.tool==="eraser"){if(PN.bd){x.fillStyle="#fff"}else x.globalCompositeOperation="destination-out"}else x.fillStyle=PN.col;x.beginPath();x.arc(p[0],p[1],$("pnSize").value/2,0,7);x.fill();x.restore()}});
 $("pc").addEventListener("pointermove",e=>{if(!PN)return;const p=pnPt(e),x=PN.x;
@@ -4841,12 +4870,13 @@ $("pc").addEventListener("pointerup",e=>{if(!PN)return;
   if(PN.tool==="obj"||PN.tool==="reshape"){if(PN.V.up())pnSnap();pnRender();return}
   if(PN.hdl){PN.hdl=false;if(PN.V.up())pnSnap();return}
   if(PN.tool==="select"){if(PN.mv){PN.mv=null;return}if(PN.down&&PN.sel){PN.down=null;const S=PN.sel,x0=Math.max(0,Math.floor(S.x)),y0=Math.max(0,Math.floor(S.y)),w=Math.min(PN.W-x0,Math.ceil(S.w)),h=Math.min(PN.H-y0,Math.ceil(S.h));if(w>3&&h>3)pnLift(x0,y0,w,h);else{PN.sel=null;pnRender()}}return}
-  if(!PN.down)return;const p=pnPt(e);if(PN.tool==="brush"&&PN.pts){PN.V.add(PN.V.stroke(PN.pts,PN.col,+$("pnSize").value));{const a=pnAlpha(),v=pnBlur(),o=PN.V.cur();if(o&&a<1)o.a=a;if(o&&v)o.bl=v;if(o&&pnShadow())o.sh=1}PN.V.sel=-1;PN.V.ms.clear();PN.pts=null;pnRender()}
+  if(!PN.down)return;const p=pnPt(e);if(PN.tool==="brush"&&PN.pts){PN.V.add(PN.V.stroke(PN.pts,PN.col,+$("pnSize").value));{const a=pnAlpha(),v=pnBlur(),g=pnGrad(),o=PN.V.cur();if(o&&a<1)o.a=a;if(o&&v)o.bl=v;if(o&&pnShadow())o.sh=1;if(o&&g)o.gr=g}PN.V.sel=-1;PN.V.ms.clear();PN.pts=null;pnRender()}
   if(PN_SHAPES.includes(PN.tool)){if(Math.hypot(p[0]-PN.down[0],p[1]-PN.down[1])>3)PN.V.add(PN.V.make(PN.tool,PN.down,p,pnStyle(PN.tool)));pnRender()}PN.down=null;pnSnap()});
 $("pc").addEventListener("dblclick",e=>{if(PN&&PN.V.dbl(pnPt(e),PN.tool)){pnRender();pnSnap()}});
 $("pnTools").onclick=e=>{const b=e.target.closest("[data-pt]");if(!b)return;pnCommit();PN.tool=b.dataset.pt;pnToolUI();pnRender()};
 $("pnSw").onclick=e=>{const b=e.target.closest("[data-pc]");if(!b)return;PN.col=b.dataset.pc;$("pnColor").value=PN.col;if(pnRestyle("col"))pnSnap();if(PN.tool==="eraser"||PN.tool==="pick")PN.tool="brush";pnToolUI()};
 $("pnColor").oninput=()=>{PN.col=$("pnColor").value;pnRestyle("col");pnToolUI()};
+$("pnGr1").oninput=()=>{if(!PN)return;PN.col=$("pnGr1").value;$("pnColor").value=PN.col;pnRestyle("col");pnToolUI()};$("pnGr").addEventListener("change",()=>{$("pnGrBox").hidden=!$("pnGr").value});
 /* any shade, like Scratch's color / saturation / brightness sliders (Youssef, 19 Nov 2026) */
 const hsv2hex=(h,s,v)=>{s/=100;v/=100;const f=n=>{const k=(n+h/60)%6;return Math.round(255*(v-v*s*Math.max(0,Math.min(k,4-k,1))))};return "#"+[f(5),f(3),f(1)].map(x=>x.toString(16).padStart(2,"0")).join("")};
 const hex2hsv=hx=>{const r=parseInt(hx.slice(1,3),16)/255,g=parseInt(hx.slice(3,5),16)/255,b=parseInt(hx.slice(5,7),16)/255,mx=Math.max(r,g,b),mn=Math.min(r,g,b),d=mx-mn;
@@ -4864,10 +4894,17 @@ $("pnZin").onclick=()=>pnZoom((PN&&PN.z||1)*1.25);$("pnZout").onclick=()=>pnZoom
 /* the picked shape as a window (Youssef, 19 Nov 2026): «قصّ على الشكل» keeps only the drawing under it, «فتحة» cuts it out.
    The other shapes are painted into the drawing first, then the shape itself goes away. */
 function pnMask(keep){const V=PN.V,M=V.cur()?V.mem():[];if(!M.length){toast("اختر شكلًا أولًا بأداة التحديد");return}pnCommit();
-  V.objs.filter(o=>!M.includes(o)).forEach(o=>V.paint(PN.x,o));const x=PN.x;x.save();x.globalCompositeOperation=keep?"destination-in":"destination-out";
-  if(keep){const c=document.createElement("canvas");c.width=PN.W;c.height=PN.H;const g=c.getContext("2d");M.forEach(o=>V.paint(g,Object.assign({},o,{f:o.k==="line"?null:"#000",s:o.k==="line"?"#000":null,gr:null,a:null,bl:o.bl})));x.drawImage(c,0,0)}
-  else M.forEach(o=>V.paint(x,Object.assign({},o,{f:o.k==="line"?null:"#000",s:o.k==="line"?"#000":null,gr:null,a:null})));
-  x.restore();V.objs=[];V.sel=-1;V.ms=new Set();pnRender();pnSnap()}
+  // only the layer right under the shape is cut (Youssef, 19 Nov 2026); with no shape under it, the drawing on the page is cut
+  const low=Math.min(...M.map(o=>V.objs.indexOf(o))),T=low>0?V.objs[low-1]:null,W=PN.W,H=PN.H;
+  const maskOn=(g)=>{g.save();g.globalCompositeOperation=keep?"destination-in":"destination-out";const c=document.createElement("canvas");c.width=W;c.height=H;const h=c.getContext("2d");
+    M.forEach(o=>V.paint(h,Object.assign({},o,{f:o.k==="line"||o.k==="img"?o.f:"#000",s:o.k==="line"?"#000":null,gr:null,a:null,sh:null})));g.drawImage(c,0,0);g.restore()};
+  if(T){if(T.lock){toast("الطبقة التي تحت الشكل مقفولة 🔒");return}const c=document.createElement("canvas");c.width=W;c.height=H;const g=c.getContext("2d");V.paint(g,T);maskOn(g);
+    const d=g.getImageData(0,0,W,H).data;let x0=W,y0=H,x1=-1,y1=-1;for(let y=0;y<H;y++)for(let x=0;x<W;x++)if(d[(y*W+x)*4+3]>2){if(x<x0)x0=x;if(x>x1)x1=x;if(y<y0)y0=y;if(y>y1)y1=y}
+    V.objs=V.objs.filter(o=>!M.includes(o));const at=V.objs.indexOf(T);
+    if(x1<0)V.objs.splice(at,1);else{const w=x1-x0+1,h=y1-y0+1,o=document.createElement("canvas");o.width=w;o.height=h;o.getContext("2d").drawImage(c,x0,y0,w,h,0,0,w,h);const src=o.toDataURL("image/png"),im=new Image();im.src=src;PN_IMGS[src]=im;
+      V.objs[at]={k:"img",src,p:[[x0,y0],[x0+w,y0],[x0+w,y0+h],[x0,y0+h]]};if(T.g)V.objs[at].g=T.g}}
+  else{maskOn(PN.x);V.objs=V.objs.filter(o=>!M.includes(o))}
+  V.sel=-1;V.ms=new Set();pnRender();pnSnap()}
 $("pnLay").addEventListener("click",e=>{const b=e.target.closest("button[data-l]");if(!b||!PN||b.disabled)return;if(b.dataset.l==="mask"||b.dataset.l==="hole"){pnMask(b.dataset.l==="mask");return}if(PN.V.layer(b.dataset.l)){pnRender();pnSnap()}});
 [["pnSh","sh","change"],["pnBl","bl","input"],["pnOp","op","input"],["pnGr","gr","change"],["pnGr2","gr","input"],["pnFill","fill","change"],["pnStroke","stroke","change"],["pnOut","out","input"],["pnOutW","outw","input"],["pnSize","size","input"]].forEach(([id,w,ev])=>{$(id).addEventListener(ev,()=>{if(PN)pnRestyle(w)});$(id).addEventListener("change",()=>{if(PN&&PN.V.cur())pnSnap()})});
 $("pnUndo").onclick=()=>{pnCommit();if(PN.undo.length<2)return;PN.redo.push(PN.undo.pop());pnRestore(PN.undo[PN.undo.length-1])};
@@ -4875,13 +4912,15 @@ $("pnRedo").onclick=()=>{pnCommit();if(!PN.redo.length)return;const d=PN.redo.po
 const pnFlip=h=>{if(PN.sel&&PN.sel.c){if(h)PN.sel.fx=!PN.sel.fx;else PN.sel.fy=!PN.sel.fy;pnSelDraw();return}pnCommit();pnFlat();const c=document.createElement("canvas");c.width=PN.W;c.height=PN.H;c.getContext("2d").drawImage($("pc"),0,0);PN.x.clearRect(0,0,PN.W,PN.H);PN.x.save();PN.x.translate(h?PN.W:0,h?0:PN.H);PN.x.scale(h?-1:1,h?1:-1);PN.x.drawImage(c,0,0);PN.x.restore();pnSnap()};
 $("pnFlipH").onclick=()=>pnFlip(true);$("pnFlipV").onclick=()=>pnFlip(false);
 $("pnClear").onclick=()=>{pnCommit();PN.V.objs=[];PN.V.sel=-1;pnRender();PN.x.clearRect(0,0,PN.W,PN.H);if(PN.bd){PN.x.fillStyle="#fff";PN.x.fillRect(0,0,PN.W,PN.H)}pnSnap()};
-/* a picture from the computer comes in as a picked part: drag it, make it bigger or smaller from its handles, turn it, flip it,
-   then click outside to place it (Youssef, 19 Nov 2026) */
-$("pnFile").onchange=()=>{const f=$("pnFile").files[0];$("pnFile").value="";if(!f)return;readPic(f,url=>{const im=new Image();im.onload=()=>{if(!PN)return;pnCommit();pnFlat();const {W,H}=PN;
-  const k=Math.min(1,(W-40)/im.width,(H-40)/im.height),w=Math.max(8,Math.round(im.width*k)),h=Math.max(8,Math.round(im.height*k)),c=document.createElement("canvas");c.width=w;c.height=h;c.getContext("2d").drawImage(im,0,0,w,h);
-  PN.tool="select";pnToolUI();PN.sel={x:Math.round((W-w)/2),y:Math.round((H-h)/2),w,h,c,r:0};pnSelDraw();pnSelUI();toast("اسحب الصورة لمكانها، وكبّرها أو صغّرها من المربعات حولها")};im.src=url},720,true)};
-$("pnCancel").onclick=()=>{$("paint").hidden=true;PN=null;pnSelUI()};
-$("pnSave").onclick=()=>{pnCommit();const url=pnExport();if(!url){toast("ارسم حاجة الأول ✏️");return}const o=PN.opt;$("paint").hidden=true;PN=null;o.onSave(url)};
+$("pnFile").onchange=()=>{const f=$("pnFile").files[0];$("pnFile").value="";if(!f)return;readPic(f,url=>{const im=new Image();im.onload=()=>{if(!PN)return;pnCommit();const {W,H}=PN;
+  // a layer of its own: pick it any time with «اختار الشكل», move it, resize, turn, flip, shadow, blur, see-through (Youssef, 19 Nov 2026)
+  const k=Math.min(1,(W-40)/im.width,(H-40)/im.height),w=Math.max(8,im.width*k),h=Math.max(8,im.height*k),x0=(W-w)/2,y0=(H-h)/2;PN_IMGS[url]=im;
+  PN.V.add({k:"img",src:url,p:[[x0,y0],[x0+w,y0],[x0+w,y0+h],[x0,y0+h]]});PN.tool="obj";pnToolUI();pnRender();pnSnap();toast("الصورة طبقة: حرّكها وكبّرها أو صغّرها من المربعات حولها")};im.src=url},900,true)};
+function pnFullSet(on){const el=$("paint");el.classList.toggle("pnFull",on);$("pnFull").textContent=on?"✕ تصغير":"⛶ ملء الشاشة";try{if(on&&el.requestFullscreen&&!document.fullscreenElement)el.requestFullscreen().catch(()=>{});else if(!on&&document.fullscreenElement)document.exitFullscreen().catch(()=>{})}catch(e){}}
+$("pnFull").onclick=()=>pnFullSet(!$("paint").classList.contains("pnFull"));
+document.addEventListener("fullscreenchange",()=>{if(!document.fullscreenElement&&$("paint").classList.contains("pnFull"))pnFullSet(false)});
+$("pnCancel").onclick=()=>{pnFullSet(false);$("paint").hidden=true;PN=null;pnSelUI()};
+$("pnSave").onclick=()=>{pnFullSet(false);pnCommit();const url=pnExport();if(!url){toast("ارسم حاجة الأول ✏️");return}const o=PN.opt;$("paint").hidden=true;PN=null;o.onSave(url)};
 function pnExport(){pnFlat();const {x,W,H,bd}=PN;if(bd){const c=document.createElement("canvas");c.width=W;c.height=H;c.getContext("2d").drawImage($("pc"),0,0);return c.toDataURL("image/jpeg",.85)}
   const d=x.getImageData(0,0,W,H).data;let x0=W,y0=H,x1=-1,y1=-1;for(let y=0;y<H;y++)for(let i=0;i<W;i++)if(d[(y*W+i)*4+3]>8){if(i<x0)x0=i;if(i>x1)x1=i;if(y<y0)y0=y;if(y>y1)y1=y}
   if(x1<0)return null;const pad=3,w=x1-x0+1+pad*2,h=y1-y0+1+pad*2,c=document.createElement("canvas");c.width=w;c.height=h;c.getContext("2d").drawImage($("pc"),x0-pad,y0-pad,w,h,0,0,w,h);return c.toDataURL("image/png")}
