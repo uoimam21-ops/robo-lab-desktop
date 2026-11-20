@@ -1,0 +1,97 @@
+# The website's checks, run from here (Youssef, 20 Nov 2026: «انقل الاختبارات لمستودع تاني»). The site repository is private,
+# and its own GitHub Actions can't start without a card; this repository is public, so its machines cost nothing.
+# Same two checks as robo-egypt-site/.github/workflows/checks.yml: every migration + SQL test on a fresh Postgres, and the
+# full site build (with the security headers in dist/).
+#
+# Secrets (Settings → Secrets and variables → Actions of THIS repository):
+#   SITE_READ_TOKEN    (already there, used by nightly.yml) read-only «Contents» on uoimam21-ops/robo-egypt-site
+#   SITE_STATUS_TOKEN  (optional) fine-grained token on robo-egypt-site with «Commit statuses: Read and write». With it,
+#                      the result shows as ✓ / ✗ next to the commit and the pull request on the site, and every 30 minutes
+#                      this looks for site branches pushed in the last 3 days that have no result yet and checks them.
+#                      Without it, run it by hand («Run workflow», give a branch) and read the result here.
+name: site-checks
+on:
+  workflow_dispatch:
+    inputs:
+      ref: { description: 'Site branch (or commit) to check', required: true, default: main }
+  schedule:
+    - cron: '7,37 * * * *'
+  push: { branches: [site-checks] }   # TEMP: try it on this branch
+permissions: { contents: read }
+
+jobs:
+  find:
+    runs-on: ubuntu-latest
+    outputs:
+      shas: ${{ steps.f.outputs.shas }}
+    steps:
+      - id: f
+        env:
+          READ: ${{ secrets.SITE_READ_TOKEN }}
+          STATUS: ${{ secrets.SITE_STATUS_TOKEN }}
+          REF: ${{ github.event.inputs.ref || (github.event_name == 'push' && 'robo-montage') || '' }}
+        run: |
+          REPO=https://x-access-token:$READ@github.com/uoimam21-ops/robo-egypt-site.git
+          if [ -n "$REF" ]; then
+            sha=$(git ls-remote "$REPO" "refs/heads/$REF" | cut -f1); [ -z "$sha" ] && sha="$REF"
+            echo "shas=[\"$sha\"]" >> "$GITHUB_OUTPUT"; echo "checking $REF → $sha"; exit 0
+          fi
+          if [ -z "$STATUS" ]; then echo 'shas=[]' >> "$GITHUB_OUTPUT"; echo 'no SITE_STATUS_TOKEN: nothing to look for'; exit 0; fi
+          since=$(date -u -d '3 days ago' +%s); list=()
+          for sha in $(git ls-remote --heads "$REPO" | cut -f1 | sort -u); do
+            when=$(GH_TOKEN=$READ gh api "repos/uoimam21-ops/robo-egypt-site/commits/$sha" --jq .commit.committer.date 2>/dev/null || true)
+            [ -z "$when" ] && continue; [ "$(date -u -d "$when" +%s)" -lt "$since" ] && continue
+            n=$(GH_TOKEN=$STATUS gh api "repos/uoimam21-ops/robo-egypt-site/commits/$sha/statuses" --jq '[.[]|select(.context|startswith("site-checks"))]|length' 2>/dev/null || echo 1)
+            [ "$n" = 0 ] && list+=("\"$sha\"")
+          done
+          list=("${list[@]:0:5}"); echo "shas=[$(IFS=,; echo "${list[*]}")]" >> "$GITHUB_OUTPUT"; echo "to check: ${list[*]:-none}"
+
+  database:
+    needs: find
+    if: needs.find.outputs.shas != '[]' && needs.find.outputs.shas != ''
+    strategy: { fail-fast: false, matrix: { sha: '${{ fromJSON(needs.find.outputs.shas) }}' } }
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17
+        env: { POSTGRES_PASSWORD: postgres }
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U postgres" --health-interval 5s --health-timeout 5s --health-retries 10
+    env: { PGHOST: localhost, PGUSER: postgres, PGPASSWORD: postgres, STATUS: '${{ secrets.SITE_STATUS_TOKEN }}' }
+    steps:
+      - &status-pending
+        name: status → pending
+        if: env.STATUS != ''
+        env: { CTX: 'site-checks/${{ github.job }}' }
+        run: GH_TOKEN=$STATUS gh api -X POST repos/uoimam21-ops/robo-egypt-site/statuses/${{ matrix.sha }} -f state=pending -f context="$CTX" -f description='running (from robo-lab-desktop)' -f target_url="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" >/dev/null
+      - uses: actions/checkout@v4
+        with: { repository: uoimam21-ops/robo-egypt-site, ref: '${{ matrix.sha }}', token: '${{ secrets.SITE_READ_TOKEN }}' }
+      - run: bash scripts/test-db.sh
+      - &status-done
+        name: status → result
+        if: always() && env.STATUS != ''
+        env: { CTX: 'site-checks/${{ github.job }}', OK: '${{ job.status }}' }
+        run: |
+          s=$([ "$OK" = success ] && echo success || echo failure)
+          GH_TOKEN=$STATUS gh api -X POST repos/uoimam21-ops/robo-egypt-site/statuses/${{ matrix.sha }} -f state=$s -f context="$CTX" -f description="$s (from robo-lab-desktop)" -f target_url="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" >/dev/null
+
+  build:
+    needs: find
+    if: needs.find.outputs.shas != '[]' && needs.find.outputs.shas != ''
+    strategy: { fail-fast: false, matrix: { sha: '${{ fromJSON(needs.find.outputs.shas) }}' } }
+    runs-on: ubuntu-latest
+    env: { STATUS: '${{ secrets.SITE_STATUS_TOKEN }}' }
+    steps:
+      - *status-pending
+      - uses: actions/checkout@v4
+        with: { repository: uoimam21-ops/robo-egypt-site, ref: '${{ matrix.sha }}', token: '${{ secrets.SITE_READ_TOKEN }}' }
+      - uses: actions/setup-node@v4
+        with: { node-version-file: .node-version, cache: npm }
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - run: npm ci
+      - run: npm run build
+      - name: security headers reach dist/
+        run: test -f dist/_headers && grep -q 'frame-ancestors' dist/_headers
+      - *status-done
