@@ -1,0 +1,32 @@
+# TEMPORARY (21 Nov 2026): runs Robo Painter's AI background removal (site branch painter-ai-bg) with the real model once.
+# This branch is deleted afterwards; it is never merged.
+name: bg-test
+on:
+  push:
+    branches: [tmp-bg-test]
+jobs:
+  bg:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: uoimam21-ops/robo-egypt-site
+          ref: painter-ai-bg
+          token: ${{ secrets.SITE_READ_TOKEN }}
+          path: site
+      - uses: actions/checkout@v4
+        with: { path: app }
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - run: cd site && npm ci && npm run build
+      - run: |
+          mkdir -p /tmp/bg && cd /tmp/bg && npm init -y >/dev/null && npm i playwright@1.49.1 >/dev/null
+          cp $GITHUB_WORKSPACE/app/.github/bg-test/* . && npx playwright install --with-deps chromium >/dev/null
+      - name: run AI background removal
+        run: |
+          (cd site/dist && python3 -m http.server 8812 >/dev/null 2>&1 &) ; sleep 2
+          cd /tmp/bg && node ai.cjs /tmp/bg http://localhost:8812 real /tmp/bg/obj2.png
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with: { name: bg-shots, path: /tmp/bg/*.png }
