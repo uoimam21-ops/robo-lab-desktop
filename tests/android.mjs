@@ -116,8 +116,8 @@ try {
     setTimeout(() => save('print("hi")', 'text/x-python', 'robo-test.py'), 300);
   });
   // the message shows for 4 s: catch it while it is there
-  const toasts = await p.waitForFunction(() => [...document.querySelectorAll('.robo-save-toast')].map((d) => d.textContent).filter((t) => t.includes('المعرض')), null, { timeout: 8000 })
-    .then((h) => h.jsonValue()).catch(() => []);
+  const toasts = await p.waitForFunction(() => [...document.querySelectorAll('.robo-save-toast')].map((d) => d.textContent).filter((t) => t.includes('المعرض')).join(' ') || null, null, { timeout: 8000 })
+    .then(async (h) => [await h.jsonValue()]).catch(() => []);
   await p.waitForTimeout(2000);
   const movies = (await dev.shell('ls "/sdcard/Movies/Robo Egypt/"')).toString(), dl = (await dev.shell('ls "/sdcard/Download/Robo Egypt/"')).toString();
   const size = (await dev.shell('stat -c %s "/sdcard/Movies/Robo Egypt/robo-test-video.mp4"')).toString().trim();
