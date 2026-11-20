@@ -107,7 +107,6 @@ await go('/lab/arduino.html');
 ok(await p.evaluate(() => { const b = document.getElementById('upBtn'); return !b || b.hidden || !b.offsetParent; }), 'Robo Maker: no «upload to Arduino» on Android');
 
 ok(errs.filter((e) => !/WebGL/.test(e)).length === 0, 'no page errors' + (errs.length ? ': ' + errs.slice(0, 3).join(' | ') : ''));
-await dev.close();
 // saving a file a page made (RoboSave, 20 Nov 2026): a video goes to the gallery, a text file to Downloads, both in «Robo Egypt»
 try {
   await go('/lab/python.html', 3000);
@@ -127,5 +126,6 @@ try {
   await p.screenshot({ path: shots + '/save.png' }).catch(() => {});
 } catch (e) { ok(false, 'saving files: ' + e.message.split('\n')[0]); }
 
+await dev.close();
 console.log('[android] ' + (fails.length ? fails.length + ' FAILED' : 'all passed'));
 process.exit(fails.length ? 1 : 0);
