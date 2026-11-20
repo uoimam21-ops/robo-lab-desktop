@@ -115,8 +115,10 @@ try {
     const v = new Uint8Array(2500000); v.set([0, 0, 0, 24, 102, 116, 121, 112]); save(v, 'video/mp4', 'robo-test-video.mp4');
     setTimeout(() => save('print("hi")', 'text/x-python', 'robo-test.py'), 300);
   });
-  await p.waitForTimeout(6000);
-  const toasts = await p.locator('.robo-save-toast').allTextContents().catch(() => []);
+  // the message shows for 4 s: catch it while it is there
+  const toasts = await p.waitForFunction(() => [...document.querySelectorAll('.robo-save-toast')].map((d) => d.textContent).filter((t) => t.includes('المعرض')), null, { timeout: 8000 })
+    .then((h) => h.jsonValue()).catch(() => []);
+  await p.waitForTimeout(2000);
   const movies = (await dev.shell('ls "/sdcard/Movies/Robo Egypt/"')).toString(), dl = (await dev.shell('ls "/sdcard/Download/Robo Egypt/"')).toString();
   const size = (await dev.shell('stat -c %s "/sdcard/Movies/Robo Egypt/robo-test-video.mp4"')).toString().trim();
   console.log('  · toasts: ' + JSON.stringify(toasts) + ' · Movies: ' + movies.trim() + ' · Download: ' + dl.trim() + ' · size ' + size);
