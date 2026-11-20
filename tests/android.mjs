@@ -108,5 +108,24 @@ ok(await p.evaluate(() => { const b = document.getElementById('upBtn'); return !
 
 ok(errs.filter((e) => !/WebGL/.test(e)).length === 0, 'no page errors' + (errs.length ? ': ' + errs.slice(0, 3).join(' | ') : ''));
 await dev.close();
+// saving a file a page made (RoboSave, 20 Nov 2026): a video goes to the gallery, a text file to Downloads, both in «Robo Egypt»
+try {
+  await go('/lab/python.html', 3000);
+  await p.evaluate(() => {
+    const save = (bytes, type, name) => { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([bytes], { type })); a.download = name; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(a.href); };
+    const v = new Uint8Array(2500000); v.set([0, 0, 0, 24, 102, 116, 121, 112]); save(v, 'video/mp4', 'robo-test-video.mp4');
+    setTimeout(() => save('print("hi")', 'text/x-python', 'robo-test.py'), 300);
+  });
+  await p.waitForTimeout(6000);
+  const toasts = await p.locator('.robo-save-toast').allTextContents().catch(() => []);
+  const movies = (await dev.shell('ls "/sdcard/Movies/Robo Egypt/"')).toString(), dl = (await dev.shell('ls "/sdcard/Download/Robo Egypt/"')).toString();
+  const size = (await dev.shell('stat -c %s "/sdcard/Movies/Robo Egypt/robo-test-video.mp4"')).toString().trim();
+  console.log('  · toasts: ' + JSON.stringify(toasts) + ' · Movies: ' + movies.trim() + ' · Download: ' + dl.trim() + ' · size ' + size);
+  ok(movies.includes('robo-test-video.mp4') && size === '2500000', 'a video saved from a page lands in the gallery (Movies/Robo Egypt), whole');
+  ok(dl.includes('robo-test.py'), 'another file lands in Downloads/Robo Egypt');
+  ok(toasts.some((t) => t.includes('المعرض')), 'the child sees «اتحفظ في المعرض»');
+  await p.screenshot({ path: shots + '/save.png' }).catch(() => {});
+} catch (e) { ok(false, 'saving files: ' + e.message.split('\n')[0]); }
+
 console.log('[android] ' + (fails.length ? fails.length + ' FAILED' : 'all passed'));
 process.exit(fails.length ? 1 : 0);

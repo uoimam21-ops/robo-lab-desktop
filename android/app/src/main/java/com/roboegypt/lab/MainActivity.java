@@ -7,6 +7,11 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import androidx.activity.OnBackPressedCallback;
+import androidx.webkit.WebViewCompat;
+import androidx.webkit.WebViewFeature;
+import org.json.JSONObject;
+import android.content.Intent;
+import java.util.Collections;
 import com.getcapacitor.BridgeActivity;
 import com.getcapacitor.BridgeWebViewClient;
 import java.util.HashMap;
@@ -60,6 +65,22 @@ public class MainActivity extends BridgeActivity {
 
         ota.checkLater();
         bridge.getWebView().addJavascriptInterface(new RoboInput(), "RoboInput");
+
+        // Saving files (Youssef, 20 Nov 2026): the WebView ignores <a download> links to files the page made, so Robo Montage's
+        // video and every lab's «save» did nothing. robo_save.js catches them before each page's own code runs, and RoboSave
+        // puts the file in the gallery, Music or Downloads. Older WebViews without document-start scripts use the download
+        // listener below instead (the file then gets a dated name).
+        WebView wv = bridge.getWebView();
+        final String saveJs = RoboSave.script(this);
+        wv.addJavascriptInterface(new RoboSave(this), "RoboSave");
+        if (!saveJs.isEmpty() && WebViewFeature.isFeatureSupported(WebViewFeature.DOCUMENT_START_SCRIPT))
+            WebViewCompat.addDocumentStartJavaScript(wv, saveJs, Collections.singleton("*"));
+        wv.setDownloadListener((url, ua, disposition, mime, length) -> {
+            if (url.startsWith("blob:") || url.startsWith("data:"))
+                wv.evaluateJavascript(saveJs + ";window.__roboSave&&window.__roboSave(" + JSONObject.quote(url) + ",'')", null);
+            else
+                try { startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url))); } catch (Exception ignored) {}
+        });
 
         // Back button: go back a page (lab → home screen); on the home screen, leave the app
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
