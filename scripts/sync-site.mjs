@@ -29,6 +29,11 @@ cpSync(join(DIST, 'assets'), join(WWW, 'assets'), {
   filter: (src) => !/[\\/]assets[\\/](academy|articles|projects)([\\/]|$)/.test(src) && !/hero-kids/.test(src),
 });
 
+// libraries the website keeps in its own /vendor (Robo Montage's speech to text: Transformers.js). www/vendor is rebuilt by
+// scripts/vendor.mjs, so they wait in www/site-vendor and vendor.mjs puts them in www/vendor/ next to the others
+rmSync(join(WWW, 'site-vendor'), { recursive: true, force: true });
+if (existsSync(join(DIST, 'vendor'))) cpSync(join(DIST, 'vendor'), join(WWW, 'site-vendor'), { recursive: true });
+
 // online → offline
 const SWAPS = [
   ['https://cdn.jsdelivr.net/pyodide/v0.26.4/full/', '/vendor/pyodide/'],
@@ -52,7 +57,7 @@ const left = [];
 const scan = (d) => readdirSync(d).forEach((f) => {
   const p = join(d, f);
   if (statSync(p).isDirectory()) return scan(p);
-  if (!p.includes(join('www', 'vendor')) && /\.(html|js)$/.test(f) && /cdn\.jsdelivr\.net|fonts\.googleapis\.com/.test(readFileSync(p, 'utf8'))) left.push(p);
+  if (!p.includes(join('www', 'vendor')) && !p.includes(join('www', 'site-vendor')) && /\.(html|js)$/.test(f) && /cdn\.jsdelivr\.net|fonts\.googleapis\.com/.test(readFileSync(p, 'utf8'))) left.push(p);
 });
 scan(WWW);
 console.log('synced labs from ' + SITE + ' — rewrote ' + n + ' files' + (left.length ? '; still online: ' + left.join(', ') : ''));
