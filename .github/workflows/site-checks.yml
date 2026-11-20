@@ -16,7 +16,6 @@ on:
       ref: { description: 'Site branch (or commit) to check', required: true, default: main }
   schedule:
     - cron: '7,37 * * * *'
-  push: { branches: [site-checks] }   # TEMP: try it on this branch
 permissions: { contents: read }
 
 jobs:
@@ -29,7 +28,7 @@ jobs:
         env:
           READ: ${{ secrets.SITE_READ_TOKEN }}
           STATUS: ${{ secrets.SITE_STATUS_TOKEN }}
-          REF: ${{ github.event.inputs.ref || (github.event_name == 'push' && 'robo-montage') || '' }}
+          REF: ${{ github.event.inputs.ref }}
         run: |
           REPO=https://x-access-token:$READ@github.com/uoimam21-ops/robo-egypt-site.git
           if [ -n "$REF" ]; then
