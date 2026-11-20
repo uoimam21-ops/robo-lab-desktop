@@ -12,6 +12,7 @@ const LABS = [
   ['/lab/web.html', 'v2/web', 'روبو ويب', 'صمّم مواقع بـ HTML و CSS و JavaScript.', '#1A8A34'],
   ['/lab/python.html', 'v2/python', 'روبو بايثون', 'اكتب كود Python واعمل برامج وألعاب.', '#2557C9'],
   ['/lab/code.html', 'v2/code', 'روبو كود', 'Python و JavaScript و HTML/CSS و SQL و Lua في مكان واحد.', '#0F766E'],
+  ['/lab/montage.html', 'v2/montage', 'روبو المونتير', 'اعمل فيديو من صورك: طبقات وكلام وأشكال وانتقالات ومؤثرات صوتية.', '#E0457B'],
 ];
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 document.getElementById('labs').innerHTML = LABS.map(([href, img, name, desc, c, net]) =>

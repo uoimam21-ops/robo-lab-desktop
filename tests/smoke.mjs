@@ -38,7 +38,7 @@ await w.evaluate(() => { for (const k of ['3d', 'junior', 'arduino', 'circuits',
 await snap('home');
 await w.evaluate(() => document.querySelector('.card.lab').click());
 await w.waitForTimeout(2500);
-ok(await w.evaluate(() => { const f = document.getElementById('view'); return !!f && /\/lab\//.test(f.contentWindow.location.pathname) && f.contentDocument.querySelectorAll('.card').length === 10; }), 'the Robo Lab card opens the labs page (10 labs) under the bar');
+ok(await w.evaluate(() => { const f = document.getElementById('view'); return !!f && /\/lab\//.test(f.contentWindow.location.pathname) && f.contentDocument.querySelectorAll('.card').length === 11; }), 'the Robo Lab card opens the labs page (11 labs, Robo Montage too) under the bar');
 await snap('labs');
 
 const drv = await w.evaluate(() => window.roboDesktop.arduino.driver());
