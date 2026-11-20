@@ -12,7 +12,7 @@ if (!existsSync(join(DIST, 'lab', 'junior.html'))) {
   process.exit(1);
 }
 
-const LABS = ['3d', 'ai', 'arduino', 'circuits', 'code', 'junior', 'python', 'web'];
+const LABS = ['3d', 'ai', 'arduino', 'circuits', 'code', 'junior', 'python', 'web', 'montage'];
 for (const d of ['lab', 'assets', 'journey.html']) rmSync(join(WWW, d), { recursive: true, force: true });
 mkdirSync(join(WWW, 'lab'), { recursive: true });
 for (const l of LABS) cpSync(join(DIST, 'lab', l + '.html'), join(WWW, 'lab', l + '.html'));
