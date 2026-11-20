@@ -43,4 +43,6 @@ for (const [fam, id, ws] of FONTS) {
   }
 }
 writeFileSync(join(V, 'fonts', 'fonts.css'), css);
+// the website's own /vendor files (copied by sync-site.mjs into www/site-vendor)
+if (existsSync(resolve('www', 'site-vendor'))) cpSync(resolve('www', 'site-vendor'), V, { recursive: true });
 console.log('vendor ready: pyodide, blockly, supabase, ' + files + ' font files');
