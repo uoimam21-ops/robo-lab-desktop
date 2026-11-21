@@ -18,12 +18,12 @@
 <meta name="theme-color" content="#1B2350">
 <link rel="icon" type="image/png" href="/assets/favicon.png">
 <script src="/site-bar.js" defer></script>
-  <script type="module" crossorigin src="/assets/montage-LN_Hes58.js"></script>
-  <link rel="modulepreload" crossorigin href="/assets/kbfix-EwAqJXIV.js">
+  <script type="module" crossorigin src="/assets/montage-BndyJUPu.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/kbfix-Du23-X0h.js">
   <link rel="modulepreload" crossorigin href="/assets/gest-5RXMxEJu.js">
   <link rel="modulepreload" crossorigin href="/assets/fonts-BTYzBcCs.js">
   <link rel="stylesheet" crossorigin href="/assets/kbfix-D4gNm5pA.css">
-  <link rel="stylesheet" crossorigin href="/assets/montage-BerVpRm6.css">
+  <link rel="stylesheet" crossorigin href="/assets/montage-Drexa5gI.css">
 </head>
 <body class="mtg">
 <header class="top">
@@ -49,6 +49,7 @@
       <button role="tab" data-tab="shapes" aria-selected="false"><i>⭐</i><span>أشكال</span></button>
       <button role="tab" data-tab="sound" aria-selected="false"><i>🎵</i><span>أصوات</span></button>
       <button role="tab" data-tab="trans" aria-selected="false"><i>🔀</i><span>انتقال</span></button>
+      <button role="tab" data-tab="tpl" aria-selected="false"><i>🧩</i><span>قوالب</span></button>
     </div>
     <div class="mpanes">
       <section class="mpane" data-pane="media">
@@ -74,6 +75,10 @@
         <p class="hint">دوس ▶ تسمعها، ودوس على اسمها تتحط عند الخط الأحمر.</p>
         <div class="sfxGrid" id="sfxList"></div>
         <p class="hint">🎶 الموسيقى قريب.</p>
+      </section>
+      <section class="mpane" data-pane="tpl" hidden>
+        <p class="hint">فيديو جاهز تحط فيه صورك: دوس على قالب، وبعدين اختار صورة لكل 📷.</p>
+        <div class="tplGrid" id="tplList"></div>
       </section>
       <section class="mpane" data-pane="trans" hidden>
         <p class="hint">اختار مقطع أو كلام أو شكل الأول، وبعدين اختار هيظهر إزاي وهيختفي إزاي.</p>
@@ -104,7 +109,7 @@
           <button class="play" id="playBtn" title="شغّل (مسافة)" aria-label="شغّل">▶</button>
           <span class="time" dir="ltr" id="timeTxt">0:00.0 / 0:00.0</span>
           <span class="fmt" id="fmtTxt"></span>
-          <span class="vz" dir="ltr" title="كبّر وصغّر الشاشة (بكرة الماوس)"><button type="button" id="vzOut" aria-label="صغّر الشاشة">−</button><input id="vzIn" type="number" min="25" max="400" step="5" value="100" aria-label="نسبة التكبير"><b>%</b><button type="button" id="vzPlus" aria-label="كبّر الشاشة">+</button><button type="button" id="vzFit" title="على قد الشاشة" aria-label="على قد الشاشة">⛶</button></span>
+          <span class="vz" dir="ltr" title="كبّر وصغّر الشاشة (بكرة الماوس)"><button type="button" id="vzOut" aria-label="صغّر الشاشة">−</button><input id="vzIn" type="number" min="25" max="400" step="5" value="100" aria-label="نسبة التكبير"><b>%</b><button type="button" id="vzPlus" aria-label="كبّر الشاشة">+</button><button type="button" id="vzFit" title="رجّعه على قد الشاشة (100%)" aria-label="على قد الشاشة">↺</button><button type="button" id="fsBtn" title="ملء الشاشة (F)" aria-label="ملء الشاشة">⛶</button></span>
         </div>
       </div>
       <div class="props" id="props" hidden></div>
@@ -145,13 +150,26 @@
     <div class="mHead"><h2 id="rmT">🎙 سجّل صوتك</h2><button class="x" id="rmClose" aria-label="إغلاق">✕</button></div>
     <p class="sub" id="recMsg">دوس «ابدأ» واتكلم، ولما تخلّص دوس «وقّف». الصوت هيتحط عند الخط الأحمر.</p>
     <div class="recTime" id="recTime" dir="ltr">0:00</div>
+    <div class="recMeter" title="علو صوتك"><i id="recLvl"></i></div>
+    <label class="copt" id="recVoL"><input type="checkbox" id="recVo"> 🎬 شغّل الفيديو وأنا بسجّل (تعليق صوتي)</label>
     <div class="row"><button class="btn run" id="recGo">⏺ ابدأ</button><button class="btn stop" id="recStop" hidden>⏹ وقّف</button></div>
+    <div class="recAfter" id="recAfter" hidden>
+      <b>👂 اسمع تسجيلك وظبّطه، ولما يعجبك دوس «تمام»</b>
+      <div class="row"><button class="btn run small" data-ra="play" id="recPlay">▶ اسمع</button><button class="btn ghost small" data-ra="undo" id="recUndo" disabled>↶ رجّع آخر تعديل</button></div>
+      <div class="rgrp"><span>تظبيط</span><button class="btn ghost small" data-ra="clean">🎧 نضّف الصوت</button><button class="btn ghost small" data-ra="sil">🤫 شيل السكتات</button><button class="btn ghost small" data-ra="loud">🔊 علّي الصوت</button></div>
+      <div class="rgrp"><span>تأثير</span><span class="rfx" id="recFxs"></span></div>
+      <div class="bar2"><i id="recBar"></i></div>
+      <p class="sub" id="recEd" role="status" aria-live="polite"></p>
+      <div class="row"><button class="btn ghost small" data-ra="again">🔁 سجّل تاني</button><button class="btn run small" data-ra="ok">✓ تمام</button></div>
+    </div>
   </div>
 </div>
 
 <div class="modal" id="expModal" hidden>
   <div class="mcard" role="dialog" aria-modal="true" aria-labelledby="emT">
     <div class="mHead"><h2 id="emT">⬇ نزّل الفيديو</h2><button class="x" id="emClose" aria-label="إغلاق">✕</button></div>
+    <h3>هتنزّل إيه؟</h3><div class="chips2" id="expKind"></div>
+    <div class="expLong" id="expLong" hidden><b id="expLongT"></b><div class="chips2" id="expLen"></div></div>
     <p class="sub" id="expInfo"></p>
     <div class="bar2"><i id="expBar"></i></div>
     <p class="sub" id="expMsg"></p>
@@ -168,6 +186,16 @@
     <div class="row"><button class="btn run" id="silGo">✂️ شيلهم</button></div>
   </div>
 </div>
+<div class="modal" id="vfxModal" hidden>
+  <div class="mcard" role="dialog" aria-modal="true" aria-labelledby="vfT">
+    <div class="mHead"><h2 id="vfT">🎭 تأثيرات الصوت</h2><button class="x" id="vfxClose" aria-label="إغلاق">✕</button></div>
+    <p class="sub">اختار تأثير لصوتك. كله بيحصل على جهازك، والصوت الأصلي بيفضل محفوظ.</p>
+    <div class="vfxg" id="vfxList"></div>
+    <div class="bar2"><i id="vfxBar"></i></div>
+    <p class="sub" id="vfxMsg" role="status"></p>
+  </div>
+</div>
+
 <div class="modal" id="clnModal" hidden>
   <div class="mcard" role="dialog" aria-modal="true" aria-labelledby="cnT">
     <div class="mHead"><h2 id="cnT">🎧 نضّف الصوت</h2><button class="x" id="clnClose" aria-label="إغلاق">✕</button></div>
@@ -187,6 +215,13 @@
     <div class="bar2"><i id="sttBar"></i></div>
     <p class="sub" id="sttMsg"></p>
     <div class="row"><button class="btn run" id="sttGo">💬 اكتب الكلام</button></div>
+  </div>
+</div>
+<div class="modal" id="revModal" hidden>
+  <div class="mcard" role="dialog" aria-modal="true" aria-labelledby="rvT">
+    <div class="mHead"><h2 id="rvT">⏪ بنقلب المقطع</h2></div>
+    <p class="sub">بناخد صور المقطع واحدة واحدة عشان نشغّلها من الآخر للأول. سيب الصفحة مفتوحة.</p>
+    <div class="bar2"><i id="revBar"></i></div>
   </div>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
