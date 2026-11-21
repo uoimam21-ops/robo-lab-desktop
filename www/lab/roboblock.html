@@ -394,7 +394,13 @@ body.rb-free .stage>.mission{display:none}
 .blocklyRunning>.blocklyPath{filter:drop-shadow(0 0 5px #FFD23F) drop-shadow(0 0 2px #FFB800)}
 .ctrls{display:flex;gap:8px;flex-wrap:wrap}
 .stagebar{display:flex;gap:8px;align-items:center;margin-bottom:6px}.stagebar button{all:unset;cursor:pointer;width:46px;height:42px;display:grid;place-items:center;font-size:24px;border-radius:12px;background:var(--panel,#fff);border:1.5px solid var(--line);box-shadow:0 2px 0 var(--line)}.stagebar button:hover{transform:translateY(-1px)}.stagebar button.on{background:#E7F8F1;border-color:#18B37E}.stagebar .sbhint{font-size:12.5px;color:var(--muted);font-weight:700}
-.pyed{display:flex;height:520px;max-height:70vh;border-radius:14px;overflow:hidden;background:#1e2433;font-family:var(--f-mono);font-size:15px;line-height:1.6}
+.pyed{display:flex;flex-direction:column;height:520px;max-height:70vh;border-radius:14px;overflow:hidden;background:#1e2433;font-family:var(--f-mono);font-size:var(--pyfs,15px);line-height:1.6}
+/* Robo Python's editor and a bar with ▶ at the top, so «شغّل» is always in sight (Youssef, 21 Nov 2026: «مفيش زرار تشغيل بايثون في الرحلة») */
+.pyed .pyin{display:flex;flex:1;min-height:0}.pyed .pycm{flex:1;min-height:0;direction:ltr}.pyed .pycm .cm-editor{height:100%}.pyed.cm .pyin{display:none}
+.pybar{display:flex;align-items:center;gap:6px;padding:6px 8px;background:#151a26;border-bottom:1px solid #2a3147;font-family:var(--f-body,Cairo),sans-serif}
+@media (pointer:coarse){.pybar .pyk{display:none}}
+.pybar .btn.run{flex:none;width:auto;min-width:0;padding:6px 16px;font-size:15px}.pybar .pyk{color:#7d87a6;font:12px var(--f-mono)}.pybar .pysp{flex:1}
+.pybar button:not(.btn){all:unset;cursor:pointer;color:#c9d2ea;font:700 14px var(--f-mono);min-width:32px;height:32px;display:grid;place-items:center;border-radius:8px}.pybar button:not(.btn):hover{background:#252c40}
 .pyed .gut{margin:0;padding:12px 8px;color:#6b7590;text-align:right;min-width:2.4em;overflow:hidden;user-select:none;background:#181d29;font:inherit}
 .pyed textarea{flex:1;border:0;outline:none;resize:none;background:transparent;color:#e7ecf5;padding:12px;font:inherit;white-space:pre;overflow:auto;tab-size:4;caret-color:#ffd166}
 .pyout.big{min-height:300px;max-height:420px;font-size:16px}
@@ -1216,6 +1222,7 @@ html.sbFull:not(.sbMoved) body.rb-free.hasSbar{padding-top:calc(50px + env(safe-
 <div id="bootSplash" aria-hidden="true"><span class="bot">🤖</span><span class="bar"><i></i></span></div>
 <script>setTimeout(function(){document.documentElement.classList.add("booted")},12000)</script>
 <script src="/site-bar.js" defer></script>
+<script type="module" src="/assets/journey-pyed.js"></script>
 
 <div class="wrap" id="wrap" dir="rtl">
   <header>
@@ -1337,7 +1344,7 @@ html.sbFull:not(.sbMoved) body.rb-free.hasSbar{padding-top:calc(50px + env(safe-
         <div id="blockly"></div>
         <div class="fpanel" id="freePanel" hidden></div>
         <div class="trstrip" id="trStrip" hidden></div>
-        <div class="pyed" id="pyEd" dir="ltr" hidden><pre class="gut" id="pyGut" aria-hidden="true"></pre><textarea id="pyText" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off" aria-label="Python code"></textarea></div>
+        <div class="pyed" id="pyEd" dir="ltr" hidden><div class="pybar" dir="rtl"><button class="btn run" type="button" id="pyGo">▶ <span data-i="run"></span></button><span class="pyk">Ctrl+Enter</span><span class="pysp"></span><button type="button" id="pyUndo" title="↶ Ctrl+Z" aria-label="Undo">↶</button><button type="button" id="pyRedo" title="↷ Ctrl+Y" aria-label="Redo">↷</button><button type="button" id="pyFsM" aria-label="A−">A−</button><button type="button" id="pyFsP" aria-label="A+">A+</button></div><div class="pyin"><pre class="gut" id="pyGut" aria-hidden="true"></pre><textarea id="pyText" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off" aria-label="Python code"></textarea></div></div>
         <div class="py" id="pyPane" hidden><pre id="pyCode"></pre><p data-i="pyNote"></p></div>
         <div class="py" id="jsPane" hidden><pre id="jsCode"></pre><p data-i="jsNote"></p></div>
       </section>
@@ -5954,7 +5961,7 @@ function openLevel(m,i,force){if(m!=="free")freeUrl(false);else setTimeout(()=>f
   prog.solved[m]=prog.solved[m]||[];prog.bonus[m]=prog.bonus[m]||[];
   mode=m;L=i;inject();
   cv.width=isSk()?480:600;cv.height=isSk()?360:600;cv.classList.toggle("wide",isSk());$("skInfo").hidden=!isSk()||(isPy()&&!/turtle/.test(SKL()[i].sol));
-  $("blockly").hidden=isPy();$("pyEd").hidden=!isPy();$("pyOut").hidden=!isPy();
+  $("blockly").hidden=isPy();$("pyEd").hidden=!isPy();$("bkUR").hidden=isPy();$("pyOut").hidden=!isPy();
   const usesTurtle=!isPy()||/turtle/.test(SKL()[i].sol+SKL()[i].code);cv.hidden=!usesTurtle;$("pyOut").classList.toggle("big",isPy()&&!usesTurtle);
   if(isPy())pyOpen();
   else if(isSk()){setupActors();if(!SKL()[i].noHat){const h=ws.newBlock("sc_flag");h.initSvg();h.render();h.moveBy(30,30)}setTimeout(()=>{try{ws.clearUndo()}catch(e){}},0)}
@@ -5999,9 +6006,9 @@ function parseGrid(s){let i=0;const seq=()=>{const out=[];while(i<s.length&&s[i]
     if(/\d/.test(s[i])){let n="";while(/\d/.test(s[i]))n+=s[i++];i++;const inner=seq();i++;out.push(["bibo_repeat",{N:+n},inner])}else out.push([GB[s[i++]],{}])}return out};return seq()}
 function chainSol(conn,items){let prev=null;items.forEach(([type,f,inner])=>{const b=ws.newBlock(type);Object.keys(f||{}).forEach(k=>b.setFieldValue(f[k],k));b.initSvg();b.render();
   if(inner)chainSol(b.getInput("DO").connection,inner);(prev?prev.nextConnection:conn).connect(b.previousConnection);prev=b})}
-function loadBug(){const lv=SKL()[L];if(isPy()){$("pyText").value=lv.code;pyGutter();return}if(selSpr!=="robo")selectSprite("robo");ws.clear();
+function loadBug(){const lv=SKL()[L];if(isPy()){pySet(lv.code);return}if(selSpr!=="robo")selectSprite("robo");ws.clear();
   [[lv.hat||"sc_flag",lv.hatF,lv.bug],lv.bug2&&[lv.bug2.hat,lv.bug2.hatF,lv.bug2.items]].filter(Boolean).reduce((y,[h,hf,its])=>{const st=skBlockState(h,hf);st.x=30;st.y=y;const c=skChainState(its);if(c)st.next={block:c};const blk=Blockly.serialization.blocks.append(st,ws);return y+blk.getHeightWidth().height+40},30);resetRobot()}
-function loadSolution(){if(isPy()){$("pyText").value=SKL()[L].sol+"\n";pyGutter();pyDraftSave();return}ws.clear();let top,items;
+function loadSolution(){if(isPy()){pySet(SKL()[L].sol+"\n");pyDraftSave();return}ws.clear();let top,items;
   if(isSk()){if(selSpr!=="robo")selectSprite("robo");ws.clear();const lv=SKL()[L];[[lv.hat||"sc_flag",lv.hatF,lv.sol],lv.sol2&&[lv.sol2.hat,lv.sol2.hatF,lv.sol2.items],lv.sol3&&[lv.sol3.hat,lv.sol3.hatF,lv.sol3.items]].filter(Boolean).reduce((y,[h,hf,its])=>{
       const st=skBlockState(h,hf);st.x=30;st.y=y;const c=skChainState(its);if(c)st.next={block:c};const blk=Blockly.serialization.blocks.append(st,ws);return y+blk.getHeightWidth().height+40},30);resetRobot();return}
   else{top=ws.newBlock("bibo_start");items=parseGrid(mode==="bar"?"4(F)l4(F)r4(F)":GRID_SOL[small()?"arrows":"turn"][L]);top.setDeletable(false)}
@@ -7696,23 +7703,38 @@ function pyFriendly(err){const E=PY_ERR[lang],msg=String(err&&err.message||err);
   return (ln?E.line(ln[1])+": ":"")+(E[name]||E.other)+"\n→ "+last.replace(/^PythonError:\s*/,"")}
 async function pyRun(){if(running)return;const lv=SKL()[L];const code=$("pyText").value;pyDraftSave();
   skReset();sk.asks=0;sk.answers=[];pySteps=[];pyDone=0;pyOutText="";$("pyOut").textContent="";
-  running=skRunning=true;$("runBtn").disabled=true;skStop=false;setMsg(pyodide?"going":"pyLoading","");
-  let py;try{py=await pyLoad()}catch(e){running=skRunning=false;$("runBtn").disabled=false;setMsg("pyNoNet","bad");return}
+  running=skRunning=true;$("runBtn").disabled=true;$("pyGo").disabled=true;if(PYCM)PYCM.mark(0);skStop=false;setMsg(pyodide?"going":"pyLoading","");
+  let py;try{py=await pyLoad()}catch(e){running=skRunning=false;$("runBtn").disabled=false;$("pyGo").disabled=false;setMsg("pyNoNet","bad");return}
   setMsg("going","");
   const src=code.replace(/(^|[^\w.])input\s*\(/g,"$1await _ainput(");
   let err=null;const ns=py.globals.get("dict")();
   try{await py.runPythonAsync(PY_HARNESS,{globals:ns});py.runPython("sys.settrace(_tr)",{globals:ns});await py.runPythonAsync(src,{globals:ns,filename:"<exec>"})}catch(e){err=e}
   try{py.runPython("sys.settrace(None)",{globals:ns})}catch(e){}
   await pyReplay();
-  running=skRunning=false;$("runBtn").disabled=false;if(skStop)return;
+  running=skRunning=false;$("runBtn").disabled=false;$("pyGo").disabled=false;if(skStop)return;
   sk.out=pyOutText;sk.code=code;
+  if(err&&PYCM){const em=String(err&&err.message||err),eln=[...em.matchAll(/File "<exec>", line (\d+)/g)].pop()||em.match(/detected at line (\d+)/);if(eln)PYCM.mark(+eln[1])}
   if(err){const f=pyFriendly(err);pyOutWrite("\n"+f.split("→ ").pop()+"\n");sfx("bump");showPop(f);return}
   const r=lv.check(sk);if(r===true){win(0)}else{sfx("bump");showPop(skt().fail[r]||r)}}
 // editor: tab = 4 spaces, Enter keeps the indent (and adds 4 after a colon)
+/* Robo Python's editor (py-editor.js, built to /assets/journey-pyed.js). The text box stays underneath with the same code,
+   so every check that reads it keeps working; if the editor cannot load, the text box shows instead. */
+let PYCM=null;
+function pyCM(){if(PYCM)return PYCM;if(!window.RoboPyEd||!$("pyEd"))return null;const ed=$("pyEd"),host=document.createElement("div");host.className="pycm";ed.appendChild(host);
+  try{PYCM=window.RoboPyEd.make(host,{doc:$("pyText").value,onRun:()=>{if(!$("runBtn").disabled)$("runBtn").click()},onChange:v=>{$("pyText").value=v;pyDraftSave()}});ed.classList.add("cm")}catch(e){host.remove();PYCM=null}
+  return PYCM}
+function pySet(v){$("pyText").value=v;pyGutter();const c=pyCM();if(c&&c.get()!==v)c.set(v)}
+addEventListener("robo-pyed",()=>{if(isPy())pyCM()});
+$("pyGo").onclick=()=>{if(!$("runBtn").disabled)$("runBtn").click()};
+$("pyUndo").onclick=()=>{const c=pyCM();if(c){c.undo();c.focus()}else document.execCommand("undo")};
+$("pyRedo").onclick=()=>{const c=pyCM();if(c){c.redo();c.focus()}else document.execCommand("redo")};
+{let fs=15;try{fs=+localStorage.getItem("robo-lab-fs")||15}catch(e){}const ap=()=>{fs=Math.max(12,Math.min(26,fs));$("pyEd").style.setProperty("--pyfs",fs+"px");try{localStorage.setItem("robo-lab-fs",fs)}catch(e){}if(PYCM)PYCM.view.requestMeasure()};
+  ap();$("pyFsM").onclick=()=>{fs--;ap()};$("pyFsP").onclick=()=>{fs++;ap()}}
 function pyGutter(){const n=$("pyText").value.split("\n").length;$("pyGut").textContent=Array.from({length:n},(_,i)=>i+1).join("\n");$("pyGut").scrollTop=$("pyText").scrollTop}
-function pyDraftKey(){return "bibo-py-"+L}
+// a draft per world and level (it was per level only, so PY-3 and PY3-3 shared one; 21 Nov 2026)
+function pyDraftKey(){return "bibo-py-"+mode+"-"+L}
 function pyDraftSave(){try{localStorage.setItem(pyDraftKey(),$("pyText").value)}catch(e){}}
-function pyOpen(){let d=null;try{d=localStorage.getItem(pyDraftKey())}catch(e){}$("pyText").value=d!=null?d:SKL()[L].code;pyGutter();pyOutText="";
+function pyOpen(){let d=null;try{d=localStorage.getItem(pyDraftKey());if(d==null&&mode==="py")d=localStorage.getItem("bibo-py-"+L)}catch(e){}pyCM();pySet(d!=null?d:SKL()[L].code);pyOutText="";
   $("pyOut").textContent=t().pyConsole;pyLoad().catch(()=>{})}
 (function(){const ta=$("pyText");
   ta.addEventListener("input",()=>{pyGutter();pyDraftSave()});ta.addEventListener("scroll",()=>{$("pyGut").scrollTop=ta.scrollTop});
