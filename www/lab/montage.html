@@ -18,12 +18,12 @@
 <meta name="theme-color" content="#1B2350">
 <link rel="icon" type="image/png" href="/assets/favicon.png">
 <script src="/site-bar.js" defer></script>
-  <script type="module" crossorigin src="/assets/montage-RenPYBpn.js"></script>
-  <link rel="modulepreload" crossorigin href="/assets/kbfix-D5lQTaMZ.js">
+  <script type="module" crossorigin src="/assets/montage-7ichSmmj.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/kbfix-B1fw0-WA.js">
   <link rel="modulepreload" crossorigin href="/assets/gest-5RXMxEJu.js">
   <link rel="modulepreload" crossorigin href="/assets/fonts-BTYzBcCs.js">
   <link rel="stylesheet" crossorigin href="/assets/kbfix-BIlyhJbx.css">
-  <link rel="stylesheet" crossorigin href="/assets/montage-Drexa5gI.css">
+  <link rel="stylesheet" crossorigin href="/assets/montage-uyT-PpUS.css">
 </head>
 <body class="mtg">
 <header class="top">
@@ -100,6 +100,7 @@
       <span class="grow"></span>
       <button class="tb" id="zoomOut" title="صغّر الشريط"><i>➖</i><span>صغّر</span></button>
       <button class="tb" id="zoomIn" title="كبّر الشريط"><i>➕</i><span>كبّر</span></button>
+      <button class="tb mag on" id="magBtn" title="المغناطيس: المقاطع بتلزق في بعض وفي الخط الأحمر" aria-pressed="true"><i>🧲</i><span>مغناطيس</span></button>
     </div>
     <div class="mstage">
       <div class="screen" id="screen">
@@ -116,9 +117,11 @@
     </div>
     <div class="tl" id="tl" dir="ltr">
       <div class="tlScroll" id="tlScroll">
-        <div class="tlInner" id="tlInner"><div class="ruler" id="ruler"></div><div class="lanes" id="lanes"></div><div class="playhead" id="phead"></div></div>
+        <div class="tlInner" id="tlInner"><div class="ruler" id="ruler"></div><div class="lanes" id="lanes"></div><div class="playhead" id="phead"></div><div class="snapLn" id="snapLn" hidden></div></div>
       </div>
       <div class="tlHeads" id="tlHeads" dir="rtl"></div>
+      <div class="tlGrip x" id="gripX" role="separator" aria-orientation="vertical" title="اسحب يمين وشمال: المقاطع تطول وتقصر"><i></i></div>
+      <div class="tlGrip y" id="gripY" role="separator" aria-orientation="horizontal" title="اسحب لفوق ولتحت: الطبقات تكبر وتصغر"><i></i></div>
       <div class="tlAdd" dir="rtl"><button class="btn ghost small" id="addV">➕ طبقة فيديو</button><button class="btn ghost small" id="addA">➕ طبقة صوت</button></div>
     </div>
   </section>
