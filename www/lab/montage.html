@@ -18,12 +18,12 @@
 <meta name="theme-color" content="#1B2350">
 <link rel="icon" type="image/png" href="/assets/favicon.png">
 <script src="/site-bar.js" defer></script>
-  <script type="module" crossorigin src="/assets/montage-7ichSmmj.js"></script>
-  <link rel="modulepreload" crossorigin href="/assets/kbfix-B1fw0-WA.js">
+  <script type="module" crossorigin src="/assets/montage-1-umnYC_.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/kbfix-e1A87_qz.js">
   <link rel="modulepreload" crossorigin href="/assets/gest-5RXMxEJu.js">
   <link rel="modulepreload" crossorigin href="/assets/fonts-BTYzBcCs.js">
   <link rel="stylesheet" crossorigin href="/assets/kbfix-BIlyhJbx.css">
-  <link rel="stylesheet" crossorigin href="/assets/montage-uyT-PpUS.css">
+  <link rel="stylesheet" crossorigin href="/assets/montage-BLTY-zL_.css">
 </head>
 <body class="mtg">
 <header class="top">
@@ -43,6 +43,7 @@
 
 <main class="mwrap">
   <aside class="mside" aria-label="المكتبة">
+    <button class="sideFold" id="libFold" type="button" title="اقفل المكتبة" aria-label="اقفل المكتبة" aria-expanded="true">▶</button>
     <div class="mtabs" role="tablist">
       <button role="tab" data-tab="media" aria-selected="true"><i>🖼️</i><span>صوري</span></button>
       <button role="tab" data-tab="text" aria-selected="false"><i>✍️</i><span>كلام</span></button>
@@ -88,20 +89,6 @@
   </aside>
 
   <section class="mwork" aria-label="المونتاج">
-    <div class="mtools" role="toolbar" aria-label="أدوات">
-      <button class="tb" id="splitBtn" title="اقسم المقطع عند الخط الأحمر (S)"><i>✂️</i><span>اقسم</span></button>
-      <button class="tb" id="dupBtn" title="نسخة (Ctrl+D)"><i>⧉</i><span>نسخة</span></button>
-      <button class="tb" id="delBtn" title="امسح (Delete)"><i>🗑</i><span>امسح</span></button>
-      <button class="tb" id="silBtn" title="شيل السكتات من الصوت لوحدها"><i>🤫</i><span>السكتات</span></button>
-      <button class="tb" id="sttBtn" title="حوّل الكلام لكتابة على الفيديو"><i>💬</i><span>كلام لكتابة</span></button>
-      <span class="sep"></span>
-      <button class="tb" id="upBtn" title="طلّعه طبقة لفوق"><i>⬆</i><span>لفوق</span></button>
-      <button class="tb" id="downBtn" title="نزّله طبقة لتحت"><i>⬇</i><span>لتحت</span></button>
-      <span class="grow"></span>
-      <button class="tb" id="zoomOut" title="صغّر الشريط"><i>➖</i><span>صغّر</span></button>
-      <button class="tb" id="zoomIn" title="كبّر الشريط"><i>➕</i><span>كبّر</span></button>
-      <button class="tb mag on" id="magBtn" title="المغناطيس: المقاطع بتلزق في بعض وفي الخط الأحمر" aria-pressed="true"><i>🧲</i><span>مغناطيس</span></button>
-    </div>
     <div class="mstage">
       <div class="screen" id="screen">
         <div class="cvBox" id="cvBox"><canvas id="cv" aria-label="الفيديو"></canvas><div class="selBox" id="selBox" hidden><i class="hdl" data-h="s"></i><i class="hdl rot" data-h="r"></i></div></div>
@@ -115,6 +102,18 @@
       </div>
       <div class="props" id="props" hidden></div>
     </div>
+    <div class="mtools" dir="ltr" role="toolbar" aria-label="أدوات">
+      <button class="tb" id="splitBtn" title="اقسم المقطع عند الخط الأحمر (S)"><i>✂️</i><span>اقسم</span></button>
+      <button class="tb" id="dupBtn" title="نسخة (Ctrl+D)"><i>⧉</i><span>نسخة</span></button>
+      <button class="tb" id="delBtn" title="امسح (Delete)"><i>🗑</i><span>امسح</span></button>
+      <button class="tb" id="silBtn" title="شيل السكتات من الصوت لوحدها"><i>🤫</i><span>السكتات</span></button>
+      <button class="tb" id="sttBtn" title="حوّل الكلام لكتابة على الفيديو"><i>💬</i><span>كلام لكتابة</span></button>
+      <span class="sep"></span>
+      <button class="tb" id="upBtn" title="طلّعه طبقة لفوق"><i>⬆</i><span>لفوق</span></button>
+      <button class="tb" id="downBtn" title="نزّله طبقة لتحت"><i>⬇</i><span>لتحت</span></button>
+      <span class="grow"></span>
+      <button class="tb fold" id="tlFold" title="اقفل الشريط" aria-label="اقفل الشريط" aria-expanded="true"><i>▼</i><span>الشريط</span></button>
+    </div>
     <div class="tl" id="tl" dir="ltr">
       <div class="tlScroll" id="tlScroll">
         <div class="tlInner" id="tlInner"><div class="ruler" id="ruler"></div><div class="lanes" id="lanes"></div><div class="playhead" id="phead"></div><div class="snapLn" id="snapLn" hidden></div></div>
@@ -122,7 +121,12 @@
       <div class="tlHeads" id="tlHeads" dir="rtl"></div>
       <div class="tlGrip x" id="gripX" role="separator" aria-orientation="vertical" title="اسحب يمين وشمال: المقاطع تطول وتقصر"><i></i></div>
       <div class="tlGrip y" id="gripY" role="separator" aria-orientation="horizontal" title="اسحب لفوق ولتحت: الطبقات تكبر وتصغر"><i></i></div>
-      <div class="tlAdd" dir="rtl"><button class="btn ghost small" id="addV">➕ طبقة فيديو</button><button class="btn ghost small" id="addA">➕ طبقة صوت</button></div>
+      <div class="tlAdd" dir="rtl"><button class="btn ghost small" id="addV">➕ طبقة فيديو</button><button class="btn ghost small" id="addA">➕ طبقة صوت</button><span class="grow"></span>
+        <div class="tlZoom" dir="ltr">
+          <button class="tb" id="zoomOut" title="صغّر الشريط"><i>➖</i><span>صغّر</span></button>
+          <button class="tb" id="zoomIn" title="كبّر الشريط"><i>➕</i><span>كبّر</span></button>
+          <button class="tb mag on" id="magBtn" title="المغناطيس: المقاطع بتلزق في بعض وفي الخط الأحمر" aria-pressed="true"><i>🧲</i><span>مغناطيس</span></button>
+        </div></div>
     </div>
   </section>
 </main>
