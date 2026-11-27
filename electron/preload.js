@@ -16,5 +16,7 @@ contextBridge.exposeInMainWorld('roboDesktop', {
       return ipcRenderer.invoke('robo:ard-upload', { code: String(opts.code || ''), board: String(opts.board || ''), port: String(opts.port || '') })
         .finally(() => ipcRenderer.removeListener('robo:ard-log', h));
     },
+    // Robo Maker «🔬 real chip»: compile only → { ok, hex, bytes, percent } (or { ok: false, why, line, msg })
+    compile: (opts) => ipcRenderer.invoke('robo:ard-compile', { code: String((opts && opts.code) || ''), board: String((opts && opts.board) || 'uno') }),
   },
 });
