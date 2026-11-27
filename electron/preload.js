@@ -19,4 +19,20 @@ contextBridge.exposeInMainWorld('roboDesktop', {
     // Robo Maker «🔬 real chip»: compile only → { ok, hex, bytes, percent } (or { ok: false, why, line, msg })
     compile: (opts) => ipcRenderer.invoke('robo:ard-compile', { code: String((opts && opts.code) || ''), board: String((opts && opts.board) || 'uno') }),
   },
+  // Lessons «🖥 شغّل على الجهاز»: OS examples (fork, threads, mmap) in a real Linux (WSL2 «RoboLinux» on Windows)
+  linux: {
+    status: () => ipcRenderer.invoke('robo:linux-status'),            // { platform, wsl, distro, tools }
+    setup: (onLog) => {                                                // one-time: WSL → Ubuntu → gcc + python3
+      const h = (_e, s) => { try { onLog && onLog(String(s)); } catch (_) {} };
+      ipcRenderer.on('robo:linux-log', h);
+      return ipcRenderer.invoke('robo:linux-setup').finally(() => ipcRenderer.removeListener('robo:linux-log', h));
+    },
+    run: (opts, onOut) => {                                            // { lang: 'c' | 'python', code } → { ok, code }
+      const h = (_e, m) => { try { onOut && onOut(String(m.s), !!m.err); } catch (_) {} };
+      ipcRenderer.on('robo:linux-out', h);
+      return ipcRenderer.invoke('robo:linux-run', { lang: String((opts && opts.lang) || 'python'), code: String((opts && opts.code) || '') })
+        .finally(() => ipcRenderer.removeListener('robo:linux-out', h));
+    },
+    stop: () => ipcRenderer.invoke('robo:linux-stop'),
+  },
 });

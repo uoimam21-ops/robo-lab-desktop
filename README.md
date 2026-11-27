@@ -60,3 +60,13 @@ npm run dist                             # المثبّتين (على ويندو
 - **درايفر بوردات الأردوينو الصيني (CH340):** المثبّت الرسمي من WCH (`CH341SER.EXE`) جوه التطبيق (`resources/arduino/drivers`، `npm run arduino` بينزّله). أول ما التطبيق يفتح على ويندوز من غير الدرايفر، بتظهر نافذة «ثبّت درايفر الأردوينو» (ثبّت / بعدين = بعد ٣ أيام / متسألنيش تاني). وكمان في نافذة الرفع لو مفيش بوردة ظاهرة. التعرّف على الدرايفر: `CH341S64.SYS` أو `CH341SER.SYS` في `System32\drivers`.
 - **Python من غير نت:** المكتبة الأساسية بس. مكتبات زي numpy محتاجة نت أول مرة.
 - **التوقيع:** المثبّت مش موقّع (code signing)، فويندوز SmartScreen هيقول «Windows protected your PC» ← More info ← Run anyway. شهادة توقيع بتحلّ ده.
+
+## Linux for the lessons (WSL2 «RoboLinux»), 28 Nov 2026
+The lessons' operating-system examples (fork/exec, pthreads, threading deadlock, mmap) can't run in a browser.
+In the app they get «🖥 شغّل على الجهاز» (`window.roboDesktop.linux`, `electron/linux.js`):
+- **Windows:** WSL2 + the app's own distro `RoboLinux` (Ubuntu 24.04 rootfs from cloud-images.ubuntu.com, SHA-256 checked
+  against `SHA256SUMS`, imported with `wsl --import`, then `apt-get install gcc libc6-dev python3`). If WSL itself is missing,
+  the app asks for administrator rights to run `wsl --install --no-distribution`, then asks for a restart.
+  It never touches the user's own distros. About 1.5 GB on disk; the ROS 2 phase can reuse it.
+- **macOS / Linux:** runs natively with bash + gcc + python3.
+- Each run: fresh temp folder, code passed as base64, output streamed, stopped after 30 s.
