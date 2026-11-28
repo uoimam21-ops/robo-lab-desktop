@@ -98,8 +98,31 @@ function javaNames(code) {
   while ((m = re.exec(code)) && at >= 0) { if (m.index < at) main = m[1]; }
   return { file: (pub ? pub[1] : main || 'Main') + '.java', main: main || (pub && pub[1]) || 'Main' };
 }
+// Python libraries the lessons import that RoboLinux doesn't ship: installed with pip the first time a program imports
+// them, before the run starts (so the 30-second run limit doesn't count the download). Part 13: z3; Part 18: numpy,
+// scikit-learn, PyTorch (the CPU build, ~200 MB).
+const PY_LIBS = [
+  { mod: 'z3', pip: 'z3-solver', label: 'Z3' },
+  { mod: 'numpy', pip: 'numpy', label: 'NumPy' },
+  { mod: 'sklearn', pip: 'scikit-learn', label: 'scikit-learn' },
+  { mod: 'torch', pip: 'torch --index-url https://download.pytorch.org/whl/cpu', label: 'PyTorch (حوالي 200 ميجا)' },
+];
+async function pyNeeds(code, onOut) {
+  const want = PY_LIBS.filter((l) => new RegExp('^\\s*(?:from|import)\\s+(?:[\\w.]+(?:\\s+as\\s+\\w+)?\\s*,\\s*)*' + l.mod + '\\b', 'm').test(String(code)));
+  for (const l of want) {
+    const cmd = 'python3 -c "import ' + l.mod + '" 2>/dev/null || pip3 install -q --user --break-system-packages ' + l.pip;
+    const has = await (WIN ? sh('wsl.exe', ['-d', DISTRO, '--', 'python3', '-c', 'import ' + l.mod]) : sh('python3', ['-c', 'import ' + l.mod]));
+    if (has.code === 0) continue;
+    onOut('⏳ أول مرة: بنثبّت ' + l.label + '…\n', true);
+    const r = await (WIN ? sh('wsl.exe', ['-d', DISTRO, '--', 'bash', '-c', cmd], { timeout: 30 * 60000 }) : sh('bash', ['-c', cmd], { timeout: 30 * 60000 }));
+    if (r.code !== 0) return 'مقدرناش نثبّت ' + l.label + ': ' + (r.err || r.out).trim().split('\n').pop();
+  }
+  return null;
+}
+
 let RUNNING = null;
-function run({ lang, code }, onOut) {
+async function run({ lang, code }, onOut) {
+  if (lang !== 'c' && lang !== 'java' && lang !== 'bash') { const bad = await pyNeeds(code, onOut); if (bad) return { ok: false, msg: bad }; }
   return new Promise((resolve) => {
     const b64 = Buffer.from(String(code || ''), 'utf8').toString('base64');
     let file, build;
@@ -114,10 +137,7 @@ function run({ lang, code }, onOut) {
       const tools = /\b(ruff|radon|mypy)\b/.test(String(code)) ? 'export PATH="$HOME/.local/bin:$PATH"; command -v ruff >/dev/null && command -v radon >/dev/null && command -v mypy >/dev/null || pip3 install -q --user --break-system-packages ruff radon mypy >&2; ' : '';
       build = tools + 'export GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_NOSYSTEM=1 GIT_AUTHOR_NAME=Sara GIT_AUTHOR_EMAIL=sara@academy.test GIT_COMMITTER_NAME=Sara GIT_COMMITTER_EMAIL=sara@academy.test GIT_AUTHOR_DATE="1794470400 +0200" GIT_COMMITTER_DATE="1794470400 +0200"; bash main.sh';
     } else {
-      // Part 13 (formal verification): the Z3 solver is installed once, the first time a program imports it
-      file = 'main.py';
-      const z3 = /^\s*(from|import)\s+z3\b/m.test(String(code)) ? 'python3 -c "import z3" 2>/dev/null || { echo "⏳ أول مرة: بنثبّت Z3…" >&2; pip3 install -q --user --break-system-packages z3-solver >&2; }; ' : '';
-      build = z3 + 'python3 -u main.py';
+      file = 'main.py'; build = 'python3 -u main.py';   // libraries a lesson imports are installed before (pyNeeds)
     }
     const script = `d=$(mktemp -d); cd "$d"; echo '${b64}' | base64 -d > ${file}; ${build}; rc=$?; cd /; rm -rf "$d"; exit $rc\n`;
     const [cmd, args] = WIN ? ['wsl.exe', ['-d', DISTRO, '--', 'bash', '-s']] : ['bash', ['-s']];
