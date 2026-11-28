@@ -59,6 +59,8 @@ $('netX').onclick = () => { $('netMsg').hidden = true; clearTimeout(netT); };
 $('offPill').onclick = netMessage;
 addEventListener('online', net); addEventListener('offline', net); net();
 
+// «١٢ مختبرًا: …»: counted from the list in labs.js, so the card never shows an old number (28 Nov 2026 review)
+if (window.ROBO_LABS) $('labsLine').textContent = window.roboNum(window.ROBO_LABS.length) + ' مختبرًا ' + $('labsLine').textContent.replace(/^مختبرات /, '');
 // open where the address says (#journey / #lab), else the two cards
 const h = location.hash.slice(1); if (PAGES[h]) show(h); else show('home');
 if (window.roboDesktop) window.roboDesktop.info().then((i) => { $('ver').textContent = 'v' + i.version; }).catch(() => {});

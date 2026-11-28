@@ -3,7 +3,8 @@ import { cpSync, existsSync, mkdirSync, readdirSync, rmSync, writeFileSync } fro
 import { join, resolve } from 'node:path';
 
 const NM = resolve('node_modules'), V = resolve('www', 'vendor');
-rmSync(V, { recursive: true, force: true });
+// only what this script makes: the website's own libraries (wcc, transformers …) are put here by sync-site.mjs and kept
+for (const d of ['pyodide', 'blockly', 'fonts', 'supabase.js']) rmSync(join(V, d), { recursive: true, force: true });
 mkdirSync(V, { recursive: true });
 
 // Python (Pyodide core: enough for the Python lab and Robo Code; extra packages need internet)

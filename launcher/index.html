@@ -10,12 +10,12 @@
 <body>
 <header class="top">
   <img class="logo" src="/assets/logo-header.png" alt="Robo Egypt" width="742" height="160">
-  <span class="off" id="net" hidden>📴 شغّال من غير نت</span>
-  <a class="back" href="/journey.html">🗺️ ارجع للرحلة</a>
+  <span class="off" id="net" hidden>📴 يعمل بدون إنترنت</span>
+  <a class="back" href="/journey.html">🗺️ العودة إلى الرحلة</a>
 </header>
 <main class="wrap">
   <div class="labHead"><img class="labLogo" src="/launcher/robo-lab-logo.webp" alt="" width="180" height="175"><h1>روبو لاب</h1></div>
-  <p class="lead">اختار المختبر واعمل مشروعك. المختبرات شغالة على الجهاز ده حتى من غير إنترنت، ومشاريعك بتتحفظ عليه.</p>
+  <p class="lead">اختر مختبرًا واصنع مشروعك. المختبرات تعمل على هذا الجهاز حتى بدون إنترنت، ومشاريعك تُحفظ عليه.</p>
   <ul class="grid" id="labs"></ul>
 </main>
 <footer class="foot">
@@ -25,21 +25,22 @@
 <div class="dlg" id="drv" hidden role="dialog" aria-modal="true" aria-labelledby="drvT">
   <div class="dcard">
     <div class="dic" aria-hidden="true">🔌</div>
-    <h2 id="drvT">ثبّت درايفر الأردوينو</h2>
-    <p>عشان تقدر <b>ترفع الكود على بوردة أردوينو حقيقية</b> من Robo Maker، الكمبيوتر محتاج درايفر صغير لشريحة USB اللي في أغلب البوردات (CH340).</p>
+    <h2 id="drvT">ثبّت تعريف الأردوينو</h2>
+    <p>لكي <b>ترفع الكود على لوحة أردوينو حقيقية</b> من روبو ميكر، يحتاج الكمبيوتر إلى تعريف صغير لشريحة USB الموجودة في أغلب اللوحات (CH340).</p>
     <ol>
-      <li>دوس «ثبّت الدرايفر».</li>
-      <li>ويندوز هيسأل «Do you want to allow…؟» دوس <b>Yes</b>.</li>
-      <li>في النافذة اللي هتفتح دوس <b>INSTALL</b>، واستنى رسالة النجاح.</li>
+      <li>اضغط «ثبّت التعريف».</li>
+      <li>سيسأل ويندوز «Do you want to allow…؟» اضغط <b>Yes</b>.</li>
+      <li>في النافذة التي ستفتح اضغط <b>INSTALL</b>، وانتظر رسالة النجاح.</li>
     </ol>
     <p class="note" id="drvNote"></p>
     <div class="dbtns">
-      <button class="dbtn main" id="drvGo">⬇ ثبّت الدرايفر</button>
-      <button class="dbtn" id="drvLater">بعدين</button>
-      <button class="dbtn link" id="drvNever">متسألنيش تاني</button>
+      <button class="dbtn main" id="drvGo">⬇ ثبّت التعريف</button>
+      <button class="dbtn" id="drvLater">لاحقًا</button>
+      <button class="dbtn link" id="drvNever">لا تسألني مرة أخرى</button>
     </div>
   </div>
 </div>
+<script src="/launcher/labs.js"></script>
 <script src="/launcher/launcher.js"></script>
 </body>
 </html>

@@ -12,8 +12,16 @@ if (!existsSync(join(DIST, 'lab', 'junior.html'))) {
   process.exit(1);
 }
 
-const LABS = ['3d', 'ai', 'arduino', 'circuits', 'code', 'junior', 'python', 'web'];
+// every lab page the website builds (28 Nov 2026 review: a fixed list left Robo Montage and Robo Apps out of the app, so the
+// journey's video and app challenges showed «not in the app»). lab/index.html is the app's own labs page (launcher/).
+const LABS = readdirSync(join(DIST, 'lab')).filter((f) => f.endsWith('.html') && f !== 'index.html').map((f) => f.slice(0, -5));
+// the website's own offline libraries in public/vendor/ (Robo Code's C compiler, Robo Montage's speech-to-text, the journey's
+// background remover …). Pyodide comes from node_modules (scripts/vendor.mjs), the rest is copied as the website has it.
+const OWN = ['pyodide', 'blockly', 'fonts', 'supabase.js'];   // made by scripts/vendor.mjs (git-ignored)
+const SITE_VENDOR = existsSync(join(DIST, 'vendor')) ? readdirSync(join(DIST, 'vendor')).filter((d) => !OWN.includes(d)) : [];
 for (const d of ['lab', 'assets', 'journey.html']) rmSync(join(WWW, d), { recursive: true, force: true });
+if (existsSync(join(WWW, 'vendor'))) for (const d of readdirSync(join(WWW, 'vendor'))) if (!OWN.includes(d)) rmSync(join(WWW, 'vendor', d), { recursive: true, force: true });
+for (const d of SITE_VENDOR) cpSync(join(DIST, 'vendor', d), join(WWW, 'vendor', d), { recursive: true });
 mkdirSync(join(WWW, 'lab'), { recursive: true });
 for (const l of LABS) cpSync(join(DIST, 'lab', l + '.html'), join(WWW, 'lab', l + '.html'));
 cpSync(join(DIST, 'journey.html'), join(WWW, 'lab', 'roboblock.html'));   // Robo Block lives inside the journey page
@@ -55,4 +63,9 @@ const scan = (d) => readdirSync(d).forEach((f) => {
   if (!p.includes(join('www', 'vendor')) && /\.(html|js)$/.test(f) && /cdn\.jsdelivr\.net|fonts\.googleapis\.com/.test(readFileSync(p, 'utf8'))) left.push(p);
 });
 scan(WWW);
+// a lab the app has no card for yet (launcher/labs.js): it still opens from the journey, but say so
+const cards = readFileSync(resolve('launcher', 'labs.js'), 'utf8');
+const noCard = LABS.filter((l) => !['roboblock', 'run'].includes(l) && !cards.includes("'/lab/" + l + ".html"));
+if (noCard.length) console.warn('labs without a card in launcher/labs.js: ' + noCard.join(', '));
+console.log('labs: ' + LABS.join(', ') + ' · site libraries: ' + (SITE_VENDOR.join(', ') || 'none'));
 console.log('synced labs from ' + SITE + ' — rewrote ' + n + ' files' + (left.length ? '; still online: ' + left.join(', ') : ''));

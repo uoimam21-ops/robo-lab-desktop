@@ -34,11 +34,11 @@ ok(await w.evaluate(() => fetch('https://roboegypt.com/', { mode: 'no-cors' }).t
 // the app opens on its home: two cards (Robo Journey, Robo Lab) under a bar that always stays on top (spec 16 Nov 2026)
 ok(await w.evaluate(() => location.pathname === '/home' && !!document.querySelector('.card.journey') && !!document.querySelector('.card.lab') && !!document.getElementById('tabL')), 'the app opens on its home with the two cards');
 // the first-time tours would cover the buttons this test presses
-await w.evaluate(() => { for (const k of ['3d', 'junior', 'arduino', 'circuits', 'code', 'python', 'web', 'ai']) localStorage.setItem('robo-tour:lab-' + k, '1'); });
+await w.evaluate(() => { for (const k of ['3d', 'junior', 'arduino', 'circuits', 'code', 'python', 'web', 'ai', 'apps', 'montage']) localStorage.setItem('robo-tour:lab-' + k, '1'); });
 await snap('home');
 await w.evaluate(() => document.querySelector('.card.lab').click());
 await w.waitForTimeout(2500);
-ok(await w.evaluate(() => { const f = document.getElementById('view'); return !!f && /\/lab\//.test(f.contentWindow.location.pathname) && f.contentDocument.querySelectorAll('.card').length === 10; }), 'the Robo Lab card opens the labs page (10 labs) under the bar');
+ok(await w.evaluate(() => { const f = document.getElementById('view'); return !!f && /\/lab\//.test(f.contentWindow.location.pathname) && f.contentDocument.querySelectorAll('.card').length === 12 && !f.contentDocument.querySelector('.top').offsetParent; }), 'the Robo Lab card opens the labs page (12 labs) under the bar, without a second header');
 await snap('labs');
 
 const drv = await w.evaluate(() => window.roboDesktop.arduino.driver());
@@ -46,7 +46,7 @@ if (process.platform === 'win32') ok(drv.needed === true && drv.available === tr
 else ok(drv.needed === false, 'no driver needed on ' + process.platform);
 
 for (const [path, name] of [['/lab/junior.html', 'Robo Junior'], ['/lab/ai.html', 'AI'], ['/lab/circuits.html', 'Robo Circuits'], ['/lab/arduino.html', 'Robo Maker'],
-  ['/lab/3d.html', 'Robo CAD'], ['/lab/web.html', 'Robo Web'], ['/lab/code.html', 'Robo Code']]) {
+  ['/lab/3d.html', 'Robo CAD'], ['/lab/web.html', 'Robo Web'], ['/lab/code.html', 'Robo Code'], ['/lab/apps.html', 'Robo Apps'], ['/lab/montage.html', 'Robo Montage']]) {
   // custom-protocol pages give Playwright no response object: check the page itself
   await w.goto('robo://lab' + path).catch(() => {}); await w.waitForTimeout(1500);
   const pg = await w.evaluate(() => ({ iso: crossOriginIsolated, title: document.title, main: !!document.querySelector('main, .jr, .ide, .ard, .circ, .d3') }));

@@ -6,6 +6,7 @@ import android.webkit.RenderProcessGoneDetail;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
+import android.widget.Toast;
 import androidx.activity.OnBackPressedCallback;
 import com.getcapacitor.BridgeActivity;
 import com.getcapacitor.BridgeWebViewClient;
@@ -61,13 +62,18 @@ public class MainActivity extends BridgeActivity {
         ota.checkLater();
         bridge.getWebView().addJavascriptInterface(new RoboInput(), "RoboInput");
 
-        // Back button: go back a page (lab → home screen); on the home screen, leave the app
+        // Back button: go back a page (lab → home screen); on the home screen, a second press within 2 s leaves the app
+        // (28 Nov 2026 review: one press closed the app at once, and children lost where they were)
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            private long lastBack = 0;
             @Override
             public void handleOnBackPressed() {
                 WebView w = bridge.getWebView();
-                if (w != null && w.canGoBack()) w.goBack();
-                else finish();
+                if (w != null && w.canGoBack()) { w.goBack(); return; }
+                long now = System.currentTimeMillis();
+                if (now - lastBack < 2000) { finish(); return; }
+                lastBack = now;
+                Toast.makeText(MainActivity.this, "اضغط «رجوع» مرة أخرى للخروج", Toast.LENGTH_SHORT).show();
             }
         });
     }
