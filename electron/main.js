@@ -4,6 +4,7 @@ const { app, BrowserWindow, protocol, shell, Menu, ipcMain } = require('electron
 const path = require('path');
 const fs = require('fs');
 const arduino = require('./arduino');
+const linux = require('./linux');
 const updates = require('./updates');
 const ota = require('./ota');   // live updates of the journey and the labs (scripts/ota.mjs)
 // The app was called «Robo Lab» before (until v1.0.1). Its saved projects, progress and settings live in a folder named after the
@@ -168,6 +169,6 @@ ipcMain.handle('robo:info', () => ({ version: app.getVersion(), electron: proces
 if (!app.requestSingleInstanceLock()) app.quit();
 else {
   app.on('second-instance', () => { if (win) { if (win.isMinimized()) win.restore(); win.focus(); } });
-  app.whenReady().then(() => { registerProtocol(); arduino.setup(); menu(); createWindow(); updates.checkForUpdates(win); setTimeout(ota.check, 15000); setInterval(ota.check, 6 * 3600 * 1000); });
+  app.whenReady().then(() => { registerProtocol(); arduino.setup(); linux.setup(); menu(); createWindow(); updates.checkForUpdates(win); setTimeout(ota.check, 15000); setInterval(ota.check, 6 * 3600 * 1000); });
   app.on('window-all-closed', () => app.quit());
 }

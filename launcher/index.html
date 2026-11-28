@@ -6,16 +6,18 @@
 <title>روبو لاب | رحلة روبو</title>
 <link rel="stylesheet" href="/vendor/fonts/fonts.css">
 <link rel="stylesheet" href="/launcher/launcher.css">
+<script src="/launcher/prefs.js"></script>
 </head>
 <body>
 <header class="top">
-  <img class="logo" src="/assets/logo-header.png" alt="Robo Egypt" width="742" height="160">
-  <span class="off" id="net" hidden>📴 يعمل بدون إنترنت</span>
-  <a class="back" href="/journey.html">🗺️ العودة إلى الرحلة</a>
+  <img class="logo lt" src="/assets/logo-header.png" alt="Robo Egypt" width="742" height="160"><img class="logo dk" src="/assets/logo-header-dark.png" alt="Robo Egypt" width="746" height="160">
+  <span class="off" id="net" hidden data-en="📴 Working offline">📴 يعمل بدون إنترنت</span>
+  <a class="back" href="/journey.html" data-en="🗺️ Back to the journey">🗺️ العودة إلى الرحلة</a>
+  <span class="prefs" data-prefs></span>
 </header>
 <main class="wrap">
-  <div class="labHead"><img class="labLogo" src="/launcher/robo-lab-logo.webp" alt="" width="180" height="175"><h1>روبو لاب</h1></div>
-  <p class="lead">اختر مختبرًا واصنع مشروعك. المختبرات تعمل على هذا الجهاز حتى بدون إنترنت، ومشاريعك تُحفظ عليه.</p>
+  <div class="labHead"><img class="labLogo" src="/launcher/robo-lab-logo.webp" alt="" width="180" height="175"><h1 data-en="Robo Lab">روبو لاب</h1></div>
+  <p class="lead" data-en="Pick a lab and make your project. The labs work on this device even without the internet, and your projects are saved on it.">اختر مختبرًا واصنع مشروعك. المختبرات تعمل على هذا الجهاز حتى بدون إنترنت، ومشاريعك تُحفظ عليه.</p>
   <ul class="grid" id="labs"></ul>
 </main>
 <footer class="foot">

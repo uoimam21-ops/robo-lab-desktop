@@ -14,6 +14,7 @@
 ## إزاي شغّال
 - **المختبرات نفسها** هي نفس صفحات الموقع (`robo-egypt-site`)، متنسوخة في `www/` بسكربت `npm run sync`. مفيش كود مختبرات مكتوب هنا.
 - **من غير نت:** كل اللي الصفحات كانت بتجيبه من النت (Pyodide/Python، Blockly، Supabase، Google Fonts) اتنسخ في `www/vendor/` (`npm run vendor`)، والروابط اتغيّرت للنسخ المحلية وقت الـ sync.
+  - **مكتبات بايثون (27 نوفمبر 2026):** numpy و matplotlib و pillow و scikit-learn جايين من `/vendor/pyodide` بتاع الموقع، و scipy (47 ميجا) بيتحمّل مرة واحدة وقت `npm run vendor` (`scripts/scipy.mjs`، ومتشيّك بالـ sha256). تطبيق الأندرويد مش شايل scipy عشان حجمه.
 - **بروتوكول `robo://lab/`** (`electron/main.js`): بيخدم الملفات من `www/` و`launcher/`، وبيحط هيدرز cross-origin isolation (Python محتاجها لزرار الإيقاف و`input()`)، ماعدا صفحة روبو بلوك (عشان فيديوهات يوتيوب).
 - **الروابط:** أي صفحة موجودة في التطبيق تفتح جواه؛ أي صفحة من الموقع مش موجودة (الباقات، المقالات، واتساب…) تفتح في المتصفح.
 - **صفحة المختبرات (`launcher/`):** «روبو لاب». أول مرة الطفل يفتحها على ويندوز من غير درايفر الأردوينو، بتظهر نافذة الدرايفر.
@@ -59,3 +60,13 @@ npm run dist                             # المثبّتين (على ويندو
 - **درايفر بوردات الأردوينو الصيني (CH340):** المثبّت الرسمي من WCH (`CH341SER.EXE`) جوه التطبيق (`resources/arduino/drivers`، `npm run arduino` بينزّله). أول ما التطبيق يفتح على ويندوز من غير الدرايفر، بتظهر نافذة «ثبّت درايفر الأردوينو» (ثبّت / بعدين = بعد ٣ أيام / متسألنيش تاني). وكمان في نافذة الرفع لو مفيش بوردة ظاهرة. التعرّف على الدرايفر: `CH341S64.SYS` أو `CH341SER.SYS` في `System32\drivers`.
 - **Python من غير نت:** المكتبة الأساسية بس. مكتبات زي numpy محتاجة نت أول مرة.
 - **التوقيع:** المثبّت مش موقّع (code signing)، فويندوز SmartScreen هيقول «Windows protected your PC» ← More info ← Run anyway. شهادة توقيع بتحلّ ده.
+
+## Linux for the lessons (WSL2 «RoboLinux»), 28 Nov 2026
+The lessons' operating-system examples (fork/exec, pthreads, threading deadlock, mmap) can't run in a browser.
+In the app they get «🖥 شغّل على الجهاز» (`window.roboDesktop.linux`, `electron/linux.js`):
+- **Windows:** WSL2 + the app's own distro `RoboLinux` (Ubuntu 24.04 rootfs from cloud-images.ubuntu.com, SHA-256 checked
+  against `SHA256SUMS`, imported with `wsl --import`, then `apt-get install gcc libc6-dev python3`). If WSL itself is missing,
+  the app asks for administrator rights to run `wsl --install --no-distribution`, then asks for a restart.
+  It never touches the user's own distros. About 1.5 GB on disk; the ROS 2 phase can reuse it.
+- **macOS / Linux:** runs natively with bash + gcc + python3.
+- Each run: fresh temp folder, code passed as base64, output streamed, stopped after 30 s.

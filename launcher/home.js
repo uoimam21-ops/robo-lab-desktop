@@ -14,7 +14,7 @@ function show(where, src) {
   if (where === 'journey' && !navigator.onLine) { netMessage(); return; }   // no half-working journey offline (spec: never open what can't work)
   cur = where;
   $('tabJ').classList.toggle('on', where === 'journey'); $('tabL').classList.toggle('on', where === 'lab');
-  if (where === 'home') { view.hidden = true; $('homeView').hidden = false; document.title = 'رحلة روبو | Robo Egypt'; if (location.hash) history.replaceState(null, '', location.pathname); return; }
+  if (where === 'home') { view.hidden = true; $('homeView').hidden = false; document.title = (window.roboPrefs && roboPrefs.en() ? 'Robo Journey' : 'رحلة روبو') + ' | Robo Egypt'; if (location.hash) history.replaceState(null, '', location.pathname); return; }
   $('homeView').hidden = true; view.hidden = false;
   const want = src || PAGES[where];
   try { if (view.contentWindow && view.contentWindow.location.pathname === want) { view.focus(); return; } } catch (_) {}
@@ -34,7 +34,8 @@ view.addEventListener('load', () => {
   try {
     const w = view.contentWindow, p = w.location.pathname;
     if (p === '/' || p === '/index.html' || p === '/home') { view.src = 'about:blank'; show('home'); return; }   // never the home inside itself
-    if (window.roboDesktop && !w.roboDesktop) w.roboDesktop = window.roboDesktop;   // Arduino upload etc. inside the frame (desktop)
+    if (window.roboDesktop && !w.roboDesktop) w.roboDesktop = window.roboDesktop;
+    if (window.roboPrefs) roboPrefs.paint(w.document);   // night or day, as the app's 🌙 says (21 Nov 2026)   // Arduino upload etc. inside the frame (desktop)
     // Python and Robo Code need cross-origin isolation (input(), Stop), which a page inside this frame can't have: open them full
     // screen (the phone's Back button / the lab's logo come back here)
     // (Android's WebView is never isolated, even full screen, and answers input() itself: stay under the bar there)
@@ -55,12 +56,13 @@ function net() {
   if (off) netMessage(); else { $('netMsg').hidden = true; clearTimeout(netT); }
 }
 $('netLab').onclick = () => { $('netMsg').hidden = true; show('lab'); };
+// 🌐 / 🌙 in the bar (prefs.js): night mode reaches the open page at once; a new language opens it again in that language
+document.addEventListener('robo-theme', () => { try { if (!view.hidden && window.roboPrefs) roboPrefs.paint(view.contentWindow.document); } catch (_) {} });
+document.addEventListener('robo-lang', () => { try { if (!view.hidden && view.contentWindow) view.contentWindow.location.reload(); } catch (_) {} });
 $('netX').onclick = () => { $('netMsg').hidden = true; clearTimeout(netT); };
 $('offPill').onclick = netMessage;
 addEventListener('online', net); addEventListener('offline', net); net();
 
-// «١٢ مختبرًا: …»: counted from the list in labs.js, so the card never shows an old number (28 Nov 2026 review)
-if (window.ROBO_LABS) $('labsLine').textContent = window.roboNum(window.ROBO_LABS.length) + ' مختبرًا ' + $('labsLine').textContent.replace(/^مختبرات /, '');
 // open where the address says (#journey / #lab), else the two cards
 const h = location.hash.slice(1); if (PAGES[h]) show(h); else show('home');
 if (window.roboDesktop) window.roboDesktop.info().then((i) => { $('ver').textContent = 'v' + i.version; }).catch(() => {});

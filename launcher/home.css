@@ -36,6 +36,20 @@ iframe#view[hidden]{display:none}
 /* a lab asked for full screen: no bar (16 Nov 2026) */
 body.full .bar{display:none}
 
+/* 🌐 and 🌙 (21 Nov 2026) */
+.bar .prefs{margin-inline-start:auto;display:flex;gap:6px}.bar .off:not([hidden])+.prefs{margin-inline-start:8px}
+.bar .pf{height:38px;min-width:38px;padding:0 12px;border-radius:12px;display:grid;place-items:center;font-weight:800;font-size:14px;color:#4A5378;background:#F1F3FA}
+.bar .pf.theme{padding:0;font-size:18px}
+@media (max-width:480px){.bar .tab img{display:none}.bar .pf.lang{padding:0 8px;font-size:13px}}
+/* night mode */
+html[data-theme=dark]{--ink:#E8ECFA;--line:#2C3766;--bg:#0F1530;color-scheme:dark}
+html[data-theme=dark] .bar{background:#161E3F;border-color:#2C3766}
+html[data-theme=dark] .bar .tab:not(.on),html[data-theme=dark] .bar .pf{background:#212B55;color:#C9D1F0}
+html[data-theme=dark] .card{background:#1A2246;border-color:#2C3766}
+html[data-theme=dark] .card small{color:#A9B2D6}
+html[data-theme=dark] .card.lab .pic,html[data-theme=dark] .card.journey .pic{background:linear-gradient(135deg,#222C5A,#2A2560)}
+html[data-theme=dark] iframe#view{background:#0F1530}
+html[data-theme=dark] .netMsg{background:#3A2E10;color:#FFE7A3;border-color:#8A6D00}
 /* phones (28 Nov 2026 review): both cards on the first screen, a small picture beside the words, so the child sees Robo Lab
    without scrolling */
 @media (max-width:640px){

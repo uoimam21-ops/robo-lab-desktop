@@ -22,16 +22,16 @@
 <link rel="icon" type="image/png" href="/assets/favicon.png">
 <link rel="preload" as="image" href="/lab/parts/uno.webp">
 <script src="/site-bar.js" defer></script>
-  <script type="module" crossorigin src="/assets/arduino-DltKlbq2.js"></script>
-  <link rel="modulepreload" crossorigin href="/assets/kbfix-BD_lgBp6.js">
+  <script type="module" crossorigin src="/assets/arduino-ChyIPx-U.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/kbfix-BhH_XWYS.js">
   <link rel="modulepreload" crossorigin href="/assets/zoomer-CTwWTwBJ.js">
-  <link rel="modulepreload" crossorigin href="/assets/index-D-kCwvry.js">
-  <link rel="modulepreload" crossorigin href="/assets/gest-BJo8EEu2.js">
+  <link rel="modulepreload" crossorigin href="/assets/index-BsWpE7fy.js">
+  <link rel="modulepreload" crossorigin href="/assets/gest-5RXMxEJu.js">
   <link rel="modulepreload" crossorigin href="/assets/acorn-DkYm1ITT.js">
   <link rel="modulepreload" crossorigin href="/assets/task-peek-pvl45LCS.js">
-  <link rel="modulepreload" crossorigin href="/assets/projio-DPV3PfRB.js">
-  <link rel="stylesheet" crossorigin href="/assets/kbfix-47rQ6fy0.css">
-  <link rel="stylesheet" crossorigin href="/assets/arduino-DXPdQSjg.css">
+  <link rel="modulepreload" crossorigin href="/assets/lab-tours-B5QixtAw.js">
+  <link rel="stylesheet" crossorigin href="/assets/kbfix-DyRBBTG7.css">
+  <link rel="stylesheet" crossorigin href="/assets/arduino-DzBdTClY.css">
 </head>
 <body>
 <header class="top">
@@ -46,6 +46,8 @@
 </header>
 
 <div class="ardbar" role="toolbar" aria-label="أدوات">
+  <!-- «الكود» and «القطع» on the right (Youssef, 21 Nov 2026) -->
+  <button class="btn ghost small partsTog" id="partsToggle">➕ القطع</button><button class="btn ghost small codeTog" id="codeToggle" aria-pressed="false">🧩 الكود</button>
   <div class="tg" id="wireColors" aria-label="لون السلك"></div>
   <div class="tg"><button class="tb" id="undoBtn" title="ارجع خطوة (Ctrl+Z)" aria-label="ارجع خطوة">↶</button><button class="tb" id="redoBtn" title="قدّم خطوة (Ctrl+Y)" aria-label="قدّم خطوة">↷</button></div>
   <div class="tg"><button class="tb" id="rotBtn" title="لف القطعة (R)">⟳</button><button class="tb" id="flipBtn" title="اقلب القطعة: الرجلين يبدّلوا مكانهم (F)" aria-label="اقلب القطعة">⇋</button><button class="tb danger" id="delBtn" title="امسح (Delete)">🗑</button></div>
@@ -53,7 +55,6 @@
   <button class="tb danger" id="clearBench" title="شيل كل القطع">🧹</button>
   <span class="status" id="status" role="status" aria-live="polite"></span>
   <span class="grow"></span>
-  <button class="btn ghost small partsTog" id="partsToggle">➕ القطع</button><button class="btn ghost small codeTog" id="codeToggle" aria-pressed="false">🧩 الكود</button>
   <button class="btn run small" id="runBtn">▶ ابدأ المحاكاة</button>
   <button class="btn small upBtn" id="upBtn" hidden title="ارفع الكود على بوردة أردوينو حقيقية متوصلة بالـ USB">⬆ ارفع على الأردوينو</button>
   <button id="stopBtn" hidden></button>

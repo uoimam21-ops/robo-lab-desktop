@@ -21,13 +21,15 @@
 <meta name="theme-color" content="#1B2350">
 <link rel="icon" type="image/png" href="/assets/favicon.png">
 <script src="/site-bar.js" defer></script>
-  <script type="module" crossorigin src="/assets/ai-bOt40Jz7.js"></script>
-  <link rel="modulepreload" crossorigin href="/assets/kbfix-BD_lgBp6.js">
+  <script type="module" crossorigin src="/assets/ai-Bmt1zXZ7.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/kbfix-BhH_XWYS.js">
   <link rel="modulepreload" crossorigin href="/assets/split-DJAd-vnY.js">
-  <link rel="modulepreload" crossorigin href="/assets/jr-paint-D3Ivezmd.js">
+  <link rel="modulepreload" crossorigin href="/assets/gest-5RXMxEJu.js">
+  <link rel="modulepreload" crossorigin href="/assets/jr-paint-DdJE6pNT.js">
   <link rel="modulepreload" crossorigin href="/assets/task-peek-pvl45LCS.js">
-  <link rel="stylesheet" crossorigin href="/assets/kbfix-47rQ6fy0.css">
-  <link rel="stylesheet" crossorigin href="/assets/ai-jiv0IeJu.css">
+  <link rel="modulepreload" crossorigin href="/assets/lab-tours-B5QixtAw.js">
+  <link rel="stylesheet" crossorigin href="/assets/kbfix-DyRBBTG7.css">
+  <link rel="stylesheet" crossorigin href="/assets/ai-Dq2GuUvd.css">
 </head>
 <body>
 <header class="top">
@@ -43,7 +45,10 @@
   <div class="modes" role="tablist" aria-label="نوع التعليم">
     <button role="tab" data-mode="draw" aria-selected="true">🎨 رسومات</button>
     <button role="tab" data-mode="cam" aria-selected="false">📷 كاميرا</button>
+    <button role="tab" data-mode="snd" aria-selected="false">🔊 أصوات</button>
     <button role="tab" data-mode="text" aria-selected="false">💬 كلام</button>
+    <button role="tab" data-mode="gen" aria-selected="false">✍️ الكلمة الجاية</button>
+    <button role="tab" data-mode="nn" aria-selected="false">🕸️ شبكة عصبية</button>
     <span class="steps" id="steps"></span>
   </div>
 
@@ -61,6 +66,9 @@
         <div class="camoff" id="camOff" hidden><button class="btn run" id="camOn">📷 شغّل الكاميرا</button><small>لو مفيش كاميرا، استخدم الرسومات.</small></div>
       </div>
       <div class="padtools" id="padTools"><button class="btn ghost small" id="padUndo" title="ارجع خطوة (Ctrl+Z)" aria-label="ارجع خطوة">↶</button><button class="btn ghost small" id="padRedo" title="قدّم خطوة (Ctrl+Y)" aria-label="قدّم خطوة">↷</button><button class="btn small rpBtn" id="painterBtn" title="ارسم بالأدوات: أشكال وألوان وجردل وأستيكة">🎨 روبو بينتر</button><button class="btn ghost small" id="clearPad">🧽 امسح</button><small class="sub">ارسم، وبعدين اختار الفئة اللي تحت</small></div>
+      <div class="sndBox" id="sndBox" hidden><canvas id="sndCan" width="300" height="150" aria-label="صورة الصوت"></canvas><button class="btn run" id="sndOn">🎙 شغّل الميكروفون</button><small class="sub">صورة الصوت (Spectrogram): الوقت يتحرّك من اليسار إلى اليمين، والصوت الحادّ فوق والغليظ تحت، والصوت العالي ألوانه فاتحة. كل مثال ثانية واحدة.</small></div>
+      <div class="pixrow" id="pixrow"><button class="btn ghost small" id="pixBtn" title="الصورة كما يراها الحاسوب: بكسلات وأرقام">🔬 بعيون الروبوت</button></div>
+      <div class="pixBox" id="pixBox" hidden></div>
       <div class="addto" id="addTo"></div>
     </div>
     <div class="col result">
@@ -92,6 +100,43 @@
       <div class="trainbar" id="trainBar2" hidden><i></i></div>
       <div class="msgs" id="msgs"><div class="m bot">أهلاً! أنا روبو 🤖 علّمني الأول، وبعدين كلّمني.</div></div>
       <form class="send" id="sendForm" autocomplete="off"><input id="chatIn" dir="auto" maxlength="80" placeholder="اكتب رسالة…" aria-label="رسالة"><button class="btn run small">إرسال</button></form>
+    </div>
+  </section>
+
+  <!-- the next word: how an AI chatbot writes -->
+  <section class="gen" id="genView" hidden>
+    <div class="col">
+      <div class="colhead"><b>١. النصّ الذي يتعلّم منه</b><button class="btn run small" id="genTrain">🧠 درّب</button></div>
+      <textarea id="genText" dir="auto" rows="10" aria-label="النصّ"></textarea>
+      <small class="sub" id="genStats"></small>
+      <details class="how" open><summary>ℹ️ كيف يكتب الشات بوت؟</summary><p>الشات بوت الذكي تعلّم من نصوص كثيرة جدًّا. هو لا يبحث عن إجابة جاهزة، بل يخمّن الكلمة التالية، ثم التي بعدها، وهكذا. روبو هنا يفعل الشيء نفسه بطريقة صغيرة: يعدّ أيّ كلمة تأتي بعد أيّ كلمة في النصّ.</p></details>
+    </div>
+    <div class="col">
+      <div class="colhead"><b>٢. لعبة الكلمة الجاية</b></div>
+      <label class="genrow">الكلمة: <input id="genWord" dir="auto" maxlength="24" aria-label="الكلمة"></label>
+      <div class="bars" id="genBars"></div>
+      <div class="colhead"><b>٣. اكتب قصة صغيرة</b></div>
+      <div class="genrow"><select id="genMode" aria-label="طريقة الاختيار"><option value="rand">🎲 اختيار حسب الاحتمال</option><option value="top">🥇 الأكثر احتمالًا دائمًا</option></select>
+        <label>الطول: <input type="range" id="genLen" min="5" max="30" value="12" aria-label="عدد الكلمات"> <b id="genLenV">١٢</b></label><button class="btn run small" id="genGo">✍️ اكتب</button></div>
+      <div id="genOut"></div>
+    </div>
+  </section>
+
+  <!-- a small neural network -->
+  <section class="nn" id="nnView" hidden>
+    <div class="col nnboard">
+      <div class="colhead"><b>١. ضع النقاط</b><span class="sub">اضغط لتضع نقطة، واضغط عليها مرّة أخرى لتحذفها</span></div>
+      <canvas id="nnCan" width="320" height="320" aria-label="لوحة النقاط"></canvas>
+      <div class="nnstats" id="nnStats"></div>
+    </div>
+    <div class="col nnside">
+      <div class="colhead"><b>٢. الشبكة</b></div>
+      <div class="genrow"><span>اللون:</span><button class="nncol on" data-nnc="1" style="--cc:#FF8C1A">🟠</button><button class="nncol" data-nnc="0" style="--cc:#4C97FF">🔵</button>
+        <span>بيانات جاهزة:</span><button class="btn ghost small" data-nnset="line">↗ خطّ</button><button class="btn ghost small" data-nnset="ring">⭕ حلقة</button><button class="btn ghost small" data-nnset="xor">✖ مربّعات</button></div>
+      <svg id="nnSvg" viewBox="0 0 300 170" aria-label="رسم الشبكة"></svg>
+      <div class="nnlayers"><div id="nnLayers"></div><button class="btn ghost small" data-nn="add">➕ طبقة</button><button class="btn ghost small" data-nn="del">➖ طبقة</button></div>
+      <div class="genrow"><button class="btn run" id="nnGo">▶ درّب</button><button class="btn ghost small" id="nnReset">🎲 أوزان جديدة</button><button class="btn ghost small" id="nnClear">🧽 امسح النقاط</button></div>
+      <details class="how" open><summary>ℹ️ ماذا يحدث هنا؟</summary><p>كل دائرة في الرسم خليّة عصبية (Neuron)، وكل خطّ وزن (Weight): الأزرق موجب والبرتقالي سالب، والخطّ السميك وزن كبير. في كل جولة تدريب تعدّل الشبكة أوزانها قليلًا حتى يقلّ خطؤها، وتتغيّر ألوان اللوحة لترى ما تعلّمته.</p><p>جرّب «⭕ حلقة» من غير طبقات مخفية: لن تنجح، لأن خليّة واحدة ترسم خطًّا مستقيمًا فقط. أضف طبقة، ثم درّب مرّة أخرى. كلمة «عميق» (Deep) في التعلّم العميق معناها طبقات كثيرة.</p></details>
     </div>
   </section>
 </main>

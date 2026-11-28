@@ -108,6 +108,30 @@ async function upload(e, { code, board, port }) {
   }
 }
 
+// Robo Maker's «🔬 real chip» mode (27 Nov 2026): compile only, and hand the .hex to the page, which runs it on a simulated
+// ATmega328P (avr8js). Same compiler and libraries as the upload, so what runs on screen is what would run on the board.
+let compiling = false;
+async function compileHex(e, { code, board }) {
+  if (compiling) return { ok: false, why: 'running' };
+  if (typeof code !== 'string' || code.length > 200000) return { ok: false, why: 'code' };
+  const fqbn = BOARDS[board] || BOARDS.uno;
+  compiling = true;
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'robo-')), sk = path.join(dir, 'sketch'), out = path.join(dir, 'out');
+  try {
+    fs.mkdirSync(sk); fs.writeFileSync(path.join(sk, 'sketch.ino'), code);
+    const c = await cli(['compile', '--fqbn', fqbn, '--output-dir', out, sk], null, 6 * 60e3);
+    if (c.timeout) return { ok: false, why: 'timeout', out: c.out.slice(-4000) };
+    if (c.code !== 0) return Object.assign({ ok: false, out: c.out.slice(-4000) }, /bad cpu type|incompatible architecture/i.test(c.out) ? { why: 'rosetta' } : explain(c.out, 'compile'));
+    const hex = path.join(out, 'sketch.ino.hex');
+    if (!fs.existsSync(hex)) return { ok: false, why: 'other', out: c.out.slice(-4000) };
+    const size = (c.out.match(/Sketch uses (\d+) bytes \((\d+)%\)/) || []).slice(1).map(Number);
+    return { ok: true, hex: fs.readFileSync(hex, 'utf8'), bytes: size[0] || null, percent: size[1] || null };
+  } finally {
+    compiling = false;
+    fs.rm(dir, { recursive: true, force: true }, () => {});
+  }
+}
+
 // CH340/CH341 USB driver (most cheap Uno/Nano clones). Installed = its .sys file is in the Windows driver folder.
 function driverInfo() {
   // tests on Linux: ROBO_TEST_DRIVER=<file> pretends to be Windows without the driver (installed once <file>.done exists)
@@ -133,5 +157,6 @@ function setup() {
   ipcMain.handle('robo:ard-ready', () => !!cliPath());
   ipcMain.handle('robo:ard-ports', () => ports());
   ipcMain.handle('robo:ard-upload', upload);
+  ipcMain.handle('robo:ard-compile', compileHex);
 }
 module.exports = { setup, BOARDS };

@@ -1,13 +1,14 @@
 // Puts the libraries the labs load from the internet into www/vendor/, from node_modules (pinned in package.json).
 import { cpSync, existsSync, mkdirSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
+import { addScipy } from './scipy.mjs';
 
 const NM = resolve('node_modules'), V = resolve('www', 'vendor');
-// only what this script makes: the website's own libraries (wcc, transformers …) are put here by sync-site.mjs and kept
-for (const d of ['pyodide', 'blockly', 'fonts', 'supabase.js']) rmSync(join(V, d), { recursive: true, force: true });
+rmSync(V, { recursive: true, force: true });
 mkdirSync(V, { recursive: true });
 
-// Python (Pyodide core: enough for the Python lab and Robo Code; extra packages need internet)
+// Python (Pyodide core; numpy, matplotlib, pillow, scikit-learn and their small helpers come from the website's /vendor/pyodide,
+// copied below with the site's other vendor files; scipy is added after that)
 mkdirSync(join(V, 'pyodide'));
 for (const f of ['pyodide.mjs', 'pyodide.js', 'pyodide.asm.js', 'pyodide.asm.wasm', 'python_stdlib.zip', 'pyodide-lock.json'])
   cpSync(join(NM, 'pyodide', f), join(V, 'pyodide', f));
@@ -44,4 +45,7 @@ for (const [fam, id, ws] of FONTS) {
   }
 }
 writeFileSync(join(V, 'fonts', 'fonts.css'), css);
-console.log('vendor ready: pyodide, blockly, supabase, ' + files + ' font files');
+// the website's own /vendor files (copied by sync-site.mjs into www/site-vendor)
+if (existsSync(resolve('www', 'site-vendor'))) cpSync(resolve('www', 'site-vendor'), V, { recursive: true });
+const sci = await addScipy(join(V, 'pyodide'), join(NM, '.cache', 'pyodide'));
+console.log('vendor ready: pyodide' + (sci ? ' (+ scipy)' : '') + ', blockly, supabase, ' + files + ' font files');

@@ -1,0 +1,1 @@
+function f(t,i,n){if(!t||!t.length)return;let r=0;const e=()=>{if(r>=t.length||!window.roboSpot)return;if(document.querySelector(".rtour")){setTimeout(e,700);return}const[c,l,u]=t[r++];u&&n&&n(u);const o=document.querySelector(c);if(!o||!o.getClientRects().length){e();return}window.roboSpot(o,i(l),{done:()=>setTimeout(e,250)})};setTimeout(e,1200)}export{f as s};

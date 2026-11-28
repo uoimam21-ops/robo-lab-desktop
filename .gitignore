@@ -1,10 +1,6 @@
 node_modules/
 dist/
-# made by scripts/vendor.mjs from node_modules; the other folders in www/vendor/ come from the website (sync-site.mjs) and are kept
-www/vendor/pyodide/
-www/vendor/blockly/
-www/vendor/fonts/
-www/vendor/supabase.js
+www/vendor/
 *.log
 arduino/
 mobile/

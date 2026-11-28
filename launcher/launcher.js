@@ -1,11 +1,16 @@
 // «روبو لاب»: the labs page (16 Nov 2026: the same new 3D icons and Robo Lab logo as roboegypt.com/lab/) of the «رحلة روبو» app (the app opens on the journey; this page is in its menu). Same labs as
 // roboegypt.com/lab/ (lib/site.ts → LABS). Robo Block opens its own page.
-// The list itself is in labs.js.
-const LABS = window.ROBO_LABS;
+// The list (Arabic and English) is in labs.js.
+const LABS = window.ROBO_LABS;   // labs.js
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-document.getElementById('labs').innerHTML = LABS.map(([href, img, name, desc, c, net]) =>
-  '<li><a class="card" href="' + href + '" style="--c:' + c + '"><img src="/assets/labs/' + img + '.webp" alt="" width="485" height="410">' +
-  (net ? '<i class="needs">🌐 محتاجة نت</i>' : '') + '<b>' + esc(name) + '</b><small>' + esc(desc) + '</small><span class="go">افتح ←</span></a></li>').join('');
+function paintLabs() {
+  const en = !!(window.roboPrefs && roboPrefs.en());
+  document.title = (en ? 'Robo Lab | Robo Journey' : 'روبو لاب | رحلة روبو');
+  document.getElementById('labs').innerHTML = LABS.map(([href, img, name, desc, c, eName, eDesc]) =>
+    '<li><a class="card" href="' + href + '" style="--c:' + c + '"><img src="/assets/labs/' + img + '.webp" alt="" width="485" height="410">' +
+    '<b>' + esc(en ? eName : name) + '</b><small>' + esc(en ? eDesc : desc) + '</small><span class="go">' + (en ? 'Open →' : 'افتح ←') + '</span></a></li>').join('');
+}
+paintLabs(); document.addEventListener('robo-lang', paintLabs); addEventListener('storage', (e) => { if (e.key === 'robo-lang') paintLabs(); });
 // inside the app's home (its bar has «رحلة روبو» and «روبو لاب»): no second header with the logo and «ارجع للرحلة» (28 Nov 2026 review)
 if (window.top !== window) document.body.classList.add('inApp');
 const net = () => { document.getElementById('net').hidden = navigator.onLine; };
