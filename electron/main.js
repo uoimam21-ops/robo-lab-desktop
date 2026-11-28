@@ -85,7 +85,7 @@ function headersFor(pathname, mime) {
 }
 function serve(url) {
   const u = new URL(url), f = fileFor(u.pathname);
-  if (!f) return { status: 404, headers: { 'Content-Type': 'text/plain; charset=utf-8' }, data: Buffer.from('مش موجود في التطبيق') };
+  if (!f) return { status: 404, headers: { 'Content-Type': 'text/plain; charset=utf-8' }, data: Buffer.from('هذه الصفحة غير موجودة في التطبيق') };
   const mime = MIME[path.extname(f).toLowerCase()] || 'application/octet-stream';
   return { status: 200, headers: headersFor(u.pathname, mime), data: fs.readFileSync(f) };
 }
