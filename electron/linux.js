@@ -82,7 +82,7 @@ async function setup(onLog) {
     if (imp.code !== 0) return { ok: false, why: 'import', msg: (imp.out + imp.err).trim() || 'wsl --import failed' };
   }
   onLog('3/3 تثبيت gcc و python3…');
-  const apt = await sh('wsl.exe', ['-d', DISTRO, '-u', 'root', '--', 'sh', '-c', 'export DEBIAN_FRONTEND=noninteractive; apt-get update -q && apt-get install -y -q gcc libc6-dev python3 python3-scapy git python3-pytest python3-hypothesis python3-coverage python3-pip'], { timeout: 30 * 60000 });
+  const apt = await sh('wsl.exe', ['-d', DISTRO, '-u', 'root', '--', 'sh', '-c', 'export DEBIAN_FRONTEND=noninteractive; apt-get update -q && apt-get install -y -q gcc libc6-dev python3 python3-scapy git python3-pytest python3-hypothesis python3-coverage python3-pip python3-argon2 python3-bcrypt'], { timeout: 30 * 60000 });
   if (apt.code !== 0) return { ok: false, why: 'apt', msg: (apt.err || apt.out).trim().split('\n').slice(-3).join('\n') };
   s = await status();
   return s.tools ? { ok: true } : { ok: false, why: 'tools', msg: 'gcc أو python3 مش موجودين بعد التثبيت' };
