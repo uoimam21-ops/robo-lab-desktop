@@ -12,7 +12,9 @@ if (!existsSync(join(DIST, 'lab', 'junior.html'))) {
   process.exit(1);
 }
 
-const LABS = ['3d', 'ai', 'arduino', 'circuits', 'code', 'junior', 'python', 'web', 'montage'];
+// every lab page the website builds (28 Nov 2026 review: a fixed list left Robo Apps out of the app, so the journey's app
+// challenges showed «not in the app»). lab/index.html is the app's own labs page (launcher/).
+const LABS = readdirSync(join(DIST, 'lab')).filter((f) => f.endsWith('.html') && f !== 'index.html').map((f) => f.slice(0, -5));
 for (const d of ['lab', 'assets', 'journey.html']) rmSync(join(WWW, d), { recursive: true, force: true });
 mkdirSync(join(WWW, 'lab'), { recursive: true });
 for (const l of LABS) cpSync(join(DIST, 'lab', l + '.html'), join(WWW, 'lab', l + '.html'));
@@ -60,4 +62,9 @@ const scan = (d) => readdirSync(d).forEach((f) => {
   if (!p.includes(join('www', 'vendor')) && !p.includes(join('www', 'site-vendor')) && /\.(html|js)$/.test(f) && /cdn\.jsdelivr\.net|fonts\.googleapis\.com/.test(readFileSync(p, 'utf8'))) left.push(p);
 });
 scan(WWW);
+// a lab the app has no card for yet (launcher/labs.js): it still opens from the journey, but say so
+const cards = readFileSync(resolve('launcher', 'labs.js'), 'utf8');
+const noCard = LABS.filter((l) => !['roboblock', 'run'].includes(l) && !cards.includes("'/lab/" + l + ".html"));
+if (noCard.length) console.warn('labs without a card in launcher/labs.js: ' + noCard.join(', '));
+console.log('labs: ' + LABS.join(', '));
 console.log('synced labs from ' + SITE + ' — rewrote ' + n + ' files' + (left.length ? '; still online: ' + left.join(', ') : ''));

@@ -50,3 +50,14 @@ html[data-theme=dark] .card small{color:#A9B2D6}
 html[data-theme=dark] .card.lab .pic,html[data-theme=dark] .card.journey .pic{background:linear-gradient(135deg,#222C5A,#2A2560)}
 html[data-theme=dark] iframe#view{background:#0F1530}
 html[data-theme=dark] .netMsg{background:#3A2E10;color:#FFE7A3;border-color:#8A6D00}
+/* phones (28 Nov 2026 review): both cards on the first screen, a small picture beside the words, so the child sees Robo Lab
+   without scrolling */
+@media (max-width:640px){
+  main.home{padding:16px 12px 22px}
+  h1{margin:2px 0 14px}
+  .cards{gap:12px}
+  .card{display:grid;grid-template-columns:110px 1fr;grid-template-areas:"pic b" "pic small" "pic go";column-gap:12px;row-gap:4px;padding:12px;align-items:start}
+  .card .pic{grid-area:pic;width:110px;aspect-ratio:1;align-self:center;padding:8%}
+  .card b{grid-area:b}.card small{grid-area:small;font-size:13px}.card .go{grid-area:go;margin-top:2px;padding:7px 12px;font-size:14px}
+  .card .need{top:8px;inset-inline-start:8px;font-size:11px;padding:2px 8px}
+}

@@ -25,6 +25,8 @@ const walk = (p) => {
   files[rel] = createHash('sha256').update(readFileSync(p)).digest('hex');
 };
 PARTS.forEach((d) => walk(join(WWW, d)));
+// the website's own libraries in vendor/ (Robo Code's C compiler …), not the ones scripts/vendor.mjs makes from node_modules
+if (existsSync(join(WWW, 'vendor'))) readdirSync(join(WWW, 'vendor')).filter((d) => !['pyodide', 'blockly', 'fonts', 'supabase.js'].includes(d)).forEach((d) => walk(join(WWW, 'vendor', d)));
 
 const [cmd, out] = process.argv.slice(2);
 const version = JSON.parse(readFileSync('package.json', 'utf8')).version;

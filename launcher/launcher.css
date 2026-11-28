@@ -50,3 +50,17 @@ html[data-theme=dark] .top,html[data-theme=dark] .foot,html[data-theme=dark] .ca
 html[data-theme=dark] .card{border-color:color-mix(in srgb,var(--c) 35%,#1A2246)}
 html[data-theme=dark] .card .go{color:color-mix(in srgb,var(--c) 55%,#fff)}
 .logo.dk{display:none}html[data-theme=dark] .logo.lt{display:none}html[data-theme=dark] .logo.dk{display:block}
+/* inside the app's home (28 Nov 2026 review): the bar above already has «رحلة روبو» and «روبو لاب», so no second header */
+body.inApp .top{display:none}
+body.inApp .off:not([hidden]){position:fixed;top:10px;inset-inline-end:12px;z-index:3}
+/* phones: two labs a row instead of one tall card each */
+@media (max-width:640px){
+  .wrap{padding:16px 12px 28px}
+  h1{font-size:26px}.lead{font-size:15px;margin-bottom:14px}
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .card{padding:6px 6px 10px;border-radius:18px}.card img{border-radius:12px}
+  .card b{font-size:15.5px;padding:2px 4px 0;line-height:1.5}
+  .card small{font-size:12.5px;line-height:1.6;padding:0 4px}
+  .card .go{font-size:14px;padding:2px 4px 0}
+  .foot{padding:10px 12px}
+}
