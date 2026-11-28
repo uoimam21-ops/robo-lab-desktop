@@ -88,22 +88,43 @@ async function setup(onLog) {
   return s.tools ? { ok: true } : { ok: false, why: 'tools', msg: 'gcc أو python3 مش موجودين بعد التثبيت' };
 }
 
-// run the lesson's C or Python in a fresh temp folder; output streams line by line through onOut(text, isErr)
+// run the lesson's C, Python or Java in a fresh temp folder; output streams through onOut(text, isErr)
+// Java: the file is named after its public class (javac needs that), and we run the class that has main()
+// (the book often puts main in the last class). The JDK is installed the first time Java is used (~200 MB).
+function javaNames(code) {
+  const pub = /public\s+(?:final\s+|abstract\s+)*(?:class|record|interface|enum)\s+(\w+)/.exec(code);
+  let main = null; const re = /(?:class|record|enum)\s+(\w+)[^{]*\{/g; let m;
+  const at = code.search(/static\s+void\s+main\s*\(/);
+  while ((m = re.exec(code)) && at >= 0) { if (m.index < at) main = m[1]; }
+  return { file: (pub ? pub[1] : main || 'Main') + '.java', main: main || (pub && pub[1]) || 'Main' };
+}
 let RUNNING = null;
 function run({ lang, code }, onOut) {
   return new Promise((resolve) => {
     const b64 = Buffer.from(String(code || ''), 'utf8').toString('base64');
-    const build = lang === 'c'
-      ? 'gcc -O1 -pthread -o main main.c 2>&1 >/dev/null | sed "s/^/[gcc] /" >&2; [ -x main ] && ./main'
-      : 'python3 -u main.py';
-    const script = `d=$(mktemp -d); cd "$d"; echo '${b64}' | base64 -d > main.${lang === 'c' ? 'c' : 'py'}; ${build}; rc=$?; cd /; rm -rf "$d"; exit $rc\n`;
+    let file, build;
+    if (lang === 'c') { file = 'main.c'; build = 'gcc -O1 -pthread -o main main.c 2>&1 >/dev/null | sed "s/^/[gcc] /" >&2; [ -x main ] && ./main'; }
+    else if (lang === 'java') {
+      const j = javaNames(String(code || '')); file = j.file;
+      const need = WIN ? 'command -v javac >/dev/null || { echo "⏳ أول مرة: بنثبّت Java (حوالي 200 ميجا)…" >&2; exit 97; }; ' : '';
+      build = need + 'javac -encoding UTF-8 -d out ' + file + ' 2>&1 | sed "s/^/[javac] /" >&2; [ -d out ] && [ -n "$(ls out)" ] && java -Dstdout.encoding=UTF-8 -Dstderr.encoding=UTF-8 -cp out ' + j.main;   // UTF-8: Arabic in println
+    } else { file = 'main.py'; build = 'python3 -u main.py'; }
+    const script = `d=$(mktemp -d); cd "$d"; echo '${b64}' | base64 -d > ${file}; ${build}; rc=$?; cd /; rm -rf "$d"; exit $rc\n`;
     const [cmd, args] = WIN ? ['wsl.exe', ['-d', DISTRO, '--', 'bash', '-s']] : ['bash', ['-s']];
-    let p; try { p = spawn(cmd, args, { windowsHide: true }); } catch (e) { return resolve({ ok: false, msg: String(e) }); }
+    let p; try { p = spawn(cmd, args, { windowsHide: true, env: (() => { const e = Object.assign({}, process.env); delete e.JAVA_TOOL_OPTIONS; return e; })() }); } catch (e) { return resolve({ ok: false, msg: String(e) }); }
     RUNNING = p;
     const t = setTimeout(() => { try { p.kill(); } catch (_) {} onOut('\n⏹ وقّفناه بعد 30 ثانية\n', true); }, 30000);
     p.stdout.on('data', (d) => onOut(d.toString('utf8'), false));
     p.stderr.on('data', (d) => onOut(d.toString('utf8'), true));
-    p.on('close', (code) => { clearTimeout(t); RUNNING = null; resolve({ ok: true, code }); });
+    p.on('close', async (code2) => {
+      clearTimeout(t); RUNNING = null;
+      if (code2 === 97 && lang === 'java') {   // install the JDK once, then run again
+        const r = await sh('wsl.exe', ['-d', DISTRO, '-u', 'root', '--', 'sh', '-c', 'export DEBIAN_FRONTEND=noninteractive; apt-get install -y -q default-jdk-headless'], { timeout: 30 * 60000 });
+        if (r.code !== 0) return resolve({ ok: false, msg: 'مقدرناش نثبّت Java: ' + (r.err || r.out).trim().split('\n').pop() });
+        return resolve(await run({ lang, code }, onOut));
+      }
+      resolve({ ok: true, code: code2 });
+    });
     p.on('error', (e) => { clearTimeout(t); RUNNING = null; resolve({ ok: false, msg: String(e) }); });
     p.stdin.end(script);
   });
@@ -112,7 +133,7 @@ function run({ lang, code }, onOut) {
 function setupIpc() {
   ipcMain.handle('robo:linux-status', () => status());
   ipcMain.handle('robo:linux-setup', (e) => setup((s) => { try { e.sender.send('robo:linux-log', s); } catch (_) {} }));
-  ipcMain.handle('robo:linux-run', (e, opts) => run({ lang: opts && opts.lang === 'c' ? 'c' : 'python', code: opts && opts.code }, (s, err) => { try { e.sender.send('robo:linux-out', { s, err }); } catch (_) {} }));
+  ipcMain.handle('robo:linux-run', (e, opts) => run({ lang: opts && ['c', 'java'].includes(opts.lang) ? opts.lang : 'python', code: opts && opts.code }, (s, err) => { try { e.sender.send('robo:linux-out', { s, err }); } catch (_) {} }));
   ipcMain.handle('robo:linux-stop', () => { if (RUNNING) { try { RUNNING.kill(); } catch (_) {} } return true; });
 }
 
