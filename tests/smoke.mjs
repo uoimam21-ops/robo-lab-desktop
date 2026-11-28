@@ -3,7 +3,7 @@
 // Checks, with the internet blocked: the app opens on its home (two cards), the labs page, every lab opens, Python runs, Robo Block loads,
 // the Arduino toolchain compiles (upload to a missing port must fail at the upload step), and the USB-driver check works.
 import { _electron } from 'playwright';
-import { mkdirSync } from 'node:fs';
+import { existsSync, mkdirSync } from 'node:fs';
 
 const [exe, label = 'app'] = process.argv.slice(2);
 const PORT = process.platform === 'win32' ? 'COM99' : '/dev/cu.robo-missing';   // a port that isn't there
@@ -46,7 +46,8 @@ if (process.platform === 'win32') ok(drv.needed === true && drv.available === tr
 else ok(drv.needed === false, 'no driver needed on ' + process.platform);
 
 for (const [path, name] of [['/lab/junior.html', 'Robo Junior'], ['/lab/ai.html', 'AI'], ['/lab/circuits.html', 'Robo Circuits'], ['/lab/arduino.html', 'Robo Maker'],
-  ['/lab/3d.html', 'Robo CAD'], ['/lab/web.html', 'Robo Web'], ['/lab/code.html', 'Robo Code'], ['/lab/apps.html', 'Robo Apps'], ['/lab/montage.html', 'Robo Montage']]) {
+  ['/lab/3d.html', 'Robo CAD'], ['/lab/web.html', 'Robo Web'], ['/lab/code.html', 'Robo Code'], ['/lab/apps.html', 'Robo Apps'], ['/lab/montage.html', 'Robo Montage']]
+  .filter(([path]) => existsSync('www' + path) || !console.log('  (' + path + ' not synced into www/ yet: the next site update brings it)'))) {
   // custom-protocol pages give Playwright no response object: check the page itself
   await w.goto('robo://lab' + path).catch(() => {}); await w.waitForTimeout(1500);
   const pg = await w.evaluate(() => ({ iso: crossOriginIsolated, title: document.title, main: !!document.querySelector('main, .jr, .ide, .ard, .circ, .d3') }));

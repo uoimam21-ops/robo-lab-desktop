@@ -45,7 +45,7 @@ ok(await p.evaluate(() => !document.getElementById('homeView').hidden && documen
 await p.evaluate(() => { for (const k of ['3d', 'junior', 'arduino', 'circuits', 'code', 'python', 'web', 'ai']) localStorage.setItem('robo-tour:lab-' + k, '1'); });
 await shot('home');
 await go('/lab/index.html');
-ok((await p.$$('.card')).length === 10, 'the labs page («روبو لاب») shows the 10 labs (Robo Painter too)');
+ok((await p.$$('.card')).length === 12, 'the labs page («روبو لاب») shows the 12 labs (Robo Montage and Robo Apps too)');
 await shot('labs');
 
 const info = await p.evaluate(() => ({ ua: navigator.userAgent.replace(/.*(Chrome\/[\d.]+).*/, '$1'), w: innerWidth, h: innerHeight }));
