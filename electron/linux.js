@@ -113,7 +113,12 @@ function run({ lang, code }, onOut) {
       file = 'main.sh';
       const tools = /\b(ruff|radon|mypy)\b/.test(String(code)) ? 'export PATH="$HOME/.local/bin:$PATH"; command -v ruff >/dev/null && command -v radon >/dev/null && command -v mypy >/dev/null || pip3 install -q --user --break-system-packages ruff radon mypy >&2; ' : '';
       build = tools + 'export GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_NOSYSTEM=1 GIT_AUTHOR_NAME=Sara GIT_AUTHOR_EMAIL=sara@academy.test GIT_COMMITTER_NAME=Sara GIT_COMMITTER_EMAIL=sara@academy.test GIT_AUTHOR_DATE="1794470400 +0200" GIT_COMMITTER_DATE="1794470400 +0200"; bash main.sh';
-    } else { file = 'main.py'; build = 'python3 -u main.py'; }
+    } else {
+      // Part 13 (formal verification): the Z3 solver is installed once, the first time a program imports it
+      file = 'main.py';
+      const z3 = /^\s*(from|import)\s+z3\b/m.test(String(code)) ? 'python3 -c "import z3" 2>/dev/null || { echo "⏳ أول مرة: بنثبّت Z3…" >&2; pip3 install -q --user --break-system-packages z3-solver >&2; }; ' : '';
+      build = z3 + 'python3 -u main.py';
+    }
     const script = `d=$(mktemp -d); cd "$d"; echo '${b64}' | base64 -d > ${file}; ${build}; rc=$?; cd /; rm -rf "$d"; exit $rc\n`;
     const [cmd, args] = WIN ? ['wsl.exe', ['-d', DISTRO, '--', 'bash', '-s']] : ['bash', ['-s']];
     let p; try { p = spawn(cmd, args, { windowsHide: true, env: (() => { const e = Object.assign({}, process.env); delete e.JAVA_TOOL_OPTIONS; return e; })() }); } catch (e) { return resolve({ ok: false, msg: String(e) }); }
