@@ -47,7 +47,7 @@ else ok(drv.needed === false, 'no driver needed on ' + process.platform);
 
 for (const [path, name] of [['/lab/junior.html', 'Robo Junior'], ['/lab/ai.html', 'AI'], ['/lab/circuits.html', 'Robo Circuits'], ['/lab/arduino.html', 'Robo Maker'],
   ['/lab/3d.html', 'Robo CAD'], ['/lab/web.html', 'Robo Web'], ['/lab/code.html', 'Robo Code'], ['/lab/apps.html', 'Robo Apps'], ['/lab/montage.html', 'Robo Montage']]
-  .filter(([path]) => existsSync('www' + path) || !console.log('  (' + path + ' not synced into www/ yet: the next site update brings it)'))) {
+  .filter(([path]) => existsSync('www' + path) || (console.log('  (' + path + ' not synced into www/ yet: the next site update brings it)'), false))) {
   // custom-protocol pages give Playwright no response object: check the page itself
   await w.goto('robo://lab' + path).catch(() => {}); await w.waitForTimeout(1500);
   const pg = await w.evaluate(() => ({ iso: crossOriginIsolated, title: document.title, main: !!document.querySelector('main, .jr, .ide, .ard, .circ, .d3') }));
