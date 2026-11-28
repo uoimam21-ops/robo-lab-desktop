@@ -6,7 +6,8 @@ const fs = require('fs');
 const arduino = require('./arduino');
 const linux = require('./linux');
 const updates = require('./updates');
-const ota = require('./ota');   // live updates of the journey and the labs (scripts/ota.mjs)
+const ota = require('./ota');
+const google = require('./google');   // «الدخول بحساب Google»: the computer's browser + a loopback address (google.js)   // live updates of the journey and the labs (scripts/ota.mjs)
 // The app was called «Robo Lab» before (until v1.0.1). Its saved projects, progress and settings live in a folder named after the
 // app, so keep that folder when the name changes: nothing a child saved is lost after the update.
 app.setPath('userData', path.join(app.getPath('appData'), 'Robo Lab'));
@@ -169,6 +170,6 @@ ipcMain.handle('robo:info', () => ({ version: app.getVersion(), electron: proces
 if (!app.requestSingleInstanceLock()) app.quit();
 else {
   app.on('second-instance', () => { if (win) { if (win.isMinimized()) win.restore(); win.focus(); } });
-  app.whenReady().then(() => { registerProtocol(); arduino.setup(); linux.setup(); menu(); createWindow(); updates.checkForUpdates(win); setTimeout(ota.check, 15000); setInterval(ota.check, 6 * 3600 * 1000); });
+  app.whenReady().then(() => { registerProtocol(); arduino.setup(); linux.setup(); google.setup(() => win); menu(); createWindow(); updates.checkForUpdates(win); setTimeout(ota.check, 15000); setInterval(ota.check, 6 * 3600 * 1000); });
   app.on('window-all-closed', () => app.quit());
 }
