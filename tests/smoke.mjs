@@ -62,7 +62,10 @@ await w.goto('robo://lab/journey.html').catch(() => {}); await w.waitForTimeout(
 ok(await w.evaluate(() => !!document.getElementById('landing') && !location.pathname.startsWith('/lab/roboblock')), 'the Journey opens');
 ok(await w.evaluate(() => { const b = document.getElementById('labBtn'); return !!b && !b.hidden && /روبو لاب/.test(b.textContent); }), 'the journey menu has «روبو لاب»');
 await w.goto('robo://lab/journey.html?go=login').catch(() => {}); await w.waitForTimeout(1500);
-ok(await w.evaluate(() => !!document.getElementById('aForm') && !document.getElementById('gBtn')), 'Journey sign-in: e-mail form, no Google button in the app');
+ok(await w.evaluate(() => !!document.getElementById('aForm')), 'Journey sign-in: e-mail form');
+// «الدخول بحساب Google» listens on the loopback address Supabase sends the browser back to (electron/google.js)
+const g = await w.evaluate(async () => { const r = await window.roboDesktop.google.start(); await window.roboDesktop.google.cancel(); return r; });
+ok(g.redirect === 'http://127.0.0.1:47613/auth', 'Google sign-in: loopback address ready (' + JSON.stringify(g) + ')');
 
 await w.goto('robo://lab/lab/python.html'); await w.waitForTimeout(1500);
 await w.click('#runBtn');

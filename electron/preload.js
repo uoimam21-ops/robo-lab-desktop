@@ -19,6 +19,12 @@ contextBridge.exposeInMainWorld('roboDesktop', {
     // Robo Maker «🔬 real chip»: compile only → { ok, hex, bytes, percent } (or { ok: false, why, line, msg })
     compile: (opts) => ipcRenderer.invoke('robo:ard-compile', { code: String((opts && opts.code) || ''), board: String((opts && opts.board) || 'uno') }),
   },
+  // the journey's «الدخول بحساب Google» (electron/google.js): start() → { redirect } (or { error }), open(url) → { code } (or { error })
+  google: {
+    start: () => ipcRenderer.invoke('robo:google-start'),
+    open: (url) => ipcRenderer.invoke('robo:google-open', String(url || '')),
+    cancel: () => ipcRenderer.invoke('robo:google-cancel'),
+  },
   // Lessons «🖥 شغّل على الجهاز»: OS examples (fork, threads, mmap) in a real Linux (WSL2 «RoboLinux» on Windows)
   linux: {
     status: () => ipcRenderer.invoke('robo:linux-status'),            // { platform, wsl, distro, tools }
