@@ -1,0 +1,1 @@
+xcc 659a1773f20499864a8c3fdc7cd25cb506092bc1 (2026-11-14), built 28 Nov 2026 with Robo Egypt patch: clock() in include/time.h + libsrc/_wasm/unistd/clock.c

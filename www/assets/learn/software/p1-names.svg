@@ -1,0 +1,21 @@
+<svg direction="ltr" viewBox="0 0 640 210" xmlns="http://www.w3.org/2000/svg" font-family="Readex Pro, IBM Plex Sans Arabic">
+  <defs><marker id="a4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#2f6fd6"/></marker></defs>
+  <text x="120" y="22" text-anchor="middle" font-size="13" font-weight="700" fill="#5d6678">الأسماء (namespace)</text>
+  <text x="440" y="22" text-anchor="middle" font-size="13" font-weight="700" fill="#5d6678">الكائنات في الذاكرة (heap)</text>
+  <line x1="250" y1="12" x2="250" y2="200" stroke="#e3e6ee" stroke-dasharray="4 4"/>
+  <g font-family="JetBrains Mono" font-size="14">
+    <rect x="60" y="45" width="120" height="34" rx="17" fill="#eef4ff" stroke="#2f6fd6"/><text x="120" y="67" text-anchor="middle" fill="#2f6fd6">age</text>
+    <rect x="60" y="100" width="120" height="34" rx="17" fill="#eef4ff" stroke="#2f6fd6"/><text x="120" y="122" text-anchor="middle" fill="#2f6fd6">name</text>
+    <rect x="60" y="155" width="120" height="34" rx="17" fill="#eef4ff" stroke="#2f6fd6"/><text x="120" y="177" text-anchor="middle" fill="#2f6fd6">copy</text>
+    <rect x="330" y="40" width="200" height="44" rx="8" fill="#fff" stroke="#c4cad6"/>
+    <text x="345" y="58" font-size="10" fill="#8a92a3">int · id 0x7f…a0</text><text x="345" y="76" fill="#1b2130">25</text>
+    <rect x="330" y="110" width="200" height="44" rx="8" fill="#fff" stroke="#c4cad6"/>
+    <text x="345" y="128" font-size="10" fill="#8a92a3">str · id 0x7f…e8</text><text x="345" y="146" fill="#1b2130">'Mona'</text>
+  </g>
+  <line x1="182" y1="62" x2="326" y2="62" stroke="#2f6fd6" stroke-width="2" marker-end="url(#a4)"/>
+  <line x1="182" y1="117" x2="326" y2="128" stroke="#2f6fd6" stroke-width="2" marker-end="url(#a4)"/>
+  <line x1="182" y1="172" x2="326" y2="140" stroke="#2f6fd6" stroke-width="2" marker-end="url(#a4)"/>
+  <g direction="rtl" font-size="11" fill="#5d6678">
+    <text x="630" y="190" text-anchor="start">الاسمين name و copy بيشاوروا على نفس الكائن: copy = name مش بتنسخ</text>
+  </g>
+</svg>

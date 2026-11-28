@@ -1,0 +1,29 @@
+<svg viewBox="0 0 640 300" xmlns="http://www.w3.org/2000/svg" font-family="Readex Pro, IBM Plex Sans Arabic" direction="rtl">
+  <defs><marker id="a5" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#5d6678"/></marker></defs>
+  <g font-size="12">
+  <rect x="520" y="16" width="100" height="34" rx="17" fill="#1b2130"/><text x="570" y="38" text-anchor="middle" fill="#fff">ابدأ: grade</text>
+  <!-- diamonds -->
+  <polygon points="570,70 630,105 570,140 510,105" fill="#fff6e5" stroke="#c97c00"/><text x="570" y="109" text-anchor="middle" direction="ltr" font-family="JetBrains Mono" font-size="11">&gt;= 85 ?</text>
+  <polygon points="420,70 480,105 420,140 360,105" fill="#fff6e5" stroke="#c97c00"/><text x="420" y="109" text-anchor="middle" direction="ltr" font-family="JetBrains Mono" font-size="11">&gt;= 75 ?</text>
+  <polygon points="270,70 330,105 270,140 210,105" fill="#fff6e5" stroke="#c97c00"/><text x="270" y="109" text-anchor="middle" direction="ltr" font-family="JetBrains Mono" font-size="11">&gt;= 50 ?</text>
+  <!-- outcomes -->
+  <rect x="520" y="180" width="100" height="36" rx="8" fill="#e9f7f1" stroke="#1f9d74"/><text x="570" y="203" text-anchor="middle">امتياز</text>
+  <rect x="370" y="180" width="100" height="36" rx="8" fill="#e9f7f1" stroke="#1f9d74"/><text x="420" y="203" text-anchor="middle">جيد جدًا</text>
+  <rect x="220" y="180" width="100" height="36" rx="8" fill="#e9f7f1" stroke="#1f9d74"/><text x="270" y="203" text-anchor="middle">ناجح</text>
+  <rect x="60" y="88" width="100" height="36" rx="8" fill="#fbebeb" stroke="#d14b4b"/><text x="110" y="111" text-anchor="middle">راسب</text>
+  <rect x="270" y="252" width="200" height="34" rx="17" fill="#1b2130"/><text x="370" y="274" text-anchor="middle" fill="#fff">كمّل باقي البرنامج</text>
+  </g>
+  <g stroke="#5d6678" stroke-width="1.8" fill="none">
+    <line x1="570" y1="50" x2="570" y2="68" marker-end="url(#a5)"/>
+    <line x1="508" y1="105" x2="484" y2="105" marker-end="url(#a5)"/>
+    <line x1="358" y1="105" x2="334" y2="105" marker-end="url(#a5)"/>
+    <line x1="208" y1="105" x2="164" y2="105" marker-end="url(#a5)"/>
+    <line x1="570" y1="140" x2="570" y2="178" marker-end="url(#a5)"/>
+    <line x1="420" y1="140" x2="420" y2="178" marker-end="url(#a5)"/>
+    <line x1="270" y1="140" x2="270" y2="178" marker-end="url(#a5)"/>
+    <path d="M570 216 V236 H370 V250" marker-end="url(#a5)"/><path d="M420 216 V236"/><path d="M270 216 V236 H370"/>
+    <path d="M110 124 V236 H270"/>
+  </g>
+  <g font-size="11" fill="#1f9d74" font-weight="600"><text x="582" y="160">أيوه</text><text x="432" y="160">أيوه</text><text x="282" y="160">أيوه</text></g>
+  <g font-size="11" fill="#d14b4b" font-weight="600"><text x="500" y="98">لأ</text><text x="350" y="98">لأ</text><text x="200" y="98">لأ</text></g>
+</svg>

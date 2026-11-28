@@ -1,0 +1,30 @@
+<svg direction="ltr" viewBox="0 0 640 230" xmlns="http://www.w3.org/2000/svg" font-family="Readex Pro, IBM Plex Sans Arabic">
+  <!-- map side -->
+  <rect x="10" y="10" width="280" height="210" rx="10" fill="#eaf3fb"/>
+  <path d="M10 85 C 80 70, 200 70, 290 90 L290 140 C 200 155, 80 155, 10 140 Z" fill="#9fc4e8"/>
+  <rect x="10" y="10" width="280" height="75" fill="#f4efe3"/><rect x="10" y="150" width="280" height="70" fill="#f4efe3"/>
+  <path d="M10 85 C 80 70, 200 70, 290 90 L290 10 L10 10Z" fill="#f4efe3"/>
+  <path d="M10 140 C 80 155, 200 155, 290 140 L290 220 L10 220Z" fill="#f4efe3"/>
+  <ellipse cx="110" cy="113" rx="48" ry="20" fill="#f4efe3"/><ellipse cx="230" cy="113" rx="30" ry="18" fill="#f4efe3"/>
+  <g stroke="#7a5a2a" stroke-width="6" stroke-linecap="round">
+    <line x1="85" y1="96" x2="80" y2="74"/><line x1="130" y1="96" x2="135" y2="74"/>
+    <line x1="85" y1="130" x2="80" y2="152"/><line x1="130" y1="130" x2="135" y2="152"/>
+    <line x1="158" y1="113" x2="200" y2="113"/>
+    <line x1="230" y1="95" x2="235" y2="76"/><line x1="230" y1="131" x2="235" y2="150"/>
+  </g>
+  <g font-size="12" font-weight="700" fill="#1b2130" text-anchor="middle"><text x="150" y="40">A</text><text x="150" y="195">B</text><text x="110" y="118">C</text><text x="230" y="118">D</text></g>
+  <!-- graph side -->
+  <g stroke="#2f6fd6" stroke-width="2.2" fill="none">
+    <path d="M440 40 C 395 70, 395 100, 400 115"/><path d="M440 40 C 425 80, 415 100, 400 115"/>
+    <path d="M440 190 C 395 160, 395 130, 400 115"/><path d="M440 190 C 425 150, 415 130, 400 115"/>
+    <line x1="400" y1="115" x2="540" y2="115"/><line x1="440" y1="40" x2="540" y2="115"/><line x1="440" y1="190" x2="540" y2="115"/>
+  </g>
+  <g font-size="13" font-weight="700" text-anchor="middle" fill="#fff">
+    <circle cx="440" cy="40" r="16" fill="#1b2130"/><text x="440" y="45">A</text>
+    <circle cx="440" cy="190" r="16" fill="#1b2130"/><text x="440" y="195">B</text>
+    <circle cx="400" cy="115" r="16" fill="#1b2130"/><text x="400" y="120">C</text>
+    <circle cx="540" cy="115" r="16" fill="#1b2130"/><text x="540" y="120">D</text>
+  </g>
+  <g font-family="JetBrains Mono" font-size="11" fill="#d14b4b"><text x="462" y="34">deg 3</text><text x="462" y="206">deg 3</text><text x="330" y="112">deg 5</text><text x="562" y="119">deg 3</text></g>
+  <text x="470" y="226" text-anchor="middle" font-size="11.5" fill="#1b2130" direction="rtl">4 نقط درجتها فردية ← مستحيل تعدّي على كل كوبري مرة واحدة</text>
+</svg>

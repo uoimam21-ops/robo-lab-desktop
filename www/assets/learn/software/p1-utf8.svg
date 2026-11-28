@@ -1,0 +1,26 @@
+<svg direction="ltr" viewBox="0 0 640 200" xmlns="http://www.w3.org/2000/svg" font-family="Readex Pro, IBM Plex Sans Arabic">
+  <g font-size="12" fill="#5d6678" direction="rtl" text-anchor="start">
+    <text x="630" y="48">الحرف</text><text x="630" y="98">Code point</text><text x="630" y="148">بايتات UTF-8</text>
+  </g>
+  <g font-family="JetBrains Mono" font-size="12" text-anchor="middle">
+    <!-- A -->
+    <rect x="30" y="28" width="90" height="32" rx="6" fill="#eef4ff" stroke="#2f6fd6"/><text x="75" y="50" font-family="Readex Pro" font-size="16">A</text>
+    <rect x="30" y="78" width="90" height="32" rx="6" fill="#f6f7fb" stroke="#c4cad6"/><text x="75" y="99">U+0041</text>
+    <rect x="52" y="128" width="46" height="32" rx="6" fill="#e9f7f1" stroke="#1f9d74"/><text x="75" y="149">41</text>
+    <text x="75" y="182" font-family="Readex Pro" font-size="11" fill="#5d6678">1 بايت</text>
+    <!-- meem -->
+    <rect x="180" y="28" width="110" height="32" rx="6" fill="#eef4ff" stroke="#2f6fd6"/><text x="235" y="51" font-family="Readex Pro" font-size="17">م</text>
+    <rect x="180" y="78" width="110" height="32" rx="6" fill="#f6f7fb" stroke="#c4cad6"/><text x="235" y="99">U+0645</text>
+    <rect x="187" y="128" width="46" height="32" rx="6" fill="#e9f7f1" stroke="#1f9d74"/><text x="210" y="149">D9</text>
+    <rect x="237" y="128" width="46" height="32" rx="6" fill="#e9f7f1" stroke="#1f9d74"/><text x="260" y="149">85</text>
+    <text x="235" y="182" font-family="Readex Pro" font-size="11" fill="#5d6678">2 بايت</text>
+    <!-- emoji -->
+    <rect x="350" y="28" width="200" height="32" rx="6" fill="#eef4ff" stroke="#2f6fd6"/><text x="450" y="51" font-size="16">😀</text>
+    <rect x="350" y="78" width="200" height="32" rx="6" fill="#f6f7fb" stroke="#c4cad6"/><text x="450" y="99">U+1F600</text>
+    <rect x="354" y="128" width="46" height="32" rx="6" fill="#e9f7f1" stroke="#1f9d74"/><text x="377" y="149">F0</text>
+    <rect x="403" y="128" width="46" height="32" rx="6" fill="#e9f7f1" stroke="#1f9d74"/><text x="426" y="149">9F</text>
+    <rect x="452" y="128" width="46" height="32" rx="6" fill="#e9f7f1" stroke="#1f9d74"/><text x="475" y="149">98</text>
+    <rect x="501" y="128" width="46" height="32" rx="6" fill="#e9f7f1" stroke="#1f9d74"/><text x="524" y="149">80</text>
+    <text x="450" y="182" font-family="Readex Pro" font-size="11" fill="#5d6678">4 بايت</text>
+  </g>
+</svg>

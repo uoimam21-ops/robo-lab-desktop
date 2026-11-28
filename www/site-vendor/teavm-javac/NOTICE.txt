@@ -1,0 +1,7 @@
+teavm-javac — https://github.com/konsoletyper/teavm-javac (commit in VERSION.txt)
+Copyright Alexey Andreev and contributors.
+Licensed under the Apache License, Version 2.0 (as stated in the project's source headers):
+https://www.apache.org/licenses/LICENSE-2.0
+
+It bundles TeaVM (https://github.com/konsoletyper/teavm, Apache-2.0) and the OpenJDK javac
+compiler (GPL-2.0 with the Classpath Exception). These files are unmodified build outputs.

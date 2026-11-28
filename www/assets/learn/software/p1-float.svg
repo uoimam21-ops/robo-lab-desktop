@@ -1,0 +1,17 @@
+<svg direction="ltr" viewBox="0 0 640 170" xmlns="http://www.w3.org/2000/svg" font-family="Readex Pro, IBM Plex Sans Arabic">
+  <line x1="30" y1="80" x2="610" y2="80" stroke="#1b2130" stroke-width="2"/>
+  <!-- representable points: dense near 0, sparse later -->
+  <g fill="#2f6fd6">
+    <circle cx="40" cy="80" r="3.2"/><circle cx="48" cy="80" r="3.2"/><circle cx="56" cy="80" r="3.2"/><circle cx="64" cy="80" r="3.2"/><circle cx="72" cy="80" r="3.2"/><circle cx="80" cy="80" r="3.2"/><circle cx="88" cy="80" r="3.2"/><circle cx="96" cy="80" r="3.2"/>
+    <circle cx="112" cy="80" r="3.2"/><circle cx="128" cy="80" r="3.2"/><circle cx="144" cy="80" r="3.2"/><circle cx="160" cy="80" r="3.2"/><circle cx="176" cy="80" r="3.2"/><circle cx="192" cy="80" r="3.2"/>
+    <circle cx="224" cy="80" r="3.2"/><circle cx="256" cy="80" r="3.2"/><circle cx="288" cy="80" r="3.2"/><circle cx="320" cy="80" r="3.2"/>
+    <circle cx="384" cy="80" r="3.2"/><circle cx="448" cy="80" r="3.2"/><circle cx="512" cy="80" r="3.2"/><circle cx="576" cy="80" r="3.2"/>
+  </g>
+  <!-- a real number between two floats -->
+  <line x1="410" y1="50" x2="410" y2="110" stroke="#d14b4b" stroke-width="2" stroke-dasharray="3 3"/>
+  <text x="410" y="40" text-anchor="middle" font-size="12" fill="#d14b4b" direction="ltr">0.1 الحقيقية</text>
+  <path d="M410 112 Q 398 130 386 112" fill="none" stroke="#d14b4b" stroke-width="1.6"/>
+  <text x="396" y="146" text-anchor="middle" font-size="11.5" fill="#d14b4b" direction="rtl">بتتقرّب لأقرب نقطة</text>
+  <text x="70" y="112" text-anchor="middle" font-size="11" fill="#5d6678" direction="rtl">نقط كتير جنب الصفر</text>
+  <text x="540" y="112" text-anchor="middle" font-size="11" fill="#5d6678" direction="rtl">والمسافات بتكبر كل ما الرقم يكبر</text>
+</svg>

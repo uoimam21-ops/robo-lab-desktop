@@ -1,0 +1,17 @@
+<svg direction="ltr" viewBox="0 0 640 230" xmlns="http://www.w3.org/2000/svg" font-family="Readex Pro, IBM Plex Sans Arabic">
+  <g stroke="#c4cad6" stroke-width="2" fill="none">
+    <path d="M320 46 L170 96"/><path d="M320 46 L470 96"/>
+    <path d="M170 124 L90 170"/><path d="M170 124 L250 170"/><path d="M470 124 L390 170"/><path d="M470 124 L550 170"/>
+  </g>
+  <g font-size="12.5" text-anchor="middle" direction="rtl">
+    <rect x="250" y="16" width="140" height="30" rx="15" fill="#1b2130"/><text x="320" y="36" fill="#fff" font-weight="700">1000 شخص</text>
+    <rect x="110" y="96" width="120" height="28" rx="8" fill="#fbebeb" stroke="#d14b4b"/><text x="170" y="115">10 عيانين (1%)</text>
+    <rect x="400" y="96" width="140" height="28" rx="8" fill="#e9f7f1" stroke="#1f9d74"/><text x="470" y="115">990 سليمين</text>
+    <rect x="40" y="170" width="100" height="28" rx="8" fill="#fff6e5" stroke="#c97c00" stroke-width="2"/><text x="90" y="189" font-weight="700">9 إيجابي</text>
+    <rect x="200" y="170" width="100" height="28" rx="8" fill="#f6f7fb" stroke="#d3d8e2"/><text x="250" y="189">1 سلبي</text>
+    <rect x="335" y="170" width="110" height="28" rx="8" fill="#fff6e5" stroke="#c97c00" stroke-width="2"/><text x="390" y="189" font-weight="700">89 إيجابي</text>
+    <rect x="495" y="170" width="110" height="28" rx="8" fill="#f6f7fb" stroke="#d3d8e2"/><text x="550" y="189">901 سلبي</text>
+  </g>
+  <g font-size="10.5" fill="#5d6678" font-family="JetBrains Mono"><text x="96" y="150">90%</text><text x="222" y="150">10%</text><text x="398" y="150">9%</text><text x="520" y="150">91%</text></g>
+  <text x="320" y="222" text-anchor="middle" font-size="12.5" fill="#1b2130" direction="rtl">من 98 نتيجة إيجابية، 9 بس عيانين فعلًا ← الاحتمال حوالي 9%، مش 90%</text>
+</svg>

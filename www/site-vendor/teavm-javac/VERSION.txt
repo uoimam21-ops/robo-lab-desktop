@@ -1,0 +1,1 @@
+teavm-javac b89345ad7448692ca06fc5e77dfef96eccdbea88 built by GitHub Actions on 2026-11-28 (./gradlew :compiler:build)

@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>روبو تطبيقات: اعمل تطبيق موبايل بالبلوكات للأطفال بالعربي | Robo Egypt</title>
+<meta name="keywords" content="عمل تطبيق موبايل, برمجة تطبيقات للأطفال, App Inventor بالعربي, تطبيقات بالبلوكات, Robo Apps">
+<meta name="description" content="صمّم شاشة تطبيق بالأزرار والنصوص والصور، وبرمجه بالبلوكات بالعربي، وشغّله على موبايلك وثبّته على الشاشة الرئيسية. من Robo Egypt.">
+<link rel="canonical" href="https://roboegypt.com/lab/apps">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Robo Egypt">
+<meta property="og:locale" content="ar_EG">
+<meta property="og:title" content="روبو تطبيقات: اعمل تطبيق موبايل بالبلوكات">
+<meta property="og:description" content="صمّم شاشة تطبيق، وبرمجه بالبلوكات بالعربي، وثبّته على موبايلك.">
+<meta property="og:url" content="https://roboegypt.com/lab/apps">
+<meta property="og:image" content="https://roboegypt.com/assets/labs/v2/apps.webp">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#1B2350">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<script src="/site-bar.js" defer></script>
+<script src="/spot.js" defer></script>
+  <script type="module" crossorigin src="/assets/apps-r9jcfIU4.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/modulepreload-polyfill-B5Qt9EMX.js">
+  <link rel="modulepreload" crossorigin href="/assets/preload-helper-D7HrI6pR.js">
+  <link rel="stylesheet" crossorigin href="/assets/apps-CFmblJt_.css">
+  <link rel="stylesheet" crossorigin href="/assets/lab-C-WoyC6T.css">
+</head>
+<body>
+<!-- on the phone (?play=1): only the kid's app -->
+<div class="plWrap">
+  <div class="plBar" id="plBar"><button class="btn small" id="plApk" hidden>🤖 نزّل APK</button><button class="btn small" id="plInstall" hidden>📲 ثبّت التطبيق</button><span class="plBy">صُنع في <a href="/lab/apps">روبو تطبيقات</a></span><button class="plX" id="plClose" aria-label="إغلاق">✕</button><p class="plHelp" id="plHelp" hidden></p></div>
+  <iframe id="plFrame" title="التطبيق" sandbox="allow-scripts"></iframe>
+  <p class="plMsg" id="plMsg" hidden>هذا الرابط لا يعمل: ربما أوقف صاحبه المشاركة، أو لا يوجد إنترنت.</p>
+</div>
+
+<header class="top">
+  <div class="wrap bar">
+    <a class="logo" href="/" aria-label="Robo Egypt — الرئيسية"><img src="/assets/logo-header.png" alt="Robo Egypt" width="742" height="160"></a>
+    <nav class="crumbs" aria-label="مسار الصفحة"><a href="/lab/">روبو لاب</a><span aria-hidden="true">‹</span><b>روبو تطبيقات 📱</b></nav>
+    <label class="exLab"><span class="sr-only">أمثلة</span><select id="examples"></select></label>
+  </div>
+</header>
+
+<main class="apps" id="appsMain">
+  <section class="tools" aria-label="أدوات">
+    <div class="tabs2" role="tablist">
+      <button role="tab" id="tabDesign" aria-selected="true">🎨 التصميم</button>
+      <button role="tab" id="tabBlocks" aria-selected="false">🧩 البلوكات</button>
+    </div>
+    <button class="btn ghost small trBtn" id="codeBtn" title="شاهد الكود الذي صنعته البلوكات">📜 الكود</button>
+    <button class="btn ghost small trBtn" id="trBtn" title="أظهر الترجمة العربية بجانب البلوكات أو أخفها">🌐 عربي</button>
+    <button class="btn run" id="runBtn">▶ شغّل</button><button class="btn stop" id="stopBtn" hidden>⏹ أوقف</button>
+    <label class="sr-only" for="pname">اسم المشروع</label><input id="pname" class="pname" dir="auto" maxlength="40"><span class="cloud" id="cloud" hidden></span>
+    <span class="sp"></span>
+    <button class="btn ghost small" id="myBtn">📁 مشاريعي</button>
+    <button class="btn small phoneBtn" id="phoneBtn">📱 على الموبايل</button>
+  </section>
+
+  <section class="work">
+    <div class="design sheet" id="designPane"><div class="sheetBar"><span class="grab"></span><button type="button" class="sheetX" aria-label="إغلاق">✕</button></div>
+      <div class="colhead"><b>١. أضف إلى الشاشة</b></div>
+      <div class="palette" id="palette"></div>
+      <div class="colhead"><b>٢. الخصائص</b></div>
+      <div class="props" id="props"></div>
+    </div>
+    <div class="blocksPane sheet" id="blocksPane"><div class="sheetBar"><span class="grab"></span><button type="button" class="sheetX" aria-label="إغلاق">✕</button></div><div id="blockly"></div><div class="codeBox" id="codeBox" dir="ltr"></div></div>
+    <div class="phoneBox" id="phoneBox">
+      <div class="phSizer" id="phSizer"><div class="phone" id="phone"><div class="notch"></div><iframe id="phoneFrame" title="شاشة التطبيق" sandbox="allow-scripts"></iframe></div></div>
+      <p class="runErr" id="runErr" hidden></p>
+      <div class="btBox" id="btBox" hidden><div class="btHead"><b>📡 جهاز بلوتوث تجريبي</b><button type="button" class="plX" id="btX" aria-label="إغلاق">✕</button></div>
+        <p class="sub">تطبيقك متصل بجهاز تجريبي. ما يرسله يظهر هنا، وتستطيع أن ترسل إليه. افتح <a href="/lab/arduino.html" target="_blank" rel="noopener">روبو ميكر</a> في تبويب آخر وشغّل عربية البلوتوث: ستتحرك بأوامر تطبيقك.</p>
+        <pre class="btLog" id="btLog" dir="ltr"></pre><form class="btSend" id="btForm"><input id="btIn" dir="auto" maxlength="40" placeholder="رسالة إلى التطبيق"><button class="btn small">📨 أرسل</button></form></div>
+    </div>
+  </section>
+</main>
+
+<div class="modal" id="projModal" hidden>
+  <div class="mcard" role="dialog" aria-modal="true" aria-labelledby="pmT">
+    <div class="mHead"><h2 id="pmT">مشاريعي</h2><button class="x" id="pmClose" aria-label="إغلاق">✕</button></div>
+    <button class="btn run" id="newBtn">➕ تطبيق جديد</button>
+    <ul class="plist" id="projList"></ul>
+  </div>
+</div>
+<div class="modal" id="phModal" hidden>
+  <div class="mcard" role="dialog" aria-modal="true" aria-labelledby="phT">
+    <div class="mHead"><h2 id="phT">📱 تطبيقك على الموبايل</h2><button class="x" id="phClose" aria-label="إغلاق">✕</button></div>
+    <div id="phBody"></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+</body>
+</html>
