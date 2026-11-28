@@ -65,7 +65,7 @@ npm run dist                             # المثبّتين (على ويندو
 The lessons' operating-system examples (fork/exec, pthreads, threading deadlock, mmap) can't run in a browser.
 In the app they get «🖥 شغّل على الجهاز» (`window.roboDesktop.linux`, `electron/linux.js`):
 - **Windows:** WSL2 + the app's own distro `RoboLinux` (Ubuntu 24.04 rootfs from cloud-images.ubuntu.com, SHA-256 checked
-  against `SHA256SUMS`, imported with `wsl --import`, then `apt-get install gcc libc6-dev python3`). If WSL itself is missing,
+  against `SHA256SUMS`, imported with `wsl --import`, then `apt-get install gcc libc6-dev python3 python3-scapy`). If WSL itself is missing,
   the app asks for administrator rights to run `wsl --install --no-distribution`, then asks for a restart.
   It never touches the user's own distros. About 1.5 GB on disk; the ROS 2 phase can reuse it.
 - **macOS / Linux:** runs natively with bash + gcc + python3.
