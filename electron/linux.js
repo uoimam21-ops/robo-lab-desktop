@@ -82,7 +82,7 @@ async function setup(onLog) {
     if (imp.code !== 0) return { ok: false, why: 'import', msg: (imp.out + imp.err).trim() || 'wsl --import failed' };
   }
   onLog('3/3 تثبيت gcc و python3…');
-  const apt = await sh('wsl.exe', ['-d', DISTRO, '-u', 'root', '--', 'sh', '-c', 'export DEBIAN_FRONTEND=noninteractive; apt-get update -q && apt-get install -y -q gcc libc6-dev python3 python3-scapy'], { timeout: 30 * 60000 });
+  const apt = await sh('wsl.exe', ['-d', DISTRO, '-u', 'root', '--', 'sh', '-c', 'export DEBIAN_FRONTEND=noninteractive; apt-get update -q && apt-get install -y -q gcc libc6-dev python3 python3-scapy git python3-pytest python3-hypothesis python3-coverage python3-pip'], { timeout: 30 * 60000 });
   if (apt.code !== 0) return { ok: false, why: 'apt', msg: (apt.err || apt.out).trim().split('\n').slice(-3).join('\n') };
   s = await status();
   return s.tools ? { ok: true } : { ok: false, why: 'tools', msg: 'gcc أو python3 مش موجودين بعد التثبيت' };
@@ -108,6 +108,11 @@ function run({ lang, code }, onOut) {
       const j = javaNames(String(code || '')); file = j.file;
       const need = WIN ? 'command -v javac >/dev/null || { echo "⏳ أول مرة: بنثبّت Java (حوالي 200 ميجا)…" >&2; exit 97; }; ' : '';
       build = need + 'javac -encoding UTF-8 -d out ' + file + ' 2>&1 | sed "s/^/[javac] /" >&2; [ -d out ] && [ -n "$(ls out)" ] && java -Dstdout.encoding=UTF-8 -Dstderr.encoding=UTF-8 -cp out ' + j.main;   // UTF-8: Arabic in println
+    } else if (lang === 'bash') {
+      // Part 10 (git, pytest, ruff…): same fixed author and date as the book, so git's hashes match the book's
+      file = 'main.sh';
+      const tools = /\b(ruff|radon|mypy)\b/.test(String(code)) ? 'export PATH="$HOME/.local/bin:$PATH"; command -v ruff >/dev/null && command -v radon >/dev/null && command -v mypy >/dev/null || pip3 install -q --user --break-system-packages ruff radon mypy >&2; ' : '';
+      build = tools + 'export GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_NOSYSTEM=1 GIT_AUTHOR_NAME=Sara GIT_AUTHOR_EMAIL=sara@academy.test GIT_COMMITTER_NAME=Sara GIT_COMMITTER_EMAIL=sara@academy.test GIT_AUTHOR_DATE="1794470400 +0200" GIT_COMMITTER_DATE="1794470400 +0200"; bash main.sh';
     } else { file = 'main.py'; build = 'python3 -u main.py'; }
     const script = `d=$(mktemp -d); cd "$d"; echo '${b64}' | base64 -d > ${file}; ${build}; rc=$?; cd /; rm -rf "$d"; exit $rc\n`;
     const [cmd, args] = WIN ? ['wsl.exe', ['-d', DISTRO, '--', 'bash', '-s']] : ['bash', ['-s']];
@@ -133,7 +138,7 @@ function run({ lang, code }, onOut) {
 function setupIpc() {
   ipcMain.handle('robo:linux-status', () => status());
   ipcMain.handle('robo:linux-setup', (e) => setup((s) => { try { e.sender.send('robo:linux-log', s); } catch (_) {} }));
-  ipcMain.handle('robo:linux-run', (e, opts) => run({ lang: opts && ['c', 'java'].includes(opts.lang) ? opts.lang : 'python', code: opts && opts.code }, (s, err) => { try { e.sender.send('robo:linux-out', { s, err }); } catch (_) {} }));
+  ipcMain.handle('robo:linux-run', (e, opts) => run({ lang: opts && ['c', 'java', 'bash'].includes(opts.lang) ? opts.lang : 'python', code: opts && opts.code }, (s, err) => { try { e.sender.send('robo:linux-out', { s, err }); } catch (_) {} }));
   ipcMain.handle('robo:linux-stop', () => { if (RUNNING) { try { RUNNING.kill(); } catch (_) {} } return true; });
 }
 
