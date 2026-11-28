@@ -82,28 +82,59 @@ async function setup(onLog) {
     if (imp.code !== 0) return { ok: false, why: 'import', msg: (imp.out + imp.err).trim() || 'wsl --import failed' };
   }
   onLog('3/3 تثبيت gcc و python3…');
-  const apt = await sh('wsl.exe', ['-d', DISTRO, '-u', 'root', '--', 'sh', '-c', 'export DEBIAN_FRONTEND=noninteractive; apt-get update -q && apt-get install -y -q gcc libc6-dev python3'], { timeout: 30 * 60000 });
+  const apt = await sh('wsl.exe', ['-d', DISTRO, '-u', 'root', '--', 'sh', '-c', 'export DEBIAN_FRONTEND=noninteractive; apt-get update -q && apt-get install -y -q gcc libc6-dev python3 python3-scapy git python3-pytest python3-hypothesis python3-coverage python3-pip python3-argon2 python3-bcrypt'], { timeout: 30 * 60000 });
   if (apt.code !== 0) return { ok: false, why: 'apt', msg: (apt.err || apt.out).trim().split('\n').slice(-3).join('\n') };
   s = await status();
   return s.tools ? { ok: true } : { ok: false, why: 'tools', msg: 'gcc أو python3 مش موجودين بعد التثبيت' };
 }
 
-// run the lesson's C or Python in a fresh temp folder; output streams line by line through onOut(text, isErr)
+// run the lesson's C, Python or Java in a fresh temp folder; output streams through onOut(text, isErr)
+// Java: the file is named after its public class (javac needs that), and we run the class that has main()
+// (the book often puts main in the last class). The JDK is installed the first time Java is used (~200 MB).
+function javaNames(code) {
+  const pub = /public\s+(?:final\s+|abstract\s+)*(?:class|record|interface|enum)\s+(\w+)/.exec(code);
+  let main = null; const re = /(?:class|record|enum)\s+(\w+)[^{]*\{/g; let m;
+  const at = code.search(/static\s+void\s+main\s*\(/);
+  while ((m = re.exec(code)) && at >= 0) { if (m.index < at) main = m[1]; }
+  return { file: (pub ? pub[1] : main || 'Main') + '.java', main: main || (pub && pub[1]) || 'Main' };
+}
 let RUNNING = null;
 function run({ lang, code }, onOut) {
   return new Promise((resolve) => {
     const b64 = Buffer.from(String(code || ''), 'utf8').toString('base64');
-    const build = lang === 'c'
-      ? 'gcc -O1 -pthread -o main main.c 2>&1 >/dev/null | sed "s/^/[gcc] /" >&2; [ -x main ] && ./main'
-      : 'python3 -u main.py';
-    const script = `d=$(mktemp -d); cd "$d"; echo '${b64}' | base64 -d > main.${lang === 'c' ? 'c' : 'py'}; ${build}; rc=$?; cd /; rm -rf "$d"; exit $rc\n`;
+    let file, build;
+    if (lang === 'c') { file = 'main.c'; build = 'gcc -O1 -pthread -o main main.c 2>&1 >/dev/null | sed "s/^/[gcc] /" >&2; [ -x main ] && ./main'; }
+    else if (lang === 'java') {
+      const j = javaNames(String(code || '')); file = j.file;
+      const need = WIN ? 'command -v javac >/dev/null || { echo "⏳ أول مرة: بنثبّت Java (حوالي 200 ميجا)…" >&2; exit 97; }; ' : '';
+      build = need + 'javac -encoding UTF-8 -d out ' + file + ' 2>&1 | sed "s/^/[javac] /" >&2; [ -d out ] && [ -n "$(ls out)" ] && java -Dstdout.encoding=UTF-8 -Dstderr.encoding=UTF-8 -cp out ' + j.main;   // UTF-8: Arabic in println
+    } else if (lang === 'bash') {
+      // Part 10 (git, pytest, ruff…): same fixed author and date as the book, so git's hashes match the book's
+      file = 'main.sh';
+      const tools = /\b(ruff|radon|mypy)\b/.test(String(code)) ? 'export PATH="$HOME/.local/bin:$PATH"; command -v ruff >/dev/null && command -v radon >/dev/null && command -v mypy >/dev/null || pip3 install -q --user --break-system-packages ruff radon mypy >&2; ' : '';
+      build = tools + 'export GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_NOSYSTEM=1 GIT_AUTHOR_NAME=Sara GIT_AUTHOR_EMAIL=sara@academy.test GIT_COMMITTER_NAME=Sara GIT_COMMITTER_EMAIL=sara@academy.test GIT_AUTHOR_DATE="1794470400 +0200" GIT_COMMITTER_DATE="1794470400 +0200"; bash main.sh';
+    } else {
+      // Part 13 (formal verification): the Z3 solver is installed once, the first time a program imports it
+      file = 'main.py';
+      const z3 = /^\s*(from|import)\s+z3\b/m.test(String(code)) ? 'python3 -c "import z3" 2>/dev/null || { echo "⏳ أول مرة: بنثبّت Z3…" >&2; pip3 install -q --user --break-system-packages z3-solver >&2; }; ' : '';
+      build = z3 + 'python3 -u main.py';
+    }
+    const script = `d=$(mktemp -d); cd "$d"; echo '${b64}' | base64 -d > ${file}; ${build}; rc=$?; cd /; rm -rf "$d"; exit $rc\n`;
     const [cmd, args] = WIN ? ['wsl.exe', ['-d', DISTRO, '--', 'bash', '-s']] : ['bash', ['-s']];
-    let p; try { p = spawn(cmd, args, { windowsHide: true }); } catch (e) { return resolve({ ok: false, msg: String(e) }); }
+    let p; try { p = spawn(cmd, args, { windowsHide: true, env: (() => { const e = Object.assign({}, process.env); delete e.JAVA_TOOL_OPTIONS; return e; })() }); } catch (e) { return resolve({ ok: false, msg: String(e) }); }
     RUNNING = p;
     const t = setTimeout(() => { try { p.kill(); } catch (_) {} onOut('\n⏹ وقّفناه بعد 30 ثانية\n', true); }, 30000);
     p.stdout.on('data', (d) => onOut(d.toString('utf8'), false));
     p.stderr.on('data', (d) => onOut(d.toString('utf8'), true));
-    p.on('close', (code) => { clearTimeout(t); RUNNING = null; resolve({ ok: true, code }); });
+    p.on('close', async (code2) => {
+      clearTimeout(t); RUNNING = null;
+      if (code2 === 97 && lang === 'java') {   // install the JDK once, then run again
+        const r = await sh('wsl.exe', ['-d', DISTRO, '-u', 'root', '--', 'sh', '-c', 'export DEBIAN_FRONTEND=noninteractive; apt-get install -y -q default-jdk-headless'], { timeout: 30 * 60000 });
+        if (r.code !== 0) return resolve({ ok: false, msg: 'مقدرناش نثبّت Java: ' + (r.err || r.out).trim().split('\n').pop() });
+        return resolve(await run({ lang, code }, onOut));
+      }
+      resolve({ ok: true, code: code2 });
+    });
     p.on('error', (e) => { clearTimeout(t); RUNNING = null; resolve({ ok: false, msg: String(e) }); });
     p.stdin.end(script);
   });
@@ -112,7 +143,7 @@ function run({ lang, code }, onOut) {
 function setupIpc() {
   ipcMain.handle('robo:linux-status', () => status());
   ipcMain.handle('robo:linux-setup', (e) => setup((s) => { try { e.sender.send('robo:linux-log', s); } catch (_) {} }));
-  ipcMain.handle('robo:linux-run', (e, opts) => run({ lang: opts && opts.lang === 'c' ? 'c' : 'python', code: opts && opts.code }, (s, err) => { try { e.sender.send('robo:linux-out', { s, err }); } catch (_) {} }));
+  ipcMain.handle('robo:linux-run', (e, opts) => run({ lang: opts && ['c', 'java', 'bash'].includes(opts.lang) ? opts.lang : 'python', code: opts && opts.code }, (s, err) => { try { e.sender.send('robo:linux-out', { s, err }); } catch (_) {} }));
   ipcMain.handle('robo:linux-stop', () => { if (RUNNING) { try { RUNNING.kill(); } catch (_) {} } return true; });
 }
 
